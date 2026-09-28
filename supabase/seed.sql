@@ -1,0 +1,113 @@
+-- ==============================================================================
+-- S&S BOUTIQUE Seed Data Script
+-- Haute Couture, Luxury Footwear & Designer Leather Goods
+-- ==============================================================================
+
+DO $$
+DECLARE
+    v_owner_id UUID;
+    v_store_id UUID := 'a0000000-0000-0000-0000-000000000001';
+    v_cat_moda UUID := 'b0000000-0000-0000-0000-000000000001';
+    v_cat_calzado UUID := 'b0000000-0000-0000-0000-000000000002';
+    v_cat_bolsos UUID := 'b0000000-0000-0000-0000-000000000003';
+    v_cat_perfumeria UUID := 'b0000000-0000-0000-0000-000000000004';
+    
+    v_prod_camisa UUID := 'c0000000-0000-0000-0000-000000000001';
+    v_prod_zapatos UUID := 'c0000000-0000-0000-0000-000000000002';
+    v_prod_bolso UUID := 'c0000000-0000-0000-0000-000000000003';
+    v_prod_perfume UUID := 'c0000000-0000-0000-0000-000000000004';
+    v_prod_reloj UUID := 'c0000000-0000-0000-0000-000000000005';
+BEGIN
+    SELECT id INTO v_owner_id FROM public.profiles LIMIT 1;
+
+    IF v_owner_id IS NULL THEN
+        v_owner_id := '00000000-0000-0000-0000-000000000001';
+        INSERT INTO public.profiles (id, email, full_name, role)
+        VALUES (v_owner_id, 'admin@ssboutique.com', 'Gerencia S&S Boutique', 'store_owner')
+        ON CONFLICT (id) DO NOTHING;
+    END IF;
+
+    -- Create S&S BOUTIQUE
+    INSERT INTO public.stores (
+        id, owner_id, name, slug, description, logo_url, banner_url,
+        whatsapp_number, phone, address, city, currency, is_active,
+        instagram_url, business_hours, theme_settings
+    ) VALUES (
+        v_store_id,
+        v_owner_id,
+        'S&S BOUTIQUE',
+        'ss-boutique',
+        'Colecciones exclusivas de alta moda, calzado de autor y accesorios de diseño. Calidad superior, cortes impecables y atención personalizada.',
+        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop',
+        'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=400&fit=crop',
+        '573001234567',
+        '+57 300 123 4567',
+        'Calle 82 # 12-45, El Retiro',
+        'Bogotá, Colombia',
+        'COP',
+        true,
+        'https://instagram.com/ssboutique',
+        'Lunes a Sábado: 10:00 AM - 7:00 PM',
+        '{"primary_color": "#0f172a", "secondary_color": "#1e293b", "card_style": "rounded-2xl", "header_style": "modern", "font_family": "Plus Jakarta Sans"}'::jsonb
+    ) ON CONFLICT (slug) DO UPDATE SET
+        name = EXCLUDED.name,
+        description = EXCLUDED.description;
+
+    -- Categories
+    INSERT INTO public.categories (id, store_id, name, slug, description, order_index) VALUES
+    (v_cat_moda, v_store_id, 'Alta Moda & Vestuario', 'alta-moda-y-vestuario', 'Prendas confeccionadas con textiles nobles y patrones contemporáneos', 1),
+    (v_cat_calzado, v_store_id, 'Calzado de Autor', 'calzado-de-autor', 'Zapatos y sneakers artesanales en 100% cuero genuino', 2),
+    (v_cat_bolsos, v_store_id, 'Marroquinería & Bolsos', 'marroquineria-y-bolsos', 'Bolsos, carteras y accesorios de cuero con acabados premium', 3),
+    (v_cat_perfumeria, v_store_id, 'Perfumería & Relojería', 'perfumeria-y-relojeria', 'Fragancias nicho y piezas de precisión', 4)
+    ON CONFLICT (store_id, slug) DO NOTHING;
+
+    -- Products
+    INSERT INTO public.products (id, store_id, category_id, name, slug, description, price, original_price, sku, stock, is_available, is_featured, order_index)
+    VALUES (v_prod_camisa, v_store_id, v_cat_moda, 'Camisa Lino Italiano Oversize', 'camisa-lino-italiano-oversize', 'Confeccionada en 100% lino de origen europeo de textura fluida y transpirable. Botones en nácar legítimo y corte contemporáneo relajado.', 180000, 240000, 'SS-LIN-01', 25, true, true, 1)
+    ON CONFLICT (store_id, slug) DO NOTHING;
+
+    INSERT INTO public.products (id, store_id, category_id, name, slug, description, price, original_price, sku, stock, is_available, is_featured, order_index)
+    VALUES (v_prod_zapatos, v_store_id, v_cat_calzado, 'Sneakers Minimalistas en Cuero Nobuk', 'sneakers-cuero-nobuk', 'Calzado elaborado a mano en cuero de textura nobuk aterciopelada, plantilla ergonómica viscoelástica y suela cosida de alta durabilidad.', 320000, 390000, 'SS-ZAP-02', 14, true, true, 2)
+    ON CONFLICT (store_id, slug) DO NOTHING;
+
+    INSERT INTO public.products (id, store_id, category_id, name, slug, description, price, original_price, sku, stock, is_available, is_featured, order_index)
+    VALUES (v_prod_bolso, v_store_id, v_cat_bolsos, 'Bolso Tote Estructurado en Cuero Graneado', 'bolso-tote-cuero-graneado', 'Diseño sobrio y espacioso elaborado en cuero vacuno con forro en gamuza natural. Herrajes metálicos pulidos en tono oro mate y compartimento acolchado.', 450000, 520000, 'SS-BOL-03', 10, true, true, 3)
+    ON CONFLICT (store_id, slug) DO NOTHING;
+
+    INSERT INTO public.products (id, store_id, category_id, name, slug, description, price, original_price, sku, stock, is_available, is_featured, order_index)
+    VALUES (v_prod_perfume, v_store_id, v_cat_perfumeria, 'Perfume Signature Extrait 100ml', 'perfume-signature-extrait', 'Concentración extrait de parfum con fijación superior a 14 horas. Notas maestras de cardamomo guatemalteco, madera de agar y ámbar negro.', 260000, 310000, 'SS-PER-04', 18, true, false, 4)
+    ON CONFLICT (store_id, slug) DO NOTHING;
+
+    INSERT INTO public.products (id, store_id, category_id, name, slug, description, price, original_price, sku, stock, is_available, is_featured, order_index)
+    VALUES (v_prod_reloj, v_store_id, v_cat_perfumeria, 'Reloj Cronógrafo Acero Cepillado', 'reloj-cronografo-acero-cepillado', 'Caja de 41mm en acero quirúrgico 316L, cristal de zafiro antirreflejos, bisel cerámico y correa en piel genuina de curtición vegetal.', 580000, 690000, 'SS-REL-05', 8, true, false, 5)
+    ON CONFLICT (store_id, slug) DO NOTHING;
+
+    -- Images
+    INSERT INTO public.product_images (product_id, image_url, is_primary, order_index) VALUES
+    (v_prod_camisa, 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop', true, 1),
+    (v_prod_camisa, 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop', false, 2),
+    (v_prod_zapatos, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop', true, 1),
+    (v_prod_zapatos, 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&auto=format&fit=crop', false, 2),
+    (v_prod_bolso, 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&auto=format&fit=crop', true, 1),
+    (v_prod_perfume, 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&auto=format&fit=crop', true, 1),
+    (v_prod_reloj, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop', true, 1)
+    ON CONFLICT DO NOTHING;
+
+    -- Variants
+    INSERT INTO public.product_variants (product_id, variant_type, variant_value, price_modifier, stock, is_available, order_index) VALUES
+    (v_prod_camisa, 'Talla', 'S', 0, 8, true, 1),
+    (v_prod_camisa, 'Talla', 'M', 0, 12, true, 2),
+    (v_prod_camisa, 'Talla', 'L', 0, 5, true, 3),
+    (v_prod_camisa, 'Color', 'Blanco Crudo', 0, 15, true, 4),
+    (v_prod_camisa, 'Color', 'Arena Silvestre', 0, 10, true, 5),
+    (v_prod_zapatos, 'Talla (EU)', '39', 0, 3, true, 1),
+    (v_prod_zapatos, 'Talla (EU)', '40', 0, 4, true, 2),
+    (v_prod_zapatos, 'Talla (EU)', '41', 0, 4, true, 3),
+    (v_prod_zapatos, 'Talla (EU)', '42', 0, 3, true, 4),
+    (v_prod_bolso, 'Color', 'Negro Ébano', 0, 5, true, 1),
+    (v_prod_bolso, 'Color', 'Cognac Noble', 0, 5, true, 2),
+    (v_prod_reloj, 'Dial', 'Negro Onyx', 0, 4, true, 1),
+    (v_prod_reloj, 'Dial', 'Blanco Plata', 0, 4, true, 2)
+    ON CONFLICT DO NOTHING;
+
+END $$;
