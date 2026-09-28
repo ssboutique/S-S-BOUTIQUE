@@ -14,6 +14,7 @@ import StoreFooter from '@/components/store/StoreFooter.vue';
 import CartDrawer from '@/components/cart/CartDrawer.vue';
 import CheckoutModal from '@/components/cart/CheckoutModal.vue';
 import SkeletonCard from '@/components/ui/SkeletonCard.vue';
+import StorePreloader from '@/components/store/StorePreloader.vue';
 import { PackageOpen, AlertCircle, ShoppingBag } from 'lucide-vue-next';
 
 const props = defineProps<{
@@ -26,6 +27,7 @@ const cartStore = useCartStore();
 
 const selectedProduct = ref<Product | null>(null);
 const isCheckoutOpen = ref<boolean>(false);
+const showPreloader = ref<boolean>(true);
 
 async function initStorefront() {
   const targetSlug = props.slug || (route.params.slug as string) || 'ss-boutique';
@@ -56,6 +58,15 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-brand-500 selection:text-white">
+    <!-- 3D Futuristic Boutique Preloader -->
+    <StorePreloader
+      v-if="showPreloader"
+      :is-loaded="!storeStore.isLoading"
+      :store-name="storeStore.store?.name"
+      :logo-url="storeStore.store?.logo_url"
+      @finished="showPreloader = false"
+    />
+
     <!-- Header -->
     <StoreHeader />
 
