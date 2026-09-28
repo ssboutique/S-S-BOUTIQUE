@@ -72,7 +72,7 @@ async function handleDelete(prod: Product) {
       <button
         type="button"
         @click="openCreate"
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs sm:text-sm shadow-glow transition-all active:scale-95 self-start sm:self-auto"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-glow transition-all active:scale-95 self-start sm:self-auto"
       >
         <Plus class="w-4 h-4" />
         <span>+ Nuevo Producto</span>
@@ -115,7 +115,7 @@ async function handleDelete(prod: Product) {
         <button
           type="button"
           @click="openCreate"
-          class="mt-4 px-4 py-2 bg-brand-500 text-white rounded-xl text-xs font-bold shadow-sm"
+          class="mt-4 px-4 py-2 bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold shadow-sm"
         >
           + Crear Producto
         </button>

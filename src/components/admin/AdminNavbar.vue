@@ -102,7 +102,7 @@ const currentSectionName = computed(() => {
       <a
         :href="fullPublicUrl"
         target="_blank"
-        class="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-brand-500 dark:hover:bg-brand-600 text-white font-semibold text-xs sm:text-sm transition-all shadow-sm active:scale-95"
+        class="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-gradient-to-r dark:from-fuchsia-600 dark:via-pink-600 dark:to-purple-600 dark:hover:from-fuchsia-500 dark:hover:via-pink-500 dark:hover:to-purple-500 text-white font-semibold text-xs sm:text-sm transition-all shadow-sm active:scale-95"
         title="Abrir tienda pública en nueva pestaña"
       >
         <Eye class="w-3.5 h-3.5" />

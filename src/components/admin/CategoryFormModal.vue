@@ -142,7 +142,7 @@ async function handleSubmit() {
           <button
             type="submit"
             :disabled="adminStore.isSaving"
-            class="px-5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold shadow-sm transition-all"
+            class="px-5 py-2 bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold shadow-sm transition-all"
           >
             {{ adminStore.isSaving ? 'Guardando...' : 'Guardar Categoría' }}
           </button>

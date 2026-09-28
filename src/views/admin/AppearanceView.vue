@@ -109,7 +109,7 @@ async function handleSave() {
         type="button"
         @click="handleSave"
         :disabled="adminStore.isSaving"
-        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs sm:text-sm shadow-glow transition-all active:scale-95 self-start sm:self-auto"
+        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-glow transition-all active:scale-95 self-start sm:self-auto"
       >
         <Check class="w-4 h-4" />
         <span>{{ adminStore.isSaving ? 'Guardando...' : 'Guardar Cambios' }}</span>
