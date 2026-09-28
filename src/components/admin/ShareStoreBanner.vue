@@ -70,7 +70,7 @@ function shareViaWhatsApp() {
       </div>
 
       <!-- Actions -->
-      <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+      <div class="flex items-center gap-2.5 shrink-0">
         <button
           type="button"
           @click="shareViaWhatsApp"
@@ -78,18 +78,8 @@ function shareViaWhatsApp() {
           title="Compartir enlace con tus clientes por WhatsApp"
         >
           <MessageCircle class="w-4 h-4" />
-          <span>Enviar a Clientes</span>
+          <span>Enviar a Clientes (WhatsApp)</span>
         </button>
-
-        <a
-          :href="publicUrl"
-          target="_blank"
-          class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white font-semibold text-xs border border-slate-700 transition-all shadow-sm"
-          title="Abrir la tienda en una nueva pestaña"
-        >
-          <span>Abrir Tienda</span>
-          <ExternalLink class="w-3.5 h-3.5 text-slate-400" />
-        </a>
       </div>
     </div>
 

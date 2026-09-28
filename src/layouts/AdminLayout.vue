@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen flex bg-slate-50 text-slate-900 font-sans antialiased overflow-x-hidden">
+  <div class="min-h-screen flex bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans antialiased overflow-x-hidden transition-colors">
     <!-- Responsive Collapsible Sidebar -->
     <AdminSidebar
       :mobile-open="mobileSidebarOpen"

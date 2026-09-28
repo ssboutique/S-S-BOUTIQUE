@@ -35,18 +35,18 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 
 <template>
   <div class="space-y-8 animate-fade-in">
-    <!-- Welcome Header & Quick Links -->
+    <!-- Welcome Header & Quick Action -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Panel de Control
         </h1>
-        <p class="text-sm text-slate-500 mt-1">
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
           Gestiona los productos, pedidos y la presencia digital de tu negocio
         </p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2.5">
+      <div class="flex items-center gap-2.5">
         <button
           type="button"
           @click="openCreateProduct"
@@ -55,16 +55,6 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
           <Plus class="w-4 h-4" />
           <span>+ Agregar Producto</span>
         </button>
-
-        <a
-          :href="storeUrl"
-          target="_blank"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm border border-slate-200/80 shadow-soft transition-all"
-        >
-          <Eye class="w-4 h-4 text-brand-600" />
-          <span>Ver Mi Tienda</span>
-          <ExternalLink class="w-3.5 h-3.5 text-slate-400" />
-        </a>
       </div>
     </div>
 
@@ -74,79 +64,79 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
     <!-- Metrics Grid -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
       <!-- Active Products -->
-      <div class="bg-white p-5 rounded-3xl border border-slate-200/70 shadow-soft flex flex-col justify-between">
+      <div class="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft flex flex-col justify-between transition-colors">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Productos Activos</span>
-          <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Productos Activos</span>
+          <div class="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
             <Package class="w-5 h-5" />
           </div>
         </div>
         <div class="mt-4">
-          <div class="text-2xl sm:text-3xl font-black text-slate-900">
+          <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {{ adminStore.metrics.activeProducts }}
           </div>
-          <div class="text-xs text-slate-500 mt-1">Visibles para tus clientes</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Visibles para tus clientes</div>
         </div>
       </div>
 
       <!-- Out of stock / inactive -->
-      <div class="bg-white p-5 rounded-3xl border border-slate-200/70 shadow-soft flex flex-col justify-between">
+      <div class="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft flex flex-col justify-between transition-colors">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Agotados / Ocultos</span>
-          <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Agotados / Ocultos</span>
+          <div class="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
             <AlertTriangle class="w-5 h-5" />
           </div>
         </div>
         <div class="mt-4">
-          <div class="text-2xl sm:text-3xl font-black text-slate-900">
+          <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {{ adminStore.metrics.outOfStockProducts }}
           </div>
-          <div class="text-xs text-slate-500 mt-1">Requieren atención o reposición</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Requieren atención o reposición</div>
         </div>
       </div>
 
       <!-- Categories -->
-      <div class="bg-white p-5 rounded-3xl border border-slate-200/70 shadow-soft flex flex-col justify-between">
+      <div class="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft flex flex-col justify-between transition-colors">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Categorías</span>
-          <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Categorías</span>
+          <div class="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
             <Layers class="w-5 h-5" />
           </div>
         </div>
         <div class="mt-4">
-          <div class="text-2xl sm:text-3xl font-black text-slate-900">
+          <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {{ adminStore.metrics.totalCategories }}
           </div>
-          <div class="text-xs text-slate-500 mt-1">Organización del catálogo</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Organización del catálogo</div>
         </div>
       </div>
 
       <!-- Orders -->
-      <div class="bg-white p-5 rounded-3xl border border-slate-200/70 shadow-soft flex flex-col justify-between">
+      <div class="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft flex flex-col justify-between transition-colors">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Pedidos Generados</span>
-          <div class="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center">
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pedidos Generados</span>
+          <div class="w-10 h-10 rounded-2xl bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center">
             <ShoppingBag class="w-5 h-5" />
           </div>
         </div>
         <div class="mt-4">
-          <div class="text-2xl sm:text-3xl font-black text-slate-900">
+          <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {{ adminStore.metrics.totalOrders }}
           </div>
-          <div class="text-xs text-slate-500 mt-1">Derivados a tu WhatsApp</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Derivados a tu WhatsApp</div>
         </div>
       </div>
     </div>
 
     <!-- Quick Access Hub -->
-    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
+    <div class="bg-gradient-to-r from-slate-900 to-slate-800 dark:from-slate-900 dark:to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-800">
       <h2 class="text-lg font-bold text-white mb-2">Accesos Rápidos</h2>
       <p class="text-xs sm:text-sm text-slate-400 mb-6">Configura tu negocio con un par de clics</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <router-link
           to="/admin/appearance"
-          class="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/15 rounded-2xl border border-white/10 transition-colors"
+          class="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/15 dark:bg-slate-800/80 dark:hover:bg-slate-800 rounded-2xl border border-white/10 dark:border-slate-700/60 transition-colors"
         >
           <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center">
             <Palette class="w-5 h-5" />
@@ -159,7 +149,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 
         <router-link
           to="/admin/whatsapp"
-          class="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/15 rounded-2xl border border-white/10 transition-colors"
+          class="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/15 dark:bg-slate-800/80 dark:hover:bg-slate-800 rounded-2xl border border-white/10 dark:border-slate-700/60 transition-colors"
         >
           <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
             <MessageCircle class="w-5 h-5" />
@@ -172,7 +162,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 
         <router-link
           to="/admin/categories"
-          class="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/15 rounded-2xl border border-white/10 transition-colors"
+          class="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/15 dark:bg-slate-800/80 dark:hover:bg-slate-800 rounded-2xl border border-white/10 dark:border-slate-700/60 transition-colors"
         >
           <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
             <Layers class="w-5 h-5" />
@@ -186,14 +176,14 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
     </div>
 
     <!-- Recent Products Table Section -->
-    <div class="bg-white rounded-3xl border border-slate-200/70 shadow-soft overflow-hidden">
-      <div class="p-6 border-b border-slate-100 flex items-center justify-between">
-        <h2 class="font-extrabold text-base sm:text-lg text-slate-900">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft overflow-hidden transition-colors">
+      <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+        <h2 class="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white">
           Tus Productos Recientes
         </h2>
         <router-link
           to="/admin/products"
-          class="text-xs font-bold text-brand-600 hover:text-brand-700"
+          class="text-xs font-bold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300"
         >
           Ver todos los productos →
         </router-link>
@@ -202,7 +192,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
+            <tr class="bg-slate-50 dark:bg-slate-850 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
               <th class="py-3 px-6">Producto</th>
               <th class="py-3 px-6">Precio</th>
               <th class="py-3 px-6">Categoría</th>
@@ -210,30 +200,30 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
               <th class="py-3 px-6 text-right">Acciones</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100 text-sm">
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
             <tr
               v-for="prod in adminStore.products.slice(0, 5)"
               :key="prod.id"
-              class="hover:bg-slate-50/80 transition-colors"
+              class="hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors"
             >
               <td class="py-3.5 px-6">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/60">
+                  <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 shrink-0 border border-slate-200/60 dark:border-slate-700">
                     <img
                       :src="prod.images?.[0]?.image_url || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&fit=crop'"
                       class="w-full h-full object-cover"
                     />
                   </div>
                   <div>
-                    <div class="font-bold text-slate-900">{{ prod.name }}</div>
+                    <div class="font-bold text-slate-900 dark:text-white">{{ prod.name }}</div>
                     <div class="text-[11px] text-slate-400">SKU: {{ prod.sku || 'N/A' }}</div>
                   </div>
                 </div>
               </td>
-              <td class="py-3.5 px-6 font-semibold text-slate-900">
+              <td class="py-3.5 px-6 font-semibold text-slate-900 dark:text-white">
                 {{ formatCurrency(prod.price, adminStore.currentStore?.currency) }}
               </td>
-              <td class="py-3.5 px-6 text-slate-500 text-xs">
+              <td class="py-3.5 px-6 text-slate-500 dark:text-slate-400 text-xs">
                 {{ adminStore.categories.find(c => c.id === prod.category_id)?.name || 'General' }}
               </td>
               <td class="py-3.5 px-6">
@@ -241,7 +231,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
                   type="button"
                   @click="adminStore.toggleProductAvailability(prod)"
                   class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-all"
-                  :class="prod.is_available ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'"
+                  :class="prod.is_available ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'"
                 >
                   <span class="w-1.5 h-1.5 rounded-full" :class="prod.is_available ? 'bg-emerald-500' : 'bg-slate-400'"></span>
                   <span>{{ prod.is_available ? 'Visible' : 'Oculto' }}</span>
@@ -251,7 +241,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
                 <button
                   type="button"
                   @click="selectedProduct = prod; showProductModal = true"
-                  class="text-xs font-semibold text-brand-600 hover:text-brand-700 px-2 py-1 rounded-lg hover:bg-brand-50"
+                  class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 px-2 py-1 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-500/10"
                 >
                   Editar
                 </button>
