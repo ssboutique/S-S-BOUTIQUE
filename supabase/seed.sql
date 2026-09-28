@@ -3,6 +3,10 @@
 -- Haute Couture, Luxury Footwear & Designer Leather Goods
 -- ==============================================================================
 
+-- 1. Ensure required extensions
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 DO $$
 DECLARE
     v_owner_id UUID;
@@ -18,16 +22,79 @@ DECLARE
     v_prod_perfume UUID := 'c0000000-0000-0000-0000-000000000004';
     v_prod_reloj UUID := 'c0000000-0000-0000-0000-000000000005';
 BEGIN
-    SELECT id INTO v_owner_id FROM public.profiles LIMIT 1;
+    -- 2. Find existing user in auth.users or create official Admin user
+    SELECT id INTO v_owner_id FROM auth.users WHERE email = 'admin@ssboutique.com' LIMIT 1;
 
     IF v_owner_id IS NULL THEN
-        v_owner_id := '00000000-0000-0000-0000-000000000001';
-        INSERT INTO public.profiles (id, email, full_name, role)
-        VALUES (v_owner_id, 'admin@ssboutique.com', 'Gerencia S&S Boutique', 'store_owner')
-        ON CONFLICT (id) DO NOTHING;
+        -- If no admin user exists, check if any authenticated user exists in auth.users
+        SELECT id INTO v_owner_id FROM auth.users LIMIT 1;
     END IF;
 
-    -- Create S&S BOUTIQUE
+    -- If auth.users is completely empty, insert official Administrator into auth.users first
+    IF v_owner_id IS NULL THEN
+        v_owner_id := 'd0000000-0000-0000-0000-000000000001'::uuid;
+
+        INSERT INTO auth.users (
+            instance_id,
+            id,
+            aud,
+            role,
+            email,
+            encrypted_password,
+            email_confirmed_at,
+            raw_app_meta_data,
+            raw_user_meta_data,
+            created_at,
+            updated_at
+        ) VALUES (
+            '00000000-0000-0000-0000-000000000000',
+            v_owner_id,
+            'authenticated',
+            'authenticated',
+            'admin@ssboutique.com',
+            crypt('admin123', gen_salt('bf')),
+            NOW(),
+            '{"provider":"email","providers":["email"]}'::jsonb,
+            '{"full_name":"Administrador","role":"store_owner"}'::jsonb,
+            NOW(),
+            NOW()
+        );
+
+        -- Also insert identity record so Supabase Auth email login works immediately
+        BEGIN
+            INSERT INTO auth.identities (
+                id,
+                user_id,
+                identity_data,
+                provider,
+                provider_id,
+                last_sign_in_at,
+                created_at,
+                updated_at
+            ) VALUES (
+                gen_random_uuid(),
+                v_owner_id,
+                format('{"sub":"%s","email":"%s"}', v_owner_id::text, 'admin@ssboutique.com')::jsonb,
+                'email',
+                v_owner_id::text,
+                NOW(),
+                NOW(),
+                NOW()
+            );
+        EXCEPTION WHEN OTHERS THEN
+            -- In case auth.identities structure differs in specific Supabase versions
+            NULL;
+        END;
+    END IF;
+
+    -- Ensure profile exists in public.profiles linked to auth.users(id)
+    INSERT INTO public.profiles (id, email, full_name, role)
+    VALUES (v_owner_id, 'admin@ssboutique.com', 'Administrador', 'store_owner')
+    ON CONFLICT (id) DO UPDATE SET
+        full_name = 'Administrador',
+        role = 'store_owner';
+
+    -- 3. Create or Update S&S BOUTIQUE
     INSERT INTO public.stores (
         id, owner_id, name, slug, description, logo_url, banner_url,
         whatsapp_number, phone, address, city, currency, is_active,
@@ -51,9 +118,10 @@ BEGIN
         '{"primary_color": "#0f172a", "secondary_color": "#1e293b", "card_style": "rounded-2xl", "header_style": "modern", "font_family": "Plus Jakarta Sans"}'::jsonb
     ) ON CONFLICT (slug) DO UPDATE SET
         name = EXCLUDED.name,
-        description = EXCLUDED.description;
+        description = EXCLUDED.description,
+        owner_id = EXCLUDED.owner_id;
 
-    -- Categories
+    -- 4. Categories
     INSERT INTO public.categories (id, store_id, name, slug, description, order_index) VALUES
     (v_cat_moda, v_store_id, 'Alta Moda & Vestuario', 'alta-moda-y-vestuario', 'Prendas confeccionadas con textiles nobles y patrones contemporáneos', 1),
     (v_cat_calzado, v_store_id, 'Calzado de Autor', 'calzado-de-autor', 'Zapatos y sneakers artesanales en 100% cuero genuino', 2),
@@ -61,7 +129,7 @@ BEGIN
     (v_cat_perfumeria, v_store_id, 'Perfumería & Relojería', 'perfumeria-y-relojeria', 'Fragancias nicho y piezas de precisión', 4)
     ON CONFLICT (store_id, slug) DO NOTHING;
 
-    -- Products
+    -- 5. Products
     INSERT INTO public.products (id, store_id, category_id, name, slug, description, price, original_price, sku, stock, is_available, is_featured, order_index)
     VALUES (v_prod_camisa, v_store_id, v_cat_moda, 'Camisa Lino Italiano Oversize', 'camisa-lino-italiano-oversize', 'Confeccionada en 100% lino de origen europeo de textura fluida y transpirable. Botones en nácar legítimo y corte contemporáneo relajado.', 180000, 240000, 'SS-LIN-01', 25, true, true, 1)
     ON CONFLICT (store_id, slug) DO NOTHING;
@@ -82,7 +150,7 @@ BEGIN
     VALUES (v_prod_reloj, v_store_id, v_cat_perfumeria, 'Reloj Cronógrafo Acero Cepillado', 'reloj-cronografo-acero-cepillado', 'Caja de 41mm en acero quirúrgico 316L, cristal de zafiro antirreflejos, bisel cerámico y correa en piel genuina de curtición vegetal.', 580000, 690000, 'SS-REL-05', 8, true, false, 5)
     ON CONFLICT (store_id, slug) DO NOTHING;
 
-    -- Images
+    -- 6. Images
     INSERT INTO public.product_images (product_id, image_url, is_primary, order_index) VALUES
     (v_prod_camisa, 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop', true, 1),
     (v_prod_camisa, 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop', false, 2),
@@ -93,7 +161,7 @@ BEGIN
     (v_prod_reloj, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop', true, 1)
     ON CONFLICT DO NOTHING;
 
-    -- Variants
+    -- 7. Variants
     INSERT INTO public.product_variants (product_id, variant_type, variant_value, price_modifier, stock, is_available, order_index) VALUES
     (v_prod_camisa, 'Talla', 'S', 0, 8, true, 1),
     (v_prod_camisa, 'Talla', 'M', 0, 12, true, 2),
