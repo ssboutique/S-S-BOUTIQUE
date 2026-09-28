@@ -3,11 +3,15 @@ import { reactive, watch, ref, computed } from 'vue';
 import { useAdminStore } from '@/stores/admin';
 import { slugify } from '@/utils/slug';
 import ShareStoreBanner from '@/components/admin/ShareStoreBanner.vue';
-import { Store, Check, MapPin, Clock, Globe, DollarSign, ShieldCheck, HelpCircle, ExternalLink, Link2, Copy } from 'lucide-vue-next';
+import { Store, Check, MapPin, Clock, Globe, DollarSign, ShieldCheck, HelpCircle, ExternalLink, Link2, Copy, Image as ImageIcon, Sparkles } from 'lucide-vue-next';
+import { storageService } from '@/services/storageService';
 
 const adminStore = useAdminStore();
 const showDnsGuide = ref(false);
 const copiedDns = ref<string | null>(null);
+
+const isUploadingLogo = ref(false);
+const isUploadingBanner = ref(false);
 
 const form = reactive({
   name: '',
@@ -22,6 +26,8 @@ const form = reactive({
   instagram_url: '',
   facebook_url: '',
   tiktok_url: '',
+  logo_url: '',
+  banner_url: '',
   is_active: true,
 });
 
@@ -41,6 +47,8 @@ watch(
       form.instagram_url = store.instagram_url || '';
       form.facebook_url = store.facebook_url || '';
       form.tiktok_url = store.tiktok_url || '';
+      form.logo_url = store.logo_url || '';
+      form.banner_url = store.banner_url || '';
       form.is_active = store.is_active;
     }
   },
@@ -78,6 +86,34 @@ async function copyDnsValue(text: string, key: string) {
   }
 }
 
+async function handleLogoUpload(e: Event) {
+  const input = e.target as HTMLInputElement;
+  if (!input.files?.[0]) return;
+  isUploadingLogo.value = true;
+  try {
+    const url = await storageService.uploadStoreAsset(input.files[0], 'logos');
+    form.logo_url = url;
+  } catch (err: any) {
+    adminStore.setFeedback('error', 'Error al subir el logo');
+  } finally {
+    isUploadingLogo.value = false;
+  }
+}
+
+async function handleBannerUpload(e: Event) {
+  const input = e.target as HTMLInputElement;
+  if (!input.files?.[0]) return;
+  isUploadingBanner.value = true;
+  try {
+    const url = await storageService.uploadStoreAsset(input.files[0], 'banners');
+    form.banner_url = url;
+  } catch (err: any) {
+    adminStore.setFeedback('error', 'Error al subir la imagen de portada');
+  } finally {
+    isUploadingBanner.value = false;
+  }
+}
+
 async function handleSave() {
   const cleanDomain = form.custom_domain.trim()
     ? form.custom_domain.trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '').toLowerCase()
@@ -96,6 +132,8 @@ async function handleSave() {
     instagram_url: form.instagram_url.trim() || null,
     facebook_url: form.facebook_url.trim() || null,
     tiktok_url: form.tiktok_url.trim() || null,
+    logo_url: form.logo_url || null,
+    banner_url: form.banner_url || null,
     is_active: form.is_active,
     theme_settings: {
       ...(adminStore.currentStore?.theme_settings || {
@@ -289,6 +327,52 @@ async function handleSave() {
             <p class="text-[11px] text-slate-500 dark:text-slate-400 italic pt-1 border-t border-blue-200/60 dark:border-blue-900/40">
               * Nota: La propagación de DNS en internet puede tardar entre 5 minutos y unas horas dependiendo de tu registrador.
             </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Identity & Branding Card -->
+    <div class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft space-y-6 transition-colors">
+      <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+        <Sparkles class="w-5 h-5 text-brand-500" />
+        <span>Logotipo y Portada</span>
+      </h3>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- Logo Uploader -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+            Logo de tu tienda
+          </label>
+          <div class="flex items-center gap-4">
+            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shrink-0 shadow-inner flex items-center justify-center">
+              <img v-if="form.logo_url" :src="form.logo_url" class="w-full h-full object-cover" />
+              <ImageIcon v-else class="w-8 h-8 text-slate-400" />
+            </div>
+
+            <label class="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-xl text-xs font-bold cursor-pointer transition-colors">
+              <span>{{ isUploadingLogo ? 'Cargando...' : 'Subir nuevo logo' }}</span>
+              <input type="file" accept="image/*" class="hidden" @change="handleLogoUpload" :disabled="isUploadingLogo" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Banner Uploader -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+            Imagen de Portada (Banner)
+          </label>
+          <div class="flex items-center gap-4">
+            <div class="w-28 h-20 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shrink-0 shadow-inner flex items-center justify-center">
+              <img v-if="form.banner_url" :src="form.banner_url" class="w-full h-full object-cover" />
+              <ImageIcon v-else class="w-8 h-8 text-slate-400" />
+            </div>
+
+            <label class="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-xl text-xs font-bold cursor-pointer transition-colors">
+              <span>{{ isUploadingBanner ? 'Cargando...' : 'Subir portada' }}</span>
+              <input type="file" accept="image/*" class="hidden" @change="handleBannerUpload" :disabled="isUploadingBanner" />
+            </label>
           </div>
         </div>
       </div>
