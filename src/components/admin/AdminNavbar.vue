@@ -20,14 +20,7 @@ async function handleLogout() {
   router.push('/login');
 }
 
-const fullPublicUrl = computed(() => {
-  if (typeof window !== 'undefined') {
-    const origin = window.location.origin;
-    const slug = adminStore.currentStore?.slug || 'ss-boutique';
-    return `${origin}/tienda/${slug}`;
-  }
-  return `/tienda/${adminStore.currentStore?.slug || 'ss-boutique'}`;
-});
+const fullPublicUrl = computed(() => adminStore.publicStoreUrl);
 
 async function copyStoreLink() {
   try {

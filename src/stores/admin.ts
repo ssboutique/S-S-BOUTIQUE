@@ -34,6 +34,26 @@ export const useAdminStore = defineStore('admin', () => {
     };
   });
 
+  // Store URL resolution (supports custom domains or standard platform route)
+  const cleanCustomDomain = computed(() => {
+    const raw = currentStore.value?.custom_domain || currentStore.value?.theme_settings?.custom_domain;
+    if (!raw || !raw.trim()) return null;
+    return raw.trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '').toLowerCase();
+  });
+
+  const hasCustomDomain = computed(() => Boolean(cleanCustomDomain.value));
+
+  const publicStoreUrl = computed(() => {
+    if (cleanCustomDomain.value) {
+      return `https://${cleanCustomDomain.value}`;
+    }
+    const slug = currentStore.value?.slug || 'ss-boutique';
+    if (typeof window !== 'undefined') {
+      return `${window.location.origin}/tienda/${slug}`;
+    }
+    return `/tienda/${slug}`;
+  });
+
   function setFeedback(type: 'success' | 'error', text: string) {
     feedbackMessage.value = { type, text };
     setTimeout(() => {
@@ -221,6 +241,9 @@ export const useAdminStore = defineStore('admin', () => {
     categories,
     orders,
     metrics,
+    publicStoreUrl,
+    hasCustomDomain,
+    cleanCustomDomain,
     isLoading,
     isSaving,
     feedbackMessage,

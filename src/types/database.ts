@@ -16,6 +16,7 @@ export interface StoreThemeSettings {
   card_style: 'rounded-xl' | 'rounded-2xl' | 'rounded-3xl' | 'rounded-none';
   header_style: 'modern' | 'minimal' | 'banner';
   font_family: string;
+  custom_domain?: string | null;
 }
 
 export interface Store {
@@ -23,6 +24,7 @@ export interface Store {
   owner_id: string;
   name: string;
   slug: string;
+  custom_domain?: string | null;
   description: string | null;
   logo_url: string | null;
   banner_url: string | null;

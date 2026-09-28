@@ -30,9 +30,7 @@ function openCreateProduct() {
   showProductModal.value = true;
 }
 
-const storeUrl = computed(() => {
-  return `/tienda/${adminStore.currentStore?.slug || 'ss-boutique'}`;
-});
+const storeUrl = computed(() => adminStore.publicStoreUrl);
 </script>
 
 <template>

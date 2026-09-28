@@ -57,9 +57,7 @@ function isItemActive(path: string, exact = false) {
   return route.path.startsWith(path);
 }
 
-const storeUrl = computed(() => {
-  return `/tienda/${adminStore.currentStore?.slug || 'ss-boutique'}`;
-});
+const storeUrl = computed(() => adminStore.publicStoreUrl);
 </script>
 
 <template>
@@ -132,8 +130,9 @@ const storeUrl = computed(() => {
                 <div class="text-xs font-bold text-white truncate">
                   {{ adminStore.currentStore?.name || 'S&S BOUTIQUE' }}
                 </div>
-                <div class="text-[10px] text-slate-400 truncate font-mono">
-                  /tienda/{{ adminStore.currentStore?.slug || 'ss-boutique' }}
+                <div class="text-[10px] text-slate-400 truncate font-mono flex items-center gap-1">
+                  <span v-if="adminStore.hasCustomDomain" class="text-emerald-400 font-bold">🌐 {{ adminStore.cleanCustomDomain }}</span>
+                  <span v-else>/tienda/{{ adminStore.currentStore?.slug || 'ss-boutique' }}</span>
                 </div>
               </div>
             </div>
