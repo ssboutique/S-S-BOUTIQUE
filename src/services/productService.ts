@@ -1,6 +1,7 @@
 import type { Category, Product, ProductImage, ProductVariant, Order, OrderItem } from '../types/database';
 import { supabase, isSupabaseConfigured } from './supabase';
 import { DEMO_CATEGORIES, DEMO_PRODUCTS } from './demoData';
+import { slugify } from '../utils/slug';
 
 const LOCAL_CATS_KEY = 'vendpro_categories';
 const LOCAL_PRODS_KEY = 'vendpro_products';
@@ -68,6 +69,88 @@ function saveStoredOrders(orders: Order[]): void {
   }
 }
 
+/**
+ * Ensures that a product slug is unique within a store.
+ */
+async function getUniqueProductSlug(storeId: string, baseSlug: string, excludeId?: string): Promise<string> {
+  const cleanBase = slugify(baseSlug) || 'producto';
+  let candidate = cleanBase;
+  let counter = 1;
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      while (true) {
+        let query = supabase
+          .from('products')
+          .select('id')
+          .eq('store_id', storeId)
+          .eq('slug', candidate);
+
+        if (excludeId) {
+          query = query.neq('id', excludeId);
+        }
+
+        const { data, error } = await query;
+        if (error || !data || data.length === 0) {
+          return candidate;
+        }
+        counter++;
+        candidate = `${cleanBase}-${counter}`;
+      }
+    } catch {
+      return `${cleanBase}-${Date.now().toString(36)}`;
+    }
+  }
+
+  const prods = getStoredProducts().filter((p) => p.store_id === storeId && p.id !== excludeId);
+  while (prods.some((p) => p.slug === candidate)) {
+    counter++;
+    candidate = `${cleanBase}-${counter}`;
+  }
+  return candidate;
+}
+
+/**
+ * Ensures that a category slug is unique within a store.
+ */
+async function getUniqueCategorySlug(storeId: string, baseSlug: string, excludeId?: string): Promise<string> {
+  const cleanBase = slugify(baseSlug) || 'categoria';
+  let candidate = cleanBase;
+  let counter = 1;
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      while (true) {
+        let query = supabase
+          .from('categories')
+          .select('id')
+          .eq('store_id', storeId)
+          .eq('slug', candidate);
+
+        if (excludeId) {
+          query = query.neq('id', excludeId);
+        }
+
+        const { data, error } = await query;
+        if (error || !data || data.length === 0) {
+          return candidate;
+        }
+        counter++;
+        candidate = `${cleanBase}-${counter}`;
+      }
+    } catch {
+      return `${cleanBase}-${Date.now().toString(36)}`;
+    }
+  }
+
+  const cats = getStoredCategories().filter((c) => c.store_id === storeId && c.id !== excludeId);
+  while (cats.some((c) => c.slug === candidate)) {
+    counter++;
+    candidate = `${cleanBase}-${counter}`;
+  }
+  return candidate;
+}
+
 export const productService = {
   // ==========================================
   // CATEGORIES
@@ -92,19 +175,39 @@ export const productService = {
   },
 
   async createCategory(cat: Omit<Category, 'id' | 'created_at' | 'updated_at'>): Promise<Category> {
+    const finalSlug = await getUniqueCategorySlug(cat.store_id, cat.slug || cat.name);
+    const payload = { ...cat, slug: finalSlug };
+
     if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('categories')
-        .insert([cat])
+        .insert([payload])
         .select()
         .single();
 
-      if (error) throw new Error('No se pudo crear la categoría.');
+      if (error?.code === '23505') {
+        const fallbackSlug = `${finalSlug}-${Math.random().toString(36).substring(2, 6)}`;
+        const retry = await supabase
+          .from('categories')
+          .insert([{ ...payload, slug: fallbackSlug }])
+          .select()
+          .single();
+        data = retry.data;
+        error = retry.error;
+      }
+
+      if (error || !data) {
+        console.error('Error al crear categoría:', error);
+        if (error?.code === '42501') {
+          throw new Error('Permiso denegado. Tu sesión pudo haber expirado, por favor recarga e inicia sesión.');
+        }
+        throw new Error(error?.message || 'No se pudo crear la categoría.');
+      }
       return data as Category;
     }
 
     const newCat: Category = {
-      ...cat,
+      ...payload,
       id: `cat-${Date.now()}`,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -117,6 +220,9 @@ export const productService = {
 
   async updateCategory(id: string, updates: Partial<Category>): Promise<Category> {
     if (isSupabaseConfigured && supabase) {
+      if (updates.slug && updates.store_id) {
+        updates.slug = await getUniqueCategorySlug(updates.store_id, updates.slug, id);
+      }
       const { data, error } = await supabase
         .from('categories')
         .update(updates)
@@ -124,7 +230,13 @@ export const productService = {
         .select()
         .single();
 
-      if (error) throw new Error('No se pudo actualizar la categoría.');
+      if (error) {
+        console.error('Error al actualizar categoría:', error);
+        if (error.code === '42501') {
+          throw new Error('Permiso denegado. Por favor inicia sesión nuevamente.');
+        }
+        throw new Error(error.message || 'No se pudo actualizar la categoría.');
+      }
       return data as Category;
     }
 
@@ -139,7 +251,10 @@ export const productService = {
   async deleteCategory(id: string): Promise<void> {
     if (isSupabaseConfigured && supabase) {
       const { error } = await supabase.from('categories').delete().eq('id', id);
-      if (error) throw new Error('No se pudo eliminar la categoría.');
+      if (error) {
+        console.error('Error al eliminar categoría:', error);
+        throw new Error(error.message || 'No se pudo eliminar la categoría.');
+      }
       return;
     }
 
@@ -233,14 +348,41 @@ export const productService = {
     imageUrls: string[] = [],
     variantsList: Array<{ variant_type: string; variant_value: string; price_modifier?: number }> = []
   ): Promise<Product> {
+    const finalSlug = await getUniqueProductSlug(
+      productData.store_id,
+      productData.slug || productData.name
+    );
+    const payload = { ...productData, slug: finalSlug };
+
     if (isSupabaseConfigured && supabase) {
-      const { data: newProd, error: prodErr } = await supabase
+      let { data: newProd, error: prodErr } = await supabase
         .from('products')
-        .insert([productData])
+        .insert([payload])
         .select()
         .single();
 
-      if (prodErr || !newProd) throw new Error('No se pudo crear el producto.');
+      // Retry automatically if unique slug collision occurs
+      if (prodErr?.code === '23505') {
+        const fallbackSlug = `${finalSlug}-${Math.random().toString(36).substring(2, 6)}`;
+        const retry = await supabase
+          .from('products')
+          .insert([{ ...payload, slug: fallbackSlug }])
+          .select()
+          .single();
+        newProd = retry.data;
+        prodErr = retry.error;
+      }
+
+      if (prodErr || !newProd) {
+        console.error('Error al crear producto en Supabase:', prodErr);
+        if (prodErr?.code === '42501') {
+          throw new Error('Permiso denegado por Supabase. Tu sesión pudo haber expirado, por favor recarga o inicia sesión de nuevo.');
+        }
+        if (prodErr?.code === '23505') {
+          throw new Error('Ya existe un producto con este enlace único (slug). Por favor cambia el nombre o slug.');
+        }
+        throw new Error(prodErr?.message || 'No se pudo crear el producto.');
+      }
 
       // Insert images
       if (imageUrls.length > 0) {
@@ -250,7 +392,10 @@ export const productService = {
           is_primary: idx === 0,
           order_index: idx + 1,
         }));
-        await supabase.from('product_images').insert(imageRows);
+        const { error: imgErr } = await supabase.from('product_images').insert(imageRows);
+        if (imgErr) {
+          console.warn('Advertencia al insertar imágenes de producto:', imgErr);
+        }
       }
 
       // Insert variants
@@ -263,10 +408,13 @@ export const productService = {
           is_available: true,
           order_index: idx + 1,
         }));
-        await supabase.from('product_variants').insert(variantRows);
+        const { error: varErr } = await supabase.from('product_variants').insert(variantRows);
+        if (varErr) {
+          console.warn('Advertencia al insertar variantes de producto:', varErr);
+        }
       }
 
-      return (await this.getProductById(newProd.id)) as Product;
+      return (await this.getProductById(newProd.id)) || (newProd as Product);
     }
 
     const newId = `prod-${Date.now()}`;
@@ -292,7 +440,7 @@ export const productService = {
     }));
 
     const created: Product = {
-      ...productData,
+      ...payload,
       id: newId,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -313,12 +461,25 @@ export const productService = {
     variantsList?: Array<{ variant_type: string; variant_value: string; price_modifier?: number }>
   ): Promise<Product> {
     if (isSupabaseConfigured && supabase) {
+      if (updates.slug && updates.store_id) {
+        updates.slug = await getUniqueProductSlug(updates.store_id, updates.slug, id);
+      }
+
       const { error } = await supabase
         .from('products')
         .update(updates)
         .eq('id', id);
 
-      if (error) throw new Error('No se pudo actualizar el producto.');
+      if (error) {
+        console.error('Error al actualizar producto en Supabase:', error);
+        if (error.code === '42501') {
+          throw new Error('Permiso denegado. Por favor inicia sesión nuevamente.');
+        }
+        if (error.code === '23505') {
+          throw new Error('Ya existe otro producto con este enlace único (slug).');
+        }
+        throw new Error(error.message || 'No se pudo actualizar el producto.');
+      }
 
       if (imageUrls !== undefined) {
         await supabase.from('product_images').delete().eq('product_id', id);

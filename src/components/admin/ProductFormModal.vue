@@ -101,7 +101,20 @@ const calculatedDiscount = computed(() => {
 
 function handleNameChange() {
   if (!form.id) {
-    form.slug = slugify(form.name);
+    const baseSlug = slugify(form.name);
+    if (!baseSlug) {
+      form.slug = '';
+      return;
+    }
+    // Check if baseSlug is already in use by another product in this store
+    const existing = adminStore.products.filter((p) => p.id !== form.id);
+    let candidate = baseSlug;
+    let counter = 1;
+    while (existing.some((p) => p.slug === candidate)) {
+      counter++;
+      candidate = `${baseSlug}-${counter}`;
+    }
+    form.slug = candidate;
   }
 }
 
@@ -152,11 +165,14 @@ function removeVariant(index: number) {
 async function handleSubmit() {
   if (!form.name.trim() || form.price < 0) return;
 
+  const rawSlug = form.slug.trim() || slugify(form.name) || `prod-${Date.now()}`;
+  const cleanSlug = slugify(rawSlug) || `prod-${Date.now()}`;
+
   const success = await adminStore.saveProduct(
     {
       id: form.id || undefined,
       name: form.name.trim(),
-      slug: form.slug.trim() || slugify(form.name),
+      slug: cleanSlug,
       description: form.description.trim() || null,
       price: Number(form.price),
       original_price: form.original_price ? Number(form.original_price) : null,
