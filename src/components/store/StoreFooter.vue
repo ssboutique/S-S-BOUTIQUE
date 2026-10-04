@@ -44,6 +44,14 @@ function openWhatsApp() {
         <div class="space-y-3 text-xs sm:text-sm">
           <h4 class="text-white font-semibold uppercase tracking-wider text-xs">Información</h4>
           <ul class="space-y-2 text-slate-400">
+            <li>
+              <router-link
+                :to="`/tienda/${storeStore.store?.slug || 'ss-boutique'}/nosotros`"
+                class="inline-flex items-center gap-1.5 text-brand-400 hover:text-brand-300 font-medium transition-colors"
+              >
+                <span>Conoce nuestra historia (Quiénes Somos) &rarr;</span>
+              </router-link>
+            </li>
             <li v-if="storeStore.store?.address" class="flex items-center gap-2">
               <MapPin class="w-4 h-4 text-brand-400 shrink-0" />
               <span>{{ storeStore.store.address }}<span v-if="storeStore.store?.city">, {{ storeStore.store.city }}</span></span>

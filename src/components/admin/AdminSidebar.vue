@@ -11,6 +11,7 @@ import {
   Palette,
   Store,
   MessageCircle,
+  Sparkles,
   ExternalLink,
   Shield,
   ChevronLeft,
@@ -45,6 +46,7 @@ const navSections = [
   {
     title: 'Configuración Tienda',
     items: [
+      { name: 'Quiénes Somos & Fotos', path: '/admin/about', icon: Sparkles },
       { name: 'Apariencia & Diseño', path: '/admin/appearance', icon: Palette },
       { name: 'Datos del Negocio', path: '/admin/store-info', icon: Store },
       { name: 'Canal WhatsApp', path: '/admin/whatsapp', icon: MessageCircle },

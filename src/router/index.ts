@@ -25,6 +25,18 @@ const router = createRouter({
       props: true,
     },
 
+    // Dedicated About Us Page (e.g. /tienda/ss-boutique/nosotros)
+    {
+      path: '/tienda/:slug/nosotros',
+      name: 'store-about',
+      component: () => import('../views/store/StoreAboutView.vue'),
+      props: true,
+    },
+    {
+      path: '/tienda/:slug/about',
+      redirect: (to) => `/tienda/${to.params.slug}/nosotros`,
+    },
+
     // Auth Views
     {
       path: '/login',
@@ -66,6 +78,11 @@ const router = createRouter({
           component: () => import('../views/admin/AppearanceView.vue'),
         },
         {
+          path: 'about',
+          name: 'admin-about',
+          component: () => import('../views/admin/AboutAdminView.vue'),
+        },
+        {
           path: 'store-info',
           name: 'admin-store-info',
           component: () => import('../views/admin/StoreInfoView.vue'),
@@ -89,6 +106,22 @@ const router = createRouter({
       name: 'superadmin',
       component: () => import('../views/admin/SuperAdminView.vue'),
       meta: { requiresSuperAdmin: true },
+    },
+
+    // Direct slug fallback (e.g. /ss-boutique/nosotros)
+    {
+      path: '/:slug([a-zA-Z0-9-]+)/nosotros',
+      name: 'store-about-direct',
+      component: () => import('../views/store/StoreAboutView.vue'),
+      props: true,
+      beforeEnter: (to, _from, next) => {
+        const reserved = ['admin', 'login', 'register', 'superadmin', 'tienda', 'api'];
+        if (reserved.includes(to.params.slug as string)) {
+          next({ name: 'home' });
+        } else {
+          next();
+        }
+      },
     },
 
     // Direct slug fallback (e.g. /ss-boutique)
