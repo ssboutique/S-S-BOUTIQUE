@@ -170,16 +170,16 @@ const animationDurationClass = computed(() => {
 
       <!-- Moving Ribbon Preview -->
       <div class="relative overflow-hidden py-4 bg-slate-900/90 rounded-2xl border border-slate-800">
-        <div class="flex whitespace-nowrap overflow-hidden">
+        <div class="marquee-preview-wrapper group">
           <div
-            class="inline-flex items-center gap-4 shrink-0"
-            :class="direction === 'right' ? 'animate-marquee-right' : 'animate-marquee-left'"
+            class="marquee-preview-track"
+            :class="direction === 'right' ? 'animate-track-right' : 'animate-track-left'"
             :style="{ animationDuration: animationDurationClass }"
           >
             <div
               v-for="b in brandsList"
               :key="`preview-1-${b.id}`"
-              class="inline-flex flex-col items-center justify-center px-6 py-2.5 rounded-xl bg-slate-950 border border-slate-800 min-w-[140px]"
+              class="inline-flex flex-col items-center justify-center px-6 py-2.5 rounded-xl bg-slate-950 border border-slate-800 min-w-[140px] shrink-0"
             >
               <img v-if="b.logo_url" :src="b.logo_url" class="h-6 max-w-[100px] object-contain mb-1" />
               <span v-else class="font-extrabold text-xs tracking-widest text-slate-200 uppercase font-serif">
@@ -191,15 +191,15 @@ const animationDurationClass = computed(() => {
 
           <!-- Loop duplicate for seamless continuous ribbon -->
           <div
-            class="inline-flex items-center gap-4 shrink-0"
-            :class="direction === 'right' ? 'animate-marquee-right' : 'animate-marquee-left'"
+            class="marquee-preview-track"
+            :class="direction === 'right' ? 'animate-track-right' : 'animate-track-left'"
             :style="{ animationDuration: animationDurationClass }"
             aria-hidden="true"
           >
             <div
               v-for="b in brandsList"
               :key="`preview-2-${b.id}`"
-              class="inline-flex flex-col items-center justify-center px-6 py-2.5 rounded-xl bg-slate-950 border border-slate-800 min-w-[140px]"
+              class="inline-flex flex-col items-center justify-center px-6 py-2.5 rounded-xl bg-slate-950 border border-slate-800 min-w-[140px] shrink-0"
             >
               <img v-if="b.logo_url" :src="b.logo_url" class="h-6 max-w-[100px] object-contain mb-1" />
               <span v-else class="font-extrabold text-xs tracking-widest text-slate-200 uppercase font-serif">
@@ -421,33 +421,49 @@ const animationDurationClass = computed(() => {
 </template>
 
 <style scoped>
-@keyframes marquee-left {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+.marquee-preview-wrapper {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 1rem;
+  width: 100%;
 }
 
-@keyframes marquee-right {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
-.animate-marquee-left {
-  display: inline-flex;
-  animation: marquee-left linear infinite;
+.marquee-preview-track {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   min-width: 100%;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
 }
 
-.animate-marquee-right {
-  display: inline-flex;
-  animation: marquee-right linear infinite;
-  min-width: 100%;
+.animate-track-left {
+  animation-name: preview-scroll-left;
+}
+
+.animate-track-right {
+  animation-name: preview-scroll-right;
+}
+
+@keyframes preview-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 1rem));
+  }
+}
+
+@keyframes preview-scroll-right {
+  from {
+    transform: translateX(calc(-100% - 1rem));
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 </style>

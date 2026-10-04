@@ -37,15 +37,15 @@ const items = computed(() => {
     <!-- Golden Accent glow -->
     <div class="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-rose-500/5 to-amber-500/5 pointer-events-none"></div>
 
-    <div class="flex whitespace-nowrap overflow-hidden group">
+    <div class="ticker-wrapper group">
       <!-- Track 1 -->
-      <div class="inline-flex items-center gap-8 animate-marquee shrink-0 group-hover:[animation-play-state:paused]">
+      <div class="ticker-track group-hover:[animation-play-state:paused]">
         <div
           v-for="(item, i) in items"
           :key="`track1-${i}`"
-          class="inline-flex items-center gap-2.5 text-[11px] sm:text-xs font-bold tracking-widest text-slate-300 uppercase"
+          class="inline-flex items-center gap-2.5 text-[11px] sm:text-xs font-bold tracking-widest text-slate-300 uppercase shrink-0"
         >
-          <component :is="item.icon" class="w-3.5 h-3.5 text-amber-400 shrink-0 animate-pulse" />
+          <component :is="item.icon" class="w-3.5 h-3.5 text-amber-400 shrink-0" />
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-amber-200 to-slate-200 font-extrabold tracking-wider">
             {{ item.text }}
           </span>
@@ -54,13 +54,13 @@ const items = computed(() => {
       </div>
 
       <!-- Track 2 (Infinite duplicate) -->
-      <div class="inline-flex items-center gap-8 animate-marquee shrink-0 group-hover:[animation-play-state:paused]" aria-hidden="true">
+      <div class="ticker-track group-hover:[animation-play-state:paused]" aria-hidden="true">
         <div
           v-for="(item, i) in items"
           :key="`track2-${i}`"
-          class="inline-flex items-center gap-2.5 text-[11px] sm:text-xs font-bold tracking-widest text-slate-300 uppercase"
+          class="inline-flex items-center gap-2.5 text-[11px] sm:text-xs font-bold tracking-widest text-slate-300 uppercase shrink-0"
         >
-          <component :is="item.icon" class="w-3.5 h-3.5 text-amber-400 shrink-0 animate-pulse" />
+          <component :is="item.icon" class="w-3.5 h-3.5 text-amber-400 shrink-0" />
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-amber-200 to-slate-200 font-extrabold tracking-wider">
             {{ item.text }}
           </span>
@@ -72,18 +72,32 @@ const items = computed(() => {
 </template>
 
 <style scoped>
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+.ticker-wrapper {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 2rem;
+  width: 100%;
 }
 
-.animate-marquee {
-  display: inline-flex;
-  animation: marquee 25s linear infinite;
+.ticker-track {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2rem;
   min-width: 100%;
+  animation: ticker-scroll 24s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 2rem));
+  }
 }
 </style>

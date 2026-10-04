@@ -16,10 +16,12 @@ const defaultBrands = [
   { id: '7', name: 'BALENCIAGA', tagline: 'Couture House' },
   { id: '8', name: 'VERSACE', tagline: 'Milano Luxury' },
   { id: '9', name: 'HERMÈS', tagline: 'Paris Sellier' },
-  { id: '10', name: 'FENDI', tagline: 'Roma 1925' }
+  { id: '10', name: 'FENDI', tagline: 'Roma 1925' },
+  { id: '11', name: 'ZARA', tagline: 'Woman Collection' },
+  { id: '12', name: 'CAROLINA HERRERA', tagline: 'New York' }
 ];
 
-const brands = computed(() => {
+const baseBrands = computed(() => {
   const custom = storeStore.store?.theme_settings?.brands;
   if (custom && custom.length > 0) {
     return custom.map(b => ({
@@ -31,20 +33,30 @@ const brands = computed(() => {
   }
   return defaultBrands;
 });
+
+// Repeat brands if list is short to ensure continuous infinite loop
+const brands = computed(() => {
+  const list = baseBrands.value;
+  if (list.length < 6) {
+    return [...list, ...list, ...list];
+  }
+  return list;
+});
+
 const direction = computed(() => {
   return storeStore.store?.theme_settings?.brand_marquee_direction || 'left';
 });
 
 const speedClass = computed(() => {
   const speed = storeStore.store?.theme_settings?.brand_marquee_speed || 'normal';
-  if (speed === 'slow') return '38s';
-  if (speed === 'fast') return '16s';
-  return '25s';
+  if (speed === 'slow') return '35s';
+  if (speed === 'fast') return '15s';
+  return '22s';
 });
 </script>
 
 <template>
-  <section class="py-8 sm:py-12 bg-slate-900/60 border-y border-slate-800/80 relative overflow-hidden backdrop-blur-sm select-none" aria-label="Marcas y Diseñadores Exclusivos">
+  <section class="py-8 sm:py-12 bg-slate-900/80 border-y border-slate-800/90 relative overflow-hidden backdrop-blur-md select-none" aria-label="Marcas y Diseñadores Exclusivos">
     <!-- Ambient backdrops -->
     <div class="absolute -left-20 top-1/2 -translate-y-1/2 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -right-20 top-1/2 -translate-y-1/2 w-64 h-64 bg-rose-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -62,64 +74,62 @@ const speedClass = computed(() => {
       </p>
     </div>
 
-    <!-- Endless Brand Tape Ribbon with Direction Support -->
-    <div class="relative overflow-hidden group">
+    <!-- Infinite Ribbon Tape Track Container -->
+    <div class="marquee-wrapper group">
       <!-- Gradient Fade Edges -->
       <div class="absolute left-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none"></div>
       <div class="absolute right-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none"></div>
 
-      <div class="flex whitespace-nowrap overflow-hidden">
-        <!-- Loop 1 -->
+      <!-- Track 1 -->
+      <div
+        class="marquee-track group-hover:[animation-play-state:paused]"
+        :class="direction === 'right' ? 'animate-track-right' : 'animate-track-left'"
+        :style="{ animationDuration: speedClass }"
+      >
         <div
-          class="inline-flex items-center gap-4 sm:gap-6 shrink-0 group-hover:[animation-play-state:paused]"
-          :class="direction === 'right' ? 'animate-marquee-right' : 'animate-marquee-left'"
-          :style="{ animationDuration: speedClass }"
+          v-for="(brand, i) in brands"
+          :key="`b1-${brand.id}-${i}`"
+          class="inline-flex flex-col items-center justify-center px-6 sm:px-8 py-3.5 rounded-2xl bg-slate-950/90 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900 transition-all duration-300 shadow-md min-w-[150px] sm:min-w-[190px] shrink-0 group/card cursor-default"
         >
-          <div
-            v-for="brand in brands"
-            :key="`b1-${brand.id}`"
-            class="inline-flex flex-col items-center justify-center px-6 sm:px-8 py-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900/90 transition-all duration-300 shadow-sm min-w-[150px] sm:min-w-[190px] group/card cursor-default"
-          >
-            <div v-if="brand.logo_url" class="h-8 mb-1 flex items-center justify-center">
-              <img :src="brand.logo_url" :alt="brand.name" class="max-h-7 max-w-[120px] object-contain filter brightness-90 group-hover/card:brightness-110 transition-all" />
-            </div>
-            <span
-              v-else
-              class="font-black text-sm sm:text-base tracking-[0.25em] text-slate-200 group-hover/card:text-amber-300 transition-colors uppercase font-serif"
-            >
-              {{ brand.name }}
-            </span>
-            <span class="text-[10px] text-slate-500 group-hover/card:text-slate-400 tracking-wider font-medium uppercase mt-0.5">
-              {{ brand.tagline }}
-            </span>
+          <div v-if="brand.logo_url" class="h-8 mb-1 flex items-center justify-center">
+            <img :src="brand.logo_url" :alt="brand.name" class="max-h-7 max-w-[120px] object-contain filter brightness-90 group-hover/card:brightness-110 transition-all" />
           </div>
+          <span
+            v-else
+            class="font-black text-sm sm:text-base tracking-[0.25em] text-slate-200 group-hover/card:text-amber-300 transition-colors uppercase font-serif"
+          >
+            {{ brand.name }}
+          </span>
+          <span class="text-[10px] text-slate-500 group-hover/card:text-slate-400 tracking-wider font-medium uppercase mt-0.5">
+            {{ brand.tagline }}
+          </span>
         </div>
+      </div>
 
-        <!-- Loop 2 (Infinite duplicate) -->
+      <!-- Track 2 (Seamless infinite duplicate) -->
+      <div
+        class="marquee-track group-hover:[animation-play-state:paused]"
+        :class="direction === 'right' ? 'animate-track-right' : 'animate-track-left'"
+        :style="{ animationDuration: speedClass }"
+        aria-hidden="true"
+      >
         <div
-          class="inline-flex items-center gap-4 sm:gap-6 shrink-0 group-hover:[animation-play-state:paused]"
-          :class="direction === 'right' ? 'animate-marquee-right' : 'animate-marquee-left'"
-          :style="{ animationDuration: speedClass }"
-          aria-hidden="true"
+          v-for="(brand, i) in brands"
+          :key="`b2-${brand.id}-${i}`"
+          class="inline-flex flex-col items-center justify-center px-6 sm:px-8 py-3.5 rounded-2xl bg-slate-950/90 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900 transition-all duration-300 shadow-md min-w-[150px] sm:min-w-[190px] shrink-0 group/card cursor-default"
         >
-          <div
-            v-for="brand in brands"
-            :key="`b2-${brand.id}`"
-            class="inline-flex flex-col items-center justify-center px-6 sm:px-8 py-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900/90 transition-all duration-300 shadow-sm min-w-[150px] sm:min-w-[190px] group/card cursor-default"
-          >
-            <div v-if="brand.logo_url" class="h-8 mb-1 flex items-center justify-center">
-              <img :src="brand.logo_url" :alt="brand.name" class="max-h-7 max-w-[120px] object-contain filter brightness-90 group-hover/card:brightness-110 transition-all" />
-            </div>
-            <span
-              v-else
-              class="font-black text-sm sm:text-base tracking-[0.25em] text-slate-200 group-hover/card:text-amber-300 transition-colors uppercase font-serif"
-            >
-              {{ brand.name }}
-            </span>
-            <span class="text-[10px] text-slate-500 group-hover/card:text-slate-400 tracking-wider font-medium uppercase mt-0.5">
-              {{ brand.tagline }}
-            </span>
+          <div v-if="brand.logo_url" class="h-8 mb-1 flex items-center justify-center">
+            <img :src="brand.logo_url" :alt="brand.name" class="max-h-7 max-w-[120px] object-contain filter brightness-90 group-hover/card:brightness-110 transition-all" />
           </div>
+          <span
+            v-else
+            class="font-black text-sm sm:text-base tracking-[0.25em] text-slate-200 group-hover/card:text-amber-300 transition-colors uppercase font-serif"
+          >
+            {{ brand.name }}
+          </span>
+          <span class="text-[10px] text-slate-500 group-hover/card:text-slate-400 tracking-wider font-medium uppercase mt-0.5">
+            {{ brand.tagline }}
+          </span>
         </div>
       </div>
     </div>
@@ -127,33 +137,49 @@ const speedClass = computed(() => {
 </template>
 
 <style scoped>
-@keyframes marquee-left {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+.marquee-wrapper {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 1.25rem;
+  width: 100%;
 }
 
-@keyframes marquee-right {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
-.animate-marquee-left {
-  display: inline-flex;
-  animation: marquee-left linear infinite;
+.marquee-track {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
   min-width: 100%;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
 }
 
-.animate-marquee-right {
-  display: inline-flex;
-  animation: marquee-right linear infinite;
-  min-width: 100%;
+.animate-track-left {
+  animation-name: marquee-scroll-left;
+}
+
+.animate-track-right {
+  animation-name: marquee-scroll-right;
+}
+
+@keyframes marquee-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 1.25rem));
+  }
+}
+
+@keyframes marquee-scroll-right {
+  from {
+    transform: translateX(calc(-100% - 1.25rem));
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 </style>

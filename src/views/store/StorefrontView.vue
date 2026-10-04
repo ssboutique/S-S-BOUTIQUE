@@ -185,7 +185,6 @@ onMounted(() => {
 
     <!-- Live WhatsApp Order Toast Notification -->
     <LiveOrderToast />
-    <StoreFooter />
 
     <!-- Modals & Drawers -->
     <ProductModal
