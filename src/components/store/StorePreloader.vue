@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue';
-import { Sparkles, Zap, ShieldCheck } from 'lucide-vue-next';
+import { Sparkles, ShieldCheck, ShoppingBag, Crown, Gem } from 'lucide-vue-next';
 
 const props = defineProps<{
   isLoaded: boolean;
@@ -12,23 +12,23 @@ const emit = defineEmits<{
   (e: 'finished'): void;
 }>();
 
-const progress = ref(8);
-const currentStepText = ref('Iniciando experiencia boutique...');
+const progress = ref(12);
+const currentStepText = ref('Conectando con el atelier exclusivo...');
 const isHidden = ref(false);
 const isClosing = ref(false);
 
 let progressInterval: any = null;
 
 const stepMessages = [
-  { min: 0, max: 25, text: 'Iniciando experiencia boutique exclusiva...' },
-  { min: 25, max: 55, text: 'Sincronizando catálogo de moda y tendencias...' },
-  { min: 55, max: 85, text: 'Cargando calzado, prendas y accesorios...' },
-  { min: 85, max: 99, text: 'Optimizando atención directa y pedidos...' },
-  { min: 99, max: 100, text: '¡Todo listo! Bienvenido a tu tienda...' },
+  { min: 0, max: 25, text: 'Iniciando experiencia de alta moda...' },
+  { min: 25, max: 55, text: 'Sincronizando colecciones de autor y pasarela...' },
+  { min: 55, max: 80, text: 'Preparando calzado, marroquinería y vestidos...' },
+  { min: 80, max: 99, text: 'Alistando atención VIP y pedidos exclusivos...' },
+  { min: 99, max: 100, text: '¡Bienvenido a una experiencia única!' },
 ];
 
 function updateStepMessage(val: number) {
-  const step = stepMessages.find(s => val >= s.min && val <= s.max);
+  const step = stepMessages.find((s) => val >= s.min && val <= s.max);
   if (step) {
     currentStepText.value = step.text;
   }
@@ -38,31 +38,29 @@ function startSimulatedProgress() {
   progressInterval = setInterval(() => {
     if (!props.isLoaded) {
       if (progress.value < 88) {
-        // Smooth progressive increment
-        const increment = Math.max(1, Math.floor((90 - progress.value) / 7));
+        const increment = Math.max(1, Math.floor((90 - progress.value) / 6));
         progress.value = Math.min(88, progress.value + increment);
         updateStepMessage(progress.value);
       }
     } else {
-      // Store has loaded, rush to 100%
+      // Store loaded: rush smoothly to 100%
       if (progress.value < 100) {
-        progress.value = Math.min(100, progress.value + 12);
+        progress.value = Math.min(100, progress.value + 14);
         updateStepMessage(progress.value);
       } else {
         clearInterval(progressInterval);
         currentStepText.value = '¡Experiencia lista!';
-        
-        // Wait brief moment for the user to appreciate 100% then animate out
+
         setTimeout(() => {
           isClosing.value = true;
           setTimeout(() => {
             isHidden.value = true;
             emit('finished');
-          }, 600); // match transition duration
-        }, 400);
+          }, 650);
+        }, 350);
       }
     }
-  }, 70);
+  }, 60);
 }
 
 watch(
@@ -89,167 +87,123 @@ onUnmounted(() => {
     v-if="!isHidden"
     class="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-slate-950 text-white select-none transition-all duration-700 ease-out"
     :class="[
-      isClosing ? 'opacity-0 scale-105 pointer-events-none blur-sm' : 'opacity-100 scale-100'
+      isClosing ? 'opacity-0 scale-105 pointer-events-none blur-md' : 'opacity-100 scale-100'
     ]"
     role="status"
     aria-live="polite"
-    aria-label="Cargando tienda virtual"
+    aria-label="Cargando boutique de lujo"
   >
-    <!-- Background Ambient Glow & Cyber Grid -->
-    <div class="absolute inset-0 pointer-events-none">
-      <!-- Glow Orbs -->
-      <div class="absolute top-1/4 -left-20 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl animate-pulse-subtle"></div>
-      <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-fuchsia-500/15 rounded-full blur-3xl animate-pulse-subtle" style="animation-delay: 1s;"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-500/10 rounded-full blur-[120px]"></div>
+    <!-- Haute Couture Silk Ambient Glow Background -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <!-- Golden and Rose Warm Lights -->
+      <div class="absolute -top-20 -left-20 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] animate-pulse-gentle"></div>
+      <div class="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-fuchsia-600/15 rounded-full blur-[140px] animate-pulse-gentle" style="animation-delay: 1.5s;"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-900/15 rounded-full blur-[160px]"></div>
 
-      <!-- Tech Grid Pattern -->
-      <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+      <!-- Luxury Radial Grid -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(245,158,11,0.06)_0%,transparent_70%)]"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]"></div>
     </div>
 
-    <!-- Main Central 3D Floating Stage -->
+    <!-- Main Central Stage -->
     <div class="relative z-10 flex flex-col items-center max-w-md w-full px-6 text-center">
       
-      <!-- 3D Orbit & Floating Fashion Models Area -->
-      <div class="relative w-64 h-64 flex items-center justify-center mb-6">
+      <!-- Luxury Monogram & Spinning Halo Crown -->
+      <div class="relative w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center mb-6">
         
-        <!-- Outer Hologram Spinner Rings -->
-        <div class="absolute inset-0 rounded-full border border-dashed border-emerald-500/30 animate-[spin_12s_linear_infinite]"></div>
-        <div class="absolute inset-4 rounded-full border border-fuchsia-500/20 animate-[spin_8s_linear_infinite_reverse]"></div>
-        <div class="absolute inset-8 rounded-full border-2 border-t-emerald-400 border-r-transparent border-b-fuchsia-400 border-l-transparent animate-[spin_3s_linear_infinite]"></div>
+        <!-- Rotating Gold Halos -->
+        <div class="absolute inset-0 rounded-full border border-amber-500/20 border-dashed animate-[spin_16s_linear_infinite]"></div>
+        <div class="absolute inset-3 rounded-full border border-fuchsia-500/20 animate-[spin_10s_linear_infinite_reverse]"></div>
+        <div class="absolute inset-6 rounded-full border-2 border-t-amber-400 border-r-transparent border-b-fuchsia-400 border-l-transparent animate-[spin_4s_linear_infinite]"></div>
 
-        <!-- Center Core (Logo or Store Monogram) -->
-        <div class="relative z-20 w-24 h-24 rounded-3xl p-1 bg-gradient-to-tr from-emerald-500 via-teal-500 to-fuchsia-500 shadow-[0_0_40px_rgba(16,185,129,0.35)] animate-bounce-gentle">
-          <div class="w-full h-full rounded-[22px] bg-slate-900 flex items-center justify-center overflow-hidden border border-white/10 backdrop-blur-md">
+        <!-- Floating Jewels and Accents in Orbit -->
+        <div class="absolute top-0 right-3 z-30 p-2 rounded-xl bg-slate-900/90 border border-amber-400/40 shadow-[0_0_20px_rgba(251,191,36,0.3)] backdrop-blur-md animate-float-slow">
+          <Crown class="w-5 h-5 text-amber-400" />
+        </div>
+        <div class="absolute bottom-2 left-2 z-30 p-2 rounded-xl bg-slate-900/90 border border-fuchsia-400/40 shadow-[0_0_20px_rgba(232,121,249,0.3)] backdrop-blur-md animate-float-reverse">
+          <Gem class="w-5 h-5 text-fuchsia-400" />
+        </div>
+        <div class="absolute top-6 left-0 z-30 p-1.5 rounded-lg bg-slate-900/80 border border-amber-300/30 text-amber-300 animate-pulse-gentle">
+          <Sparkles class="w-4 h-4" />
+        </div>
+
+        <!-- Central Medallion Core with Logo or Monogram -->
+        <div class="relative z-20 w-28 h-28 sm:w-32 sm:h-32 rounded-3xl p-1 bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 shadow-[0_0_50px_rgba(245,158,11,0.3)] animate-subtle-glow">
+          <div class="w-full h-full rounded-[22px] bg-slate-950 flex items-center justify-center overflow-hidden border border-white/10 backdrop-blur-xl">
             <img
               v-if="logoUrl"
               :src="logoUrl"
-              :alt="storeName || 'Logo Tienda'"
-              class="w-full h-full object-cover p-1"
+              :alt="storeName || 'Boutique'"
+              class="w-full h-full object-cover p-2"
             />
-            <div v-else class="flex flex-col items-center justify-center">
-              <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-fuchsia-400 bg-clip-text text-transparent">
-                {{ storeName ? storeName.slice(0, 2).toUpperCase() : 'S&S' }}
+            <div v-else class="flex flex-col items-center justify-center p-2">
+              <span class="text-3xl font-black tracking-wider bg-gradient-to-r from-amber-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+                {{ storeName ? storeName.slice(0, 3).toUpperCase() : 'S&S' }}
+              </span>
+              <span class="text-[9px] uppercase tracking-[0.25em] font-semibold text-amber-400/80 mt-0.5">
+                BOUTIQUE
               </span>
             </div>
           </div>
-          <!-- Live pulse ping -->
+
+          <!-- Pulsing Status Dot -->
           <span class="absolute -top-1 -right-1 flex h-4 w-4">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-slate-950"></span>
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-4 w-4 bg-amber-400 border-2 border-slate-950"></span>
           </span>
         </div>
-
-        <!-- ==========================================
-             3D FLOATING FASHION ICONS IN ORBIT
-             ========================================== -->
-
-        <!-- 1. SNEAKER / ZAPATO 3D BADGE (Top Right) -->
-        <div class="absolute -top-1 -right-2 z-30 p-2.5 rounded-2xl bg-gradient-to-b from-slate-800/90 to-slate-900/90 border border-emerald-500/40 shadow-[0_10px_25px_rgba(16,185,129,0.3)] backdrop-blur-md animate-float-1">
-          <!-- 3D Sneaker SVG -->
-          <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 32C4 32 10 32 15 28C20 24 24 16 31 16C36 16 41 19 43 23L44 32C44 34.2 42.2 36 40 36H8C5.8 36 4 34.2 4 32Z" fill="url(#shoe-grad-1)" stroke="#34d399" stroke-width="1.5"/>
-            <path d="M12 28L18 20L25 22" stroke="#f472b6" stroke-width="2" stroke-linecap="round"/>
-            <path d="M4 36H44V38C44 40 42 41 40 41H8C6 41 4 40 4 38V36Z" fill="#10b981"/>
-            <circle cx="34" cy="24" r="2" fill="#ffffff"/>
-            <defs>
-              <linearGradient id="shoe-grad-1" x1="4" y1="16" x2="44" y2="36" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#1e293b"/>
-                <stop offset="1" stop-color="#0f172a"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-
-        <!-- 2. ROPE / HOODIE / MODA 3D BADGE (Bottom Left) -->
-        <div class="absolute -bottom-2 -left-3 z-30 p-2.5 rounded-2xl bg-gradient-to-b from-slate-800/90 to-slate-900/90 border border-fuchsia-500/40 shadow-[0_10px_25px_rgba(217,70,239,0.3)] backdrop-blur-md animate-float-2">
-          <!-- 3D Luxury Hoodie / Jacket SVG -->
-          <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 6L24 12L32 6L42 14L37 25L32 23V42H16V23L11 25L6 14L16 6Z" fill="url(#hoodie-grad)" stroke="#e879f9" stroke-width="1.5"/>
-            <path d="M24 12V34M20 18L24 22L28 18" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
-            <defs>
-              <linearGradient id="hoodie-grad" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#3b0764"/>
-                <stop offset="1" stop-color="#0f172a"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-
-        <!-- 3. WATCH / ACCESORIO 3D BADGE (Top Left) -->
-        <div class="absolute top-2 -left-4 z-30 p-2.5 rounded-2xl bg-gradient-to-b from-slate-800/90 to-slate-900/90 border border-cyan-500/40 shadow-[0_10px_25px_rgba(6,182,212,0.3)] backdrop-blur-md animate-float-3">
-          <!-- 3D Smart Watch / Chrono SVG -->
-          <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="18" y="4" width="12" height="40" rx="3" fill="#334155"/>
-            <circle cx="24" cy="24" r="14" fill="#0f172a" stroke="#22d3ee" stroke-width="2"/>
-            <circle cx="24" cy="24" r="10" stroke="#0ea5e9" stroke-dasharray="2 2"/>
-            <path d="M24 18V24L28 26" stroke="#f43f5e" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-
-        <!-- 4. LUXURY HANDBAG / DIAMOND BADGE (Bottom Right) -->
-        <div class="absolute -bottom-1 -right-4 z-30 p-2.5 rounded-2xl bg-gradient-to-b from-slate-800/90 to-slate-900/90 border border-amber-500/40 shadow-[0_10px_25px_rgba(245,158,11,0.3)] backdrop-blur-md animate-float-4">
-          <!-- 3D Luxury Handbag SVG -->
-          <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 16C18 12.7 20.7 10 24 10C27.3 10 30 12.7 30 16" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
-            <path d="M10 16H38L42 40H6L10 16Z" fill="url(#bag-grad)" stroke="#f59e0b" stroke-width="1.5"/>
-            <circle cx="24" cy="24" r="3" fill="#fbbf24"/>
-            <defs>
-              <linearGradient id="bag-grad" x1="6" y1="16" x2="42" y2="40" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#451a03"/>
-                <stop offset="1" stop-color="#18181b"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-
       </div>
 
-      <!-- Store Name & Brand Title -->
-      <div class="space-y-1 mb-6">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider">
-          <Sparkles class="w-3.5 h-3.5" />
-          <span>Experiencia Oficial</span>
+      <!-- Boutique Name & Brand Banner -->
+      <div class="space-y-1.5 mb-7">
+        <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-500/15 via-fuchsia-500/15 to-purple-500/15 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider">
+          <Sparkles class="w-3.5 h-3.5 text-amber-400" />
+          <span>Haute Couture & Diseño Exclusivo</span>
         </div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
           {{ storeName || 'S&S BOUTIQUE' }}
         </h1>
+        <p class="text-xs text-slate-400 max-w-xs mx-auto font-normal">
+          Colecciones de autor, calzado y accesorios de lujo
+        </p>
       </div>
 
-      <!-- Technological Progress Bar & Percentage -->
-      <div class="w-full space-y-3 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-md">
+      <!-- Luxury Progress Bar Container -->
+      <div class="w-full bg-slate-900/80 p-5 rounded-3xl border border-slate-800/80 shadow-2xl backdrop-blur-xl space-y-3.5">
         
-        <!-- Percentage Counter & Dynamic Status -->
-        <div class="flex items-center justify-between text-xs font-mono">
+        <!-- Live Step Status & Percentage -->
+        <div class="flex items-center justify-between text-xs font-medium">
           <div class="flex items-center gap-2 text-slate-300 truncate max-w-[220px]">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span class="truncate font-sans font-medium text-[13px] text-slate-200">{{ currentStepText }}</span>
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping shrink-0"></span>
+            <span class="truncate font-sans font-semibold text-[12px] text-slate-200">
+              {{ currentStepText }}
+            </span>
           </div>
-          <span class="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-fuchsia-400">
+          <span class="text-base font-black tracking-tight bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 bg-clip-text text-transparent shrink-0">
             {{ Math.floor(progress) }}%
           </span>
         </div>
 
-        <!-- The Progress Track -->
-        <div class="relative h-2.5 w-full bg-slate-950 rounded-full overflow-hidden border border-slate-800">
-          <!-- Animated Progress Fill with Gradient -->
+        <!-- Sleek Gold & Fuchsia Progress Bar -->
+        <div class="relative h-2 w-full bg-slate-950 rounded-full overflow-hidden border border-slate-800">
           <div
-            class="h-full bg-gradient-to-r from-emerald-500 via-cyan-400 to-fuchsia-500 rounded-full transition-all duration-150 ease-out relative shadow-[0_0_15px_rgba(16,185,129,0.7)]"
+            class="h-full bg-gradient-to-r from-amber-400 via-fuchsia-500 to-purple-500 rounded-full transition-all duration-150 ease-out relative shadow-[0_0_15px_rgba(245,158,11,0.6)]"
             :style="{ width: `${progress}%` }"
           >
-            <!-- Laser Light Sweep Effect -->
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 to-transparent animate-laser-sweep"></div>
+            <!-- Gold Shimmer Sweeping Beam -->
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-transparent animate-shimmer"></div>
           </div>
         </div>
 
-        <!-- Tech Badges Footer -->
+        <!-- Trust & Security Badges -->
         <div class="flex items-center justify-between pt-1 text-[11px] text-slate-400 font-medium">
-          <span class="flex items-center gap-1 text-emerald-400">
-            <Zap class="w-3.5 h-3.5" />
-            Catálogo 100% Interactivo
+          <span class="flex items-center gap-1.5 text-amber-300">
+            <ShoppingBag class="w-3.5 h-3.5" />
+            Catálogo Oficial
           </span>
-          <span class="flex items-center gap-1 text-slate-400">
-            <ShieldCheck class="w-3.5 h-3.5 text-cyan-400" />
-            Conexión Segura
+          <span class="flex items-center gap-1.5 text-slate-300">
+            <ShieldCheck class="w-3.5 h-3.5 text-emerald-400" />
+            Atención Directa WhatsApp
           </span>
         </div>
       </div>
@@ -259,47 +213,48 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-@keyframes float1 {
-  0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-  50% { transform: translateY(-8px) rotate(4deg) scale(1.05); }
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(6deg); }
 }
-@keyframes float2 {
-  0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-  50% { transform: translateY(-10px) rotate(-6deg) scale(1.08); }
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(7px) rotate(-6deg); }
 }
-@keyframes float3 {
-  0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-  50% { transform: translateY(-7px) rotate(5deg) scale(1.04); }
+
+@keyframes pulseGentle {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.04); }
 }
-@keyframes float4 {
-  0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-  50% { transform: translateY(-9px) rotate(-4deg) scale(1.06); }
+
+@keyframes subtleGlow {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 35px rgba(245, 158, 11, 0.3); }
+  50% { transform: scale(1.02); box-shadow: 0 0 55px rgba(217, 70, 239, 0.4); }
 }
-@keyframes bounceGentle {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-}
-@keyframes laserSweep {
+
+@keyframes shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
 }
 
-.animate-float-1 {
-  animation: float1 4s ease-in-out infinite;
+.animate-float-slow {
+  animation: floatSlow 4s ease-in-out infinite;
 }
-.animate-float-2 {
-  animation: float2 4.5s ease-in-out infinite 0.5s;
+
+.animate-float-reverse {
+  animation: floatReverse 4.5s ease-in-out infinite 0.5s;
 }
-.animate-float-3 {
-  animation: float3 3.8s ease-in-out infinite 1s;
+
+.animate-pulse-gentle {
+  animation: pulseGentle 4s ease-in-out infinite;
 }
-.animate-float-4 {
-  animation: float4 4.2s ease-in-out infinite 1.5s;
+
+.animate-subtle-glow {
+  animation: subtleGlow 3s ease-in-out infinite;
 }
-.animate-bounce-gentle {
-  animation: bounceGentle 3s ease-in-out infinite;
-}
-.animate-laser-sweep {
-  animation: laserSweep 1.8s ease-in-out infinite;
+
+.animate-shimmer {
+  animation: shimmer 1.6s ease-in-out infinite;
 }
 </style>
