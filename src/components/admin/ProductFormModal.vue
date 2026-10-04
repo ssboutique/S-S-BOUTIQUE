@@ -16,7 +16,8 @@ import {
   Image as ImageIcon,
   Tag,
   Percent,
-  Sparkles
+  Sparkles,
+  Flame
 } from 'lucide-vue-next';
 
 const props = defineProps<{
@@ -647,9 +648,9 @@ async function handleSubmit() {
           </div>
         </div>
 
-        <!-- Visibility & Featured Toggles -->
+        <!-- Visibility & 3D Slider Promotions Toggle -->
         <div class="space-y-3 pt-4 border-t border-slate-100">
-          <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100">
+          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
             <div>
               <div class="text-xs font-bold text-slate-900">Disponible para la venta</div>
               <div class="text-[11px] text-slate-500">Muestra u oculta este producto inmediatamente en tu tienda pública</div>
@@ -657,19 +658,40 @@ async function handleSubmit() {
             <input
               v-model="form.is_available"
               type="checkbox"
-              class="w-5 h-5 text-brand-600 rounded border-slate-300 focus:ring-brand-500"
+              class="w-5 h-5 text-fuchsia-600 rounded border-slate-300 focus:ring-fuchsia-500 cursor-pointer"
             />
           </div>
 
-          <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100">
-            <div>
-              <div class="text-xs font-bold text-slate-900">Destacar en la tienda</div>
-              <div class="text-[11px] text-slate-500">Muestra una etiqueta dorada de destacado sobre la tarjeta del producto</div>
+          <!-- 3D Promotions Slider Selector Card -->
+          <div
+            class="flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer"
+            :class="form.is_featured ? 'bg-gradient-to-r from-fuchsia-50 via-pink-50 to-purple-50 border-fuchsia-300/80 shadow-sm' : 'bg-slate-50 border-slate-100 hover:bg-slate-100/70'"
+            @click="form.is_featured = !form.is_featured"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+                :class="form.is_featured ? 'bg-gradient-to-br from-fuchsia-600 to-purple-600 text-white shadow-glow' : 'bg-slate-200 text-slate-500'"
+              >
+                <Flame class="w-5 h-5" />
+              </div>
+              <div>
+                <div class="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                  <span>Exhibir en el Slider 3D de Promociones</span>
+                  <span v-if="form.is_featured" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-fuchsia-600 text-white">
+                    DESTACADO 3D
+                  </span>
+                </div>
+                <div class="text-[11px] text-slate-500">
+                  Aparecerá en la pasarela interactiva tridimensional superior de la tienda con efecto 3D
+                </div>
+              </div>
             </div>
             <input
               v-model="form.is_featured"
               type="checkbox"
-              class="w-5 h-5 text-brand-600 rounded border-slate-300 focus:ring-brand-500"
+              @click.stop
+              class="w-5 h-5 text-fuchsia-600 rounded border-slate-300 focus:ring-fuchsia-500 cursor-pointer"
             />
           </div>
         </div>

@@ -7,6 +7,7 @@ import type { Product } from '@/types/database';
 
 import StoreHeader from '@/components/store/StoreHeader.vue';
 import StoreHero from '@/components/store/StoreHero.vue';
+import Promotions3DSlider from '@/components/store/Promotions3DSlider.vue';
 import CategoryFilter from '@/components/store/CategoryFilter.vue';
 import ProductCard from '@/components/store/ProductCard.vue';
 import ProductModal from '@/components/store/ProductModal.vue';
@@ -91,6 +92,13 @@ onMounted(() => {
     <main v-else class="flex-1">
       <!-- Store Hero -->
       <StoreHero />
+
+      <!-- 3D Luxury Promotions & Offers Runway Slider -->
+      <Promotions3DSlider
+        v-if="!storeStore.searchQuery && !storeStore.selectedCategoryId"
+        :currency="storeStore.store?.currency"
+        @select="selectedProduct = $event"
+      />
 
       <!-- Categories Filter Bar -->
       <CategoryFilter v-if="storeStore.categories.length > 0" />
