@@ -214,13 +214,13 @@ onUnmounted(() => {
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-fuchsia-500/10 via-pink-500/10 to-purple-500/10 border border-fuchsia-200/60 text-fuchsia-700 text-xs font-black uppercase tracking-wider mb-2">
           <Flame class="w-3.5 h-3.5 text-fuchsia-600 animate-pulse" />
-          <span>Colección & Ofertas Destacadas</span>
+          <span>Colección & Ofertas Especiales</span>
         </div>
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-          Promociones Exclusivas 3D
+          Promociones & Más Vendidos
         </h2>
         <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl">
-          Descubre las piezas más exclusivas, lanzamientos y descuentos de pasarela seleccionados para ti.
+          Prendas exclusivas, lanzamientos y ofertas especiales de temporada seleccionadas para ti.
         </p>
       </div>
 

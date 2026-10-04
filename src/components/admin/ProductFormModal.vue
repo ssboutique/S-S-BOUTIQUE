@@ -662,7 +662,7 @@ async function handleSubmit() {
             />
           </div>
 
-          <!-- 3D Promotions Slider Selector Card -->
+          <!-- Promotions Slider Selector Card -->
           <div
             class="flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer"
             :class="form.is_featured ? 'bg-gradient-to-r from-fuchsia-50 via-pink-50 to-purple-50 border-fuchsia-300/80 shadow-sm' : 'bg-slate-50 border-slate-100 hover:bg-slate-100/70'"
@@ -677,13 +677,13 @@ async function handleSubmit() {
               </div>
               <div>
                 <div class="text-xs font-black text-slate-900 flex items-center gap-1.5">
-                  <span>Exhibir en el Slider 3D de Promociones</span>
+                  <span>Exhibir en el Slider Principal de Promociones</span>
                   <span v-if="form.is_featured" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-fuchsia-600 text-white">
-                    DESTACADO 3D
+                    DESTACADO EN SLIDER
                   </span>
                 </div>
                 <div class="text-[11px] text-slate-500">
-                  Aparecerá en la pasarela interactiva tridimensional superior de la tienda con efecto 3D
+                  Aparecerá en la pasarela destacada superior de la tienda para máxima atracción visual
                 </div>
               </div>
             </div>
