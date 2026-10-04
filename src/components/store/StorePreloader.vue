@@ -18,13 +18,14 @@ const isHidden = ref(false);
 const isClosing = ref(false);
 
 let progressInterval: any = null;
+let watchdogTimeout: any = null;
 
 const stepMessages = [
   { min: 0, max: 25, text: 'Iniciando experiencia de alta moda...' },
-  { min: 25, max: 55, text: 'Sincronizando colecciones de autor y pasarela...' },
-  { min: 55, max: 80, text: 'Preparando calzado, marroquinería y vestidos...' },
-  { min: 80, max: 99, text: 'Alistando atención VIP y pedidos exclusivos...' },
-  { min: 99, max: 100, text: '¡Bienvenido a una experiencia única!' },
+  { min: 25, max: 55, text: 'Sincronizando colecciones de autor...' },
+  { min: 55, max: 80, text: 'Preparando calzado y marroquinería...' },
+  { min: 80, max: 99, text: 'Alistando atención VIP...' },
+  { min: 99, max: 100, text: '¡Bienvenido a S&S BOUTIQUE!' },
 ];
 
 function updateStepMessage(val: number) {
@@ -34,40 +35,50 @@ function updateStepMessage(val: number) {
   }
 }
 
+function finishPreloader() {
+  if (isHidden.value) return;
+  if (progressInterval) clearInterval(progressInterval);
+  if (watchdogTimeout) clearTimeout(watchdogTimeout);
+  progress.value = 100;
+  currentStepText.value = '¡Bienvenido!';
+
+  setTimeout(() => {
+    isClosing.value = true;
+    setTimeout(() => {
+      isHidden.value = true;
+      emit('finished');
+    }, 450);
+  }, 250);
+}
+
 function startSimulatedProgress() {
+  // Safety watchdog: ensure preloader never hangs more than 1.8 seconds
+  watchdogTimeout = setTimeout(() => {
+    finishPreloader();
+  }, 1800);
+
   progressInterval = setInterval(() => {
     if (!props.isLoaded) {
-      if (progress.value < 88) {
-        const increment = Math.max(1, Math.floor((90 - progress.value) / 6));
-        progress.value = Math.min(88, progress.value + increment);
+      if (progress.value < 85) {
+        progress.value = Math.min(85, progress.value + 8);
         updateStepMessage(progress.value);
       }
     } else {
-      // Store loaded: rush smoothly to 100%
       if (progress.value < 100) {
-        progress.value = Math.min(100, progress.value + 14);
+        progress.value = Math.min(100, progress.value + 20);
         updateStepMessage(progress.value);
       } else {
-        clearInterval(progressInterval);
-        currentStepText.value = '¡Experiencia lista!';
-
-        setTimeout(() => {
-          isClosing.value = true;
-          setTimeout(() => {
-            isHidden.value = true;
-            emit('finished');
-          }, 650);
-        }, 350);
+        finishPreloader();
       }
     }
-  }, 60);
+  }, 40);
 }
 
 watch(
   () => props.isLoaded,
   (loaded) => {
-    if (loaded && progress.value < 90) {
-      progress.value = 90;
+    if (loaded) {
+      progress.value = Math.max(progress.value, 90);
       updateStepMessage(90);
     }
   }
@@ -79,6 +90,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (progressInterval) clearInterval(progressInterval);
+  if (watchdogTimeout) clearTimeout(watchdogTimeout);
 });
 </script>
 

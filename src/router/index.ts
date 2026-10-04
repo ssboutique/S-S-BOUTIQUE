@@ -10,11 +10,12 @@ const router = createRouter({
     return { top: 0, behavior: 'smooth' };
   },
   routes: [
-    // Landing Page / Platform Gateway
+    // S&S BOUTIQUE Official Homepage (Root Domain)
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/public/LandingView.vue'),
+      component: () => import('../views/store/StorefrontView.vue'),
+      props: { slug: 'ss-boutique' },
     },
 
     // Public Storefront (e.g. /tienda/ss-boutique)
@@ -25,7 +26,13 @@ const router = createRouter({
       props: true,
     },
 
-    // Dedicated About Us Page (e.g. /tienda/ss-boutique/nosotros)
+    // Dedicated About Us Page (e.g. /tienda/ss-boutique/nosotros or /nosotros)
+    {
+      path: '/nosotros',
+      name: 'root-about',
+      component: () => import('../views/store/StoreAboutView.vue'),
+      props: { slug: 'ss-boutique' },
+    },
     {
       path: '/tienda/:slug/nosotros',
       name: 'store-about',
