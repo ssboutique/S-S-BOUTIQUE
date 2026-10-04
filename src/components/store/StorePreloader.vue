@@ -42,50 +42,52 @@ function finishPreloader() {
   progress.value = 100;
   currentStepText.value = '¡Bienvenido!';
 
+  isClosing.value = true;
   setTimeout(() => {
-    isClosing.value = true;
-    setTimeout(() => {
-      isHidden.value = true;
-      emit('finished');
-    }, 450);
-  }, 250);
+    isHidden.value = true;
+    emit('finished');
+  }, 200);
 }
 
 function startSimulatedProgress() {
-  // Safety watchdog: ensure preloader never hangs more than 1.8 seconds
+  if (props.isLoaded) {
+    finishPreloader();
+    return;
+  }
+
+  // Safety watchdog: ensure preloader never delays more than 500ms
   watchdogTimeout = setTimeout(() => {
     finishPreloader();
-  }, 1800);
+  }, 500);
 
   progressInterval = setInterval(() => {
     if (!props.isLoaded) {
       if (progress.value < 85) {
-        progress.value = Math.min(85, progress.value + 8);
+        progress.value = Math.min(85, progress.value + 15);
         updateStepMessage(progress.value);
       }
     } else {
-      if (progress.value < 100) {
-        progress.value = Math.min(100, progress.value + 20);
-        updateStepMessage(progress.value);
-      } else {
-        finishPreloader();
-      }
+      finishPreloader();
     }
-  }, 40);
+  }, 30);
 }
 
 watch(
   () => props.isLoaded,
   (loaded) => {
     if (loaded) {
-      progress.value = Math.max(progress.value, 90);
-      updateStepMessage(90);
+      finishPreloader();
     }
-  }
+  },
+  { immediate: true }
 );
 
 onMounted(() => {
-  startSimulatedProgress();
+  if (props.isLoaded) {
+    finishPreloader();
+  } else {
+    startSimulatedProgress();
+  }
 });
 
 onUnmounted(() => {

@@ -110,21 +110,17 @@ function openWhatsApp() {
         </div>
       </div>
 
-      <!-- Bottom Bar & Developer Credits (Discreet Owner Access) -->
+      <!-- Bottom Bar & Developer Credits (Discreet Owner Access via text) -->
       <div class="mt-12 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
         <div>
           © {{ new Date().getFullYear() }} {{ storeStore.store?.name }}. Todos los derechos reservados.
         </div>
-        <div class="flex items-center gap-3 font-medium text-slate-400">
-          <span>{{ developerCredit }}</span>
-          <!-- Discreet Admin Lock icon for store owner -->
+        <div class="font-medium text-slate-500 hover:text-slate-400 transition-colors">
           <router-link
             to="/admin"
-            class="text-slate-600 hover:text-slate-400 transition-colors p-1"
-            title="Gestión interna"
-            aria-label="Gestión interna"
+            class="text-slate-500 hover:text-slate-400 transition-colors"
           >
-            🔒
+            {{ developerCredit }}
           </router-link>
         </div>
       </div>
