@@ -67,7 +67,44 @@ export const useAdminStore = defineStore('admin', () => {
     isLoading.value = true;
     try {
       const ownerId = authStore.profile?.id || '00000000-0000-0000-0000-000000000001';
-      const stores = await storeService.getMyStores(ownerId);
+      let stores = await storeService.getMyStores(ownerId);
+      
+      // Fallback: If no store found for this specific owner, try fetching the store by slug
+      if (stores.length === 0) {
+        const defaultStore = await storeService.getStoreBySlug('ss-boutique');
+        if (defaultStore) {
+          stores = [defaultStore];
+        } else {
+          // Try to fetch any store available or create one
+          const allStores = await storeService.getAllStores().catch(() => []);
+          if (allStores.length > 0) {
+            stores = [allStores[0]];
+          } else if (authStore.profile?.id) {
+            try {
+              const newStore = await storeService.createStore({
+                owner_id: authStore.profile.id,
+                name: 'S&S BOUTIQUE',
+                slug: 'ss-boutique',
+                description: 'Colecciones exclusivas de alta moda, calzado de autor y accesorios de diseño.',
+                whatsapp_number: '573001234567',
+                currency: 'COP',
+                is_active: true,
+                theme_settings: {
+                  primary_color: '#0f172a',
+                  secondary_color: '#1e293b',
+                  card_style: 'rounded-2xl',
+                  header_style: 'modern',
+                  font_family: 'Plus Jakarta Sans',
+                },
+              });
+              stores = [newStore];
+            } catch (createErr) {
+              console.warn('Could not auto-create store:', createErr);
+            }
+          }
+        }
+      }
+
       myStores.value = stores;
 
       if (stores.length > 0) {
@@ -160,7 +197,10 @@ export const useAdminStore = defineStore('admin', () => {
     imageUrls: string[],
     variantsList: Array<{ variant_type: string; variant_value: string; price_modifier?: number }>
   ) {
-    if (!currentStore.value) return;
+    if (!currentStore.value) {
+      setFeedback('error', 'No se ha detectado una tienda activa para asociar el producto. Recarga la página.');
+      return false;
+    }
     isSaving.value = true;
     try {
       if (productData.id) {

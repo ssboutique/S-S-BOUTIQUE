@@ -5,6 +5,7 @@
 
 -- 1. EXTENSIONS
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- 2. ENUMS & HELPERS
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -17,11 +18,11 @@ $$ LANGUAGE plpgsql;
 
 -- 3. PROFILES TABLE (Linked to auth.users)
 CREATE TABLE IF NOT EXISTS public.profiles (
-    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY,
     email TEXT NOT NULL,
     full_name TEXT,
     avatar_url TEXT,
-    role TEXT NOT NULL DEFAULT 'store_owner' CHECK (role IN ('super_admin', 'store_owner', 'customer')),
+    role TEXT NOT NULL DEFAULT 'store_owner',
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -55,7 +56,7 @@ CREATE TRIGGER on_auth_user_created
 -- 4. STORES TABLE
 CREATE TABLE IF NOT EXISTS public.stores (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    owner_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    owner_id UUID,
     name TEXT NOT NULL,
     slug TEXT NOT NULL UNIQUE,
     description TEXT,
