@@ -159,10 +159,16 @@ async function handleDelete(prod: Product) {
                 </div>
               </td>
               <td class="py-3.5 px-6">
-                <div class="font-bold text-slate-900">
-                  {{ formatCurrency(prod.price, adminStore.currentStore?.currency) }}
+                <div class="font-bold text-slate-900 flex items-center gap-1.5">
+                  <span>{{ formatCurrency(prod.price, adminStore.currentStore?.currency) }}</span>
+                  <span
+                    v-if="prod.original_price && prod.original_price > prod.price"
+                    class="text-[10px] font-black text-rose-700 bg-rose-50 border border-rose-200 px-1.5 py-0.5 rounded-md"
+                  >
+                    -{{ Math.round(((prod.original_price - prod.price) / prod.original_price) * 100) }}%
+                  </span>
                 </div>
-                <div v-if="prod.original_price" class="text-xs text-slate-400 line-through">
+                <div v-if="prod.original_price && prod.original_price > prod.price" class="text-xs text-slate-400 line-through">
                   {{ formatCurrency(prod.original_price, adminStore.currentStore?.currency) }}
                 </div>
               </td>

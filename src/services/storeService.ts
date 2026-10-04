@@ -119,10 +119,16 @@ export const storeService = {
    * Creates a new store
    */
   async createStore(storeData: Omit<Store, 'id' | 'created_at' | 'updated_at'>): Promise<Store> {
+    const storeId = (storeData as any).id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined);
+    const payload: any = { ...storeData };
+    if (storeId) {
+      payload.id = storeId;
+    }
+
     if (isSupabaseConfigured && supabase) {
       const { data, error } = await supabase
         .from('stores')
-        .insert([storeData])
+        .insert([payload])
         .select()
         .single();
 

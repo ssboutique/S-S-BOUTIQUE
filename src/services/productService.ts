@@ -176,7 +176,11 @@ export const productService = {
 
   async createCategory(cat: Omit<Category, 'id' | 'created_at' | 'updated_at'>): Promise<Category> {
     const finalSlug = await getUniqueCategorySlug(cat.store_id, cat.slug || cat.name);
-    const payload = { ...cat, slug: finalSlug };
+    const catId = (cat as any).id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined);
+    const payload: any = { ...cat, slug: finalSlug };
+    if (catId) {
+      payload.id = catId;
+    }
 
     if (isSupabaseConfigured && supabase) {
       let { data, error } = await supabase
@@ -187,9 +191,10 @@ export const productService = {
 
       if (error?.code === '23505') {
         const fallbackSlug = `${finalSlug}-${Math.random().toString(36).substring(2, 6)}`;
+        const retryPayload = { ...payload, slug: fallbackSlug };
         const retry = await supabase
           .from('categories')
-          .insert([{ ...payload, slug: fallbackSlug }])
+          .insert([retryPayload])
           .select()
           .single();
         data = retry.data;
@@ -352,7 +357,11 @@ export const productService = {
       productData.store_id,
       productData.slug || productData.name
     );
-    const payload = { ...productData, slug: finalSlug };
+    const generatedId = (productData as any).id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined);
+    const payload: any = { ...productData, slug: finalSlug };
+    if (generatedId) {
+      payload.id = generatedId;
+    }
 
     if (isSupabaseConfigured && supabase) {
       let { data: newProd, error: prodErr } = await supabase
@@ -364,9 +373,10 @@ export const productService = {
       // Retry automatically if unique slug collision occurs
       if (prodErr?.code === '23505') {
         const fallbackSlug = `${finalSlug}-${Math.random().toString(36).substring(2, 6)}`;
+        const retryPayload = { ...payload, slug: fallbackSlug };
         const retry = await supabase
           .from('products')
-          .insert([{ ...payload, slug: fallbackSlug }])
+          .insert([retryPayload])
           .select()
           .single();
         newProd = retry.data;
@@ -387,6 +397,7 @@ export const productService = {
       // Insert images
       if (imageUrls.length > 0) {
         const imageRows = imageUrls.map((url, idx) => ({
+          id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined,
           product_id: newProd.id,
           image_url: url,
           is_primary: idx === 0,
@@ -401,6 +412,7 @@ export const productService = {
       // Insert variants
       if (variantsList.length > 0) {
         const variantRows = variantsList.map((v, idx) => ({
+          id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined,
           product_id: newProd.id,
           variant_type: v.variant_type,
           variant_value: v.variant_value,
@@ -570,14 +582,19 @@ export const productService = {
   // ==========================================
   async recordOrder(orderData: Omit<Order, 'id' | 'created_at'>, items: OrderItem[]): Promise<Order> {
     if (isSupabaseConfigured && supabase) {
+      const orderId = (orderData as any).id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined);
+      const payload: any = { ...orderData };
+      if (orderId) payload.id = orderId;
+
       const { data: newOrder, error } = await supabase
         .from('orders')
-        .insert([orderData])
+        .insert([payload])
         .select()
         .single();
 
       if (!error && newOrder) {
         const itemRows = items.map((it) => ({
+          id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined,
           order_id: newOrder.id,
           product_id: it.product_id,
           product_name: it.product_name,
