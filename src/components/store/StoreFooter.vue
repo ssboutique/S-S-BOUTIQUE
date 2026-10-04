@@ -64,14 +64,6 @@ function openWhatsApp() {
               <MessageCircle class="w-4 h-4 text-brand-400 shrink-0" />
               <span>WhatsApp: +{{ storeStore.store.whatsapp_number }}</span>
             </li>
-            <li class="pt-2 border-t border-slate-800">
-              <router-link
-                to="/admin"
-                class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
-              >
-                <span>⚙️ Acceso Administrador</span>
-              </router-link>
-            </li>
           </ul>
         </div>
 
@@ -118,13 +110,22 @@ function openWhatsApp() {
         </div>
       </div>
 
-      <!-- Bottom Bar & Developer Credits (Centralized & Protected) -->
+      <!-- Bottom Bar & Developer Credits (Discreet Owner Access) -->
       <div class="mt-12 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
         <div>
           © {{ new Date().getFullYear() }} {{ storeStore.store?.name }}. Todos los derechos reservados.
         </div>
-        <div class="flex items-center gap-1.5 font-medium text-slate-400">
+        <div class="flex items-center gap-3 font-medium text-slate-400">
           <span>{{ developerCredit }}</span>
+          <!-- Discreet Admin Lock icon for store owner -->
+          <router-link
+            to="/admin"
+            class="text-slate-600 hover:text-slate-400 transition-colors p-1"
+            title="Gestión interna"
+            aria-label="Gestión interna"
+          >
+            🔒
+          </router-link>
         </div>
       </div>
     </div>

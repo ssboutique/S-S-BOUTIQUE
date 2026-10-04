@@ -126,14 +126,6 @@ const router = createRouter({
       name: 'store-about-direct',
       component: () => import('../views/store/StoreAboutView.vue'),
       props: true,
-      beforeEnter: (to, _from, next) => {
-        const reserved = ['admin', 'login', 'register', 'superadmin', 'tienda', 'api'];
-        if (reserved.includes(to.params.slug as string)) {
-          next({ name: 'home' });
-        } else {
-          next();
-        }
-      },
     },
 
     // Direct slug fallback (e.g. /ss-boutique)
@@ -142,14 +134,6 @@ const router = createRouter({
       name: 'storefront-direct',
       component: () => import('../views/store/StorefrontView.vue'),
       props: true,
-      beforeEnter: (to, _from, next) => {
-        const reserved = ['admin', 'superadmin', 'login', 'register', 'tienda', 'api'];
-        if (reserved.includes(to.params.slug as string)) {
-          next('/');
-        } else {
-          next();
-        }
-      },
     },
 
     // 404 Catch-All
