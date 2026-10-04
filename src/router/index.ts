@@ -10,15 +10,17 @@ const router = createRouter({
     return { top: 0, behavior: 'smooth' };
   },
   routes: [
-    // S&S BOUTIQUE Official Homepage (Root Domain)
+    // Primary Domain root -> Direct to Admin Panel
     {
       path: '/',
-      name: 'home',
-      component: () => import('../views/store/StorefrontView.vue'),
-      props: { slug: 'ss-boutique' },
+      redirect: '/admin',
     },
 
     // Public Storefront (e.g. /tienda/ss-boutique)
+    {
+      path: '/tienda',
+      redirect: '/tienda/ss-boutique',
+    },
     {
       path: '/tienda/:slug',
       name: 'storefront',
@@ -29,9 +31,7 @@ const router = createRouter({
     // Dedicated About Us Page (e.g. /tienda/ss-boutique/nosotros or /nosotros)
     {
       path: '/nosotros',
-      name: 'root-about',
-      component: () => import('../views/store/StoreAboutView.vue'),
-      props: { slug: 'ss-boutique' },
+      redirect: '/tienda/ss-boutique/nosotros',
     },
     {
       path: '/tienda/:slug/nosotros',

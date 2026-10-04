@@ -14,7 +14,8 @@ function openWhatsApp() {
 </script>
 
 <template>
-  <section class="relative overflow-hidden bg-slate-900 text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 my-4 shadow-xl">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-4">
+    <section class="relative overflow-hidden bg-slate-900 text-white rounded-3xl shadow-xl">
     <!-- Background Banner / Overlay -->
     <div v-if="storeStore.store?.banner_url" class="absolute inset-0">
       <img
@@ -75,5 +76,6 @@ function openWhatsApp() {
         </button>
       </div>
     </div>
-  </section>
+    </section>
+  </div>
 </template>
