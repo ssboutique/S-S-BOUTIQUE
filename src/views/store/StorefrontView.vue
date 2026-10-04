@@ -8,6 +8,7 @@ import type { Product } from '@/types/database';
 import StoreHeader from '@/components/store/StoreHeader.vue';
 import StoreHero from '@/components/store/StoreHero.vue';
 import Promotions3DSlider from '@/components/store/Promotions3DSlider.vue';
+import StoreAboutSection from '@/components/store/StoreAboutSection.vue';
 import CategoryFilter from '@/components/store/CategoryFilter.vue';
 import ProductCard from '@/components/store/ProductCard.vue';
 import ProductModal from '@/components/store/ProductModal.vue';
@@ -165,6 +166,9 @@ onMounted(() => {
           />
         </div>
       </section>
+
+      <!-- Quiénes Somos / About Us & Store Gallery Slider Section -->
+      <StoreAboutSection v-if="!storeStore.searchQuery && !storeStore.selectedCategoryId" />
     </main>
 
     <!-- Footer -->

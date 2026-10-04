@@ -105,6 +105,14 @@ function openWhatsApp() {
             <Search class="w-5 h-5" />
           </button>
 
+          <!-- Quiénes Somos link -->
+          <a
+            href="#quienes-somos"
+            class="hidden lg:inline-flex items-center text-xs font-bold text-slate-600 hover:text-fuchsia-600 px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors"
+          >
+            Quiénes Somos
+          </a>
+
           <!-- WhatsApp Direct Contact Button -->
           <button
             v-if="storeStore.store?.whatsapp_number"

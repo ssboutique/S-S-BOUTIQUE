@@ -3,7 +3,26 @@ import { reactive, watch, ref, computed } from 'vue';
 import { useAdminStore } from '@/stores/admin';
 import { slugify } from '@/utils/slug';
 import ShareStoreBanner from '@/components/admin/ShareStoreBanner.vue';
-import { Store, Check, MapPin, Clock, Globe, DollarSign, ShieldCheck, HelpCircle, ExternalLink, Link2, Copy, Image as ImageIcon, Sparkles } from 'lucide-vue-next';
+import {
+  Store,
+  Check,
+  MapPin,
+  Clock,
+  Globe,
+  DollarSign,
+  ShieldCheck,
+  HelpCircle,
+  ExternalLink,
+  Link2,
+  Copy,
+  Image as ImageIcon,
+  Sparkles,
+  Crown,
+  Camera,
+  Trash2,
+  Upload,
+  Plus
+} from 'lucide-vue-next';
 import { storageService } from '@/services/storageService';
 
 const adminStore = useAdminStore();
@@ -12,6 +31,7 @@ const copiedDns = ref<string | null>(null);
 
 const isUploadingLogo = ref(false);
 const isUploadingBanner = ref(false);
+const isUploadingAboutPhotos = ref(false);
 
 const form = reactive({
   name: '',
@@ -29,6 +49,14 @@ const form = reactive({
   logo_url: '',
   banner_url: '',
   is_active: true,
+});
+
+const aboutForm = reactive({
+  enabled: true,
+  title: '',
+  subtitle: '',
+  story: '',
+  photos: [] as string[],
 });
 
 watch(
@@ -50,6 +78,13 @@ watch(
       form.logo_url = store.logo_url || '';
       form.banner_url = store.banner_url || '';
       form.is_active = store.is_active;
+
+      const currentAbout = store.theme_settings?.about;
+      aboutForm.enabled = currentAbout?.enabled ?? true;
+      aboutForm.title = currentAbout?.title || '';
+      aboutForm.subtitle = currentAbout?.subtitle || '';
+      aboutForm.story = currentAbout?.story || '';
+      aboutForm.photos = currentAbout?.photos ? [...currentAbout.photos] : [];
     }
   },
   { immediate: true }
@@ -114,6 +149,28 @@ async function handleBannerUpload(e: Event) {
   }
 }
 
+async function handleAboutPhotoUpload(e: Event) {
+  const input = e.target as HTMLInputElement;
+  if (!input.files || input.files.length === 0) return;
+  isUploadingAboutPhotos.value = true;
+  try {
+    for (let i = 0; i < input.files.length; i++) {
+      const url = await storageService.uploadStoreAsset(input.files[i], 'about');
+      aboutForm.photos.push(url);
+    }
+    adminStore.setFeedback('success', '¡Fotos agregadas a la galería!');
+  } catch (err: any) {
+    adminStore.setFeedback('error', 'Error al subir fotos para la galería');
+  } finally {
+    isUploadingAboutPhotos.value = false;
+    input.value = '';
+  }
+}
+
+function removeAboutPhoto(index: number) {
+  aboutForm.photos.splice(index, 1);
+}
+
 async function handleSave() {
   const cleanDomain = form.custom_domain.trim()
     ? form.custom_domain.trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '').toLowerCase()
@@ -144,6 +201,13 @@ async function handleSave() {
         font_family: 'Plus Jakarta Sans',
       }),
       custom_domain: cleanDomain,
+      about: {
+        enabled: aboutForm.enabled,
+        title: aboutForm.title.trim() || undefined,
+        subtitle: aboutForm.subtitle.trim() || undefined,
+        story: aboutForm.story.trim() || undefined,
+        photos: aboutForm.photos,
+      },
     },
   });
 }
@@ -454,6 +518,137 @@ async function handleSave() {
             placeholder="+57 601 234 5678"
             class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-white outline-none"
           />
+        </div>
+      </div>
+    </div>
+
+    <!-- About Us & Boutique Photo Gallery Section -->
+    <div class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft space-y-6 transition-colors">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500/20 via-fuchsia-500/20 to-purple-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
+            <Crown class="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">
+              Quiénes Somos & Galería de Fotos del Local
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+              Cuenta la historia de tu marca, a qué se dedican y sube fotos de tu tienda o atelier
+            </p>
+          </div>
+        </div>
+
+        <label class="flex items-center gap-2 cursor-pointer self-start sm:self-auto">
+          <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Mostrar en tienda:</span>
+          <input
+            v-model="aboutForm.enabled"
+            type="checkbox"
+            class="w-5 h-5 text-fuchsia-600 rounded border-slate-300 focus:ring-fuchsia-500 cursor-pointer"
+          />
+        </label>
+      </div>
+
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Título de la Sección (Opcional)
+            </label>
+            <input
+              v-model="aboutForm.title"
+              type="text"
+              placeholder="Ej: Quiénes Somos | Nuestra Esencia & Atelier"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-white outline-none"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Lema / Subtítulo Corto
+            </label>
+            <input
+              v-model="aboutForm.subtitle"
+              type="text"
+              placeholder="Ej: Alta confección, calzado de autor y asesoría personalizada"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-white outline-none"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            Historia de la Marca, a qué se dedican & Experiencia del Cliente
+          </label>
+          <textarea
+            v-model="aboutForm.story"
+            rows="4"
+            placeholder="Describe la pasión de tu tienda, la confección de tus prendas, materiales utilizados, atención personalizada o por qué tus clientes eligen tu marca..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-white outline-none resize-none leading-relaxed"
+          ></textarea>
+        </div>
+
+        <!-- Boutique Photos Gallery Upload -->
+        <div class="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <Camera class="w-4 h-4 text-fuchsia-600 dark:text-fuchsia-400" />
+                <span>Fotos del Local Físico, Atelier o Equipo ({{ aboutForm.photos.length }})</span>
+              </h4>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+                Estas imágenes se mostrarán en un slider automático elegante en la sección Quiénes Somos.
+              </p>
+            </div>
+
+            <!-- Upload Button -->
+            <label class="cursor-pointer inline-flex items-center gap-2 px-3.5 py-2 bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 text-white dark:text-slate-900 rounded-xl text-xs font-bold shadow-sm transition-all active:scale-95">
+              <Upload class="w-3.5 h-3.5" />
+              <span>{{ isUploadingAboutPhotos ? 'Subiendo fotos...' : '+ Subir Fotos' }}</span>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                @change="handleAboutPhotoUpload"
+                class="hidden"
+                :disabled="isUploadingAboutPhotos"
+              />
+            </label>
+          </div>
+
+          <!-- Photo Grid & Previews -->
+          <div v-if="aboutForm.photos.length > 0" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div
+              v-for="(photoUrl, idx) in aboutForm.photos"
+              :key="idx"
+              class="relative aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 group shadow-sm bg-slate-100 dark:bg-slate-800"
+            >
+              <img :src="photoUrl" class="w-full h-full object-cover" />
+              
+              <!-- Hover Overlay with Delete -->
+              <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                <button
+                  type="button"
+                  @click="removeAboutPhoto(idx)"
+                  class="p-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white shadow-sm"
+                  title="Eliminar foto"
+                >
+                  <Trash2 class="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-else
+            class="p-6 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-center bg-slate-50 dark:bg-slate-850"
+          >
+            <Camera class="w-8 h-8 text-slate-400 mx-auto mb-2" />
+            <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">Aún no has subido fotos de tu tienda o taller</p>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              (Si no subes fotos personalizadas, se mostrará una galería de atelier boutique por defecto).
+            </p>
+          </div>
         </div>
       </div>
     </div>

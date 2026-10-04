@@ -10,6 +10,16 @@ export interface Profile {
   updated_at: string;
 }
 
+export interface StoreAboutSettings {
+  enabled: boolean;
+  title?: string;
+  subtitle?: string;
+  story?: string;
+  mission?: string;
+  photos?: string[];
+  founded_year?: string;
+}
+
 export interface StoreThemeSettings {
   primary_color: string;
   secondary_color: string;
@@ -17,6 +27,7 @@ export interface StoreThemeSettings {
   header_style: 'modern' | 'minimal' | 'banner';
   font_family: string;
   custom_domain?: string | null;
+  about?: StoreAboutSettings;
 }
 
 export interface Store {
