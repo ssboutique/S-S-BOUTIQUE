@@ -64,6 +64,14 @@ function openWhatsApp() {
               <MessageCircle class="w-4 h-4 text-brand-400 shrink-0" />
               <span>WhatsApp: +{{ storeStore.store.whatsapp_number }}</span>
             </li>
+            <li class="pt-2 border-t border-slate-800">
+              <router-link
+                to="/admin"
+                class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
+              >
+                <span>⚙️ Acceso Administrador</span>
+              </router-link>
+            </li>
           </ul>
         </div>
 
