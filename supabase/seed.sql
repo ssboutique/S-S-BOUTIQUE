@@ -115,7 +115,31 @@ BEGIN
         true,
         'https://instagram.com/ssboutique',
         'Lunes a Sábado: 10:00 AM - 7:00 PM',
-        '{"primary_color": "#0f172a", "secondary_color": "#1e293b", "card_style": "rounded-2xl", "header_style": "modern", "font_family": "Plus Jakarta Sans"}'::jsonb
+        '{
+            "primary_color": "#0f172a",
+            "secondary_color": "#1e293b",
+            "card_style": "rounded-2xl",
+            "header_style": "modern",
+            "font_family": "Plus Jakarta Sans",
+            "about": {
+                "title": "Nuestra Esencia & Legado",
+                "subtitle": "Alta costura, calzado de autor y accesorios de diseño exclusivos.",
+                "story": "En S&S BOUTIQUE creemos que el verdadero lujo radica en la distinción, los acabados impecables y la autenticidad. Nacimos con la visión de acercar piezas exclusivas, materiales de la más alta calidad y un servicio totalmente personalizado.",
+                "founded_year": "2024",
+                "tagline": "Donde la exclusividad y el buen gusto se convierten en tu sello personal.",
+                "gallery_photos": [
+                    { "id": "1", "url": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1000&h=700&fit=crop", "caption": "Showroom Principal" },
+                    { "id": "2", "url": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1000&h=700&fit=crop", "caption": "Colección Alta Costura" },
+                    { "id": "3", "url": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=1000&h=700&fit=crop", "caption": "Calzado de Autor" },
+                    { "id": "4", "url": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1000&h=700&fit=crop", "caption": "Bolsos & Marroquinería" }
+                ],
+                "pillars": [
+                    { "title": "Exclusividad & Calidad", "description": "Seleccionamos minuciosamente cada prenda y calzado con materiales premium y confección de alto nivel." },
+                    { "title": "Atención VIP Personalizada", "description": "Asesoría de imagen individual y soporte continuo vía WhatsApp para cada uno de tus pedidos." },
+                    { "title": "Garantía & Envíos Seguros", "description": "Empaque de lujo y envíos asegurados a todo el país con número de guía en tiempo real." }
+                ]
+            }
+        }'::jsonb
     ) ON CONFLICT (slug) DO UPDATE SET
         name = EXCLUDED.name,
         description = EXCLUDED.description,
