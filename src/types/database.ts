@@ -36,6 +36,8 @@ export interface StoreThemeSettings {
   custom_domain?: string | null;
   about?: StoreAboutSettings;
   brands?: StoreBrandItem[];
+  brand_marquee_direction?: 'left' | 'right';
+  brand_marquee_speed?: 'slow' | 'normal' | 'fast';
   ticker_text?: string;
   show_live_social_proof?: boolean;
 }

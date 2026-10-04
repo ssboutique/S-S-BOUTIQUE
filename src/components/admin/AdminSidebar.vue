@@ -12,6 +12,7 @@ import {
   Store,
   MessageCircle,
   Sparkles,
+  Crown,
   ExternalLink,
   Shield,
   ChevronLeft,
@@ -46,6 +47,7 @@ const navSections = [
   {
     title: 'Configuración Tienda',
     items: [
+      { name: 'Cintas & Marcas', path: '/admin/brands', icon: Crown },
       { name: 'Quiénes Somos & Fotos', path: '/admin/about', icon: Sparkles },
       { name: 'Apariencia & Diseño', path: '/admin/appearance', icon: Palette },
       { name: 'Datos del Negocio', path: '/admin/store-info', icon: Store },

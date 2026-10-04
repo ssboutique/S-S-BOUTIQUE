@@ -31,10 +31,20 @@ const brands = computed(() => {
   }
   return defaultBrands;
 });
+const direction = computed(() => {
+  return storeStore.store?.theme_settings?.brand_marquee_direction || 'left';
+});
+
+const speedClass = computed(() => {
+  const speed = storeStore.store?.theme_settings?.brand_marquee_speed || 'normal';
+  if (speed === 'slow') return '38s';
+  if (speed === 'fast') return '16s';
+  return '25s';
+});
 </script>
 
 <template>
-  <section class="py-8 sm:py-12 bg-slate-900/60 border-y border-slate-800/80 relative overflow-hidden backdrop-blur-sm" aria-label="Marcas y Diseñadores Exclusivos">
+  <section class="py-8 sm:py-12 bg-slate-900/60 border-y border-slate-800/80 relative overflow-hidden backdrop-blur-sm select-none" aria-label="Marcas y Diseñadores Exclusivos">
     <!-- Ambient backdrops -->
     <div class="absolute -left-20 top-1/2 -translate-y-1/2 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -right-20 top-1/2 -translate-y-1/2 w-64 h-64 bg-rose-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -52,7 +62,7 @@ const brands = computed(() => {
       </p>
     </div>
 
-    <!-- Endless Brand Tape Ribbon -->
+    <!-- Endless Brand Tape Ribbon with Direction Support -->
     <div class="relative overflow-hidden group">
       <!-- Gradient Fade Edges -->
       <div class="absolute left-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none"></div>
@@ -60,7 +70,11 @@ const brands = computed(() => {
 
       <div class="flex whitespace-nowrap overflow-hidden">
         <!-- Loop 1 -->
-        <div class="inline-flex items-center gap-4 sm:gap-6 animate-brands-marquee shrink-0 group-hover:[animation-play-state:paused]">
+        <div
+          class="inline-flex items-center gap-4 sm:gap-6 shrink-0 group-hover:[animation-play-state:paused]"
+          :class="direction === 'right' ? 'animate-marquee-right' : 'animate-marquee-left'"
+          :style="{ animationDuration: speedClass }"
+        >
           <div
             v-for="brand in brands"
             :key="`b1-${brand.id}`"
@@ -82,7 +96,12 @@ const brands = computed(() => {
         </div>
 
         <!-- Loop 2 (Infinite duplicate) -->
-        <div class="inline-flex items-center gap-4 sm:gap-6 animate-brands-marquee shrink-0 group-hover:[animation-play-state:paused]" aria-hidden="true">
+        <div
+          class="inline-flex items-center gap-4 sm:gap-6 shrink-0 group-hover:[animation-play-state:paused]"
+          :class="direction === 'right' ? 'animate-marquee-right' : 'animate-marquee-left'"
+          :style="{ animationDuration: speedClass }"
+          aria-hidden="true"
+        >
           <div
             v-for="brand in brands"
             :key="`b2-${brand.id}`"
@@ -108,7 +127,7 @@ const brands = computed(() => {
 </template>
 
 <style scoped>
-@keyframes brands-marquee {
+@keyframes marquee-left {
   0% {
     transform: translateX(0%);
   }
@@ -117,9 +136,24 @@ const brands = computed(() => {
   }
 }
 
-.animate-brands-marquee {
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-left {
   display: inline-flex;
-  animation: brands-marquee 30s linear infinite;
+  animation: marquee-left linear infinite;
+  min-width: 100%;
+}
+
+.animate-marquee-right {
+  display: inline-flex;
+  animation: marquee-right linear infinite;
   min-width: 100%;
 }
 </style>
