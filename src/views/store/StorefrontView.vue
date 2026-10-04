@@ -6,8 +6,12 @@ import { useCartStore } from '@/stores/cart';
 import type { Product } from '@/types/database';
 
 import StoreHeader from '@/components/store/StoreHeader.vue';
+import RibbonTicker from '@/components/store/RibbonTicker.vue';
 import StoreHero from '@/components/store/StoreHero.vue';
 import Promotions3DSlider from '@/components/store/Promotions3DSlider.vue';
+import LiveVisitorsBadge from '@/components/store/LiveVisitorsBadge.vue';
+import BrandsMarqueeRibbon from '@/components/store/BrandsMarqueeRibbon.vue';
+import LiveOrderToast from '@/components/store/LiveOrderToast.vue';
 import CategoryFilter from '@/components/store/CategoryFilter.vue';
 import ProductCard from '@/components/store/ProductCard.vue';
 import ProductModal from '@/components/store/ProductModal.vue';
@@ -71,6 +75,9 @@ onMounted(() => {
     <!-- Header -->
     <StoreHeader />
 
+    <!-- Luxury Top Ribbon Ticker -->
+    <RibbonTicker />
+
     <!-- Error State -->
     <main v-if="storeStore.error" class="flex-1 max-w-xl mx-auto px-4 py-20 flex flex-col items-center justify-center text-center">
       <div class="w-16 h-16 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center mb-4">
@@ -92,6 +99,9 @@ onMounted(() => {
     <main v-else class="flex-1">
       <!-- Store Hero -->
       <StoreHero />
+
+      <!-- Live Visitors & Today Orders Activity Badge -->
+      <LiveVisitorsBadge />
 
       <!-- 3D Luxury Promotions & Offers Runway Slider -->
       <Promotions3DSlider
@@ -165,9 +175,16 @@ onMounted(() => {
           />
         </div>
       </section>
+
+      <!-- Luxury Brands Marquee Ribbon Slider -->
+      <BrandsMarqueeRibbon v-if="!storeStore.searchQuery && !storeStore.selectedCategoryId" />
     </main>
 
     <!-- Footer -->
+    <StoreFooter />
+
+    <!-- Live WhatsApp Order Toast Notification -->
+    <LiveOrderToast />
     <StoreFooter />
 
     <!-- Modals & Drawers -->

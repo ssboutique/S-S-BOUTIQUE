@@ -10,6 +10,13 @@ export interface Profile {
   updated_at: string;
 }
 
+export interface StoreBrandItem {
+  id: string;
+  name: string;
+  logo_url?: string;
+  description?: string;
+}
+
 export interface StoreAboutSettings {
   enabled: boolean;
   title?: string;
@@ -28,6 +35,9 @@ export interface StoreThemeSettings {
   font_family: string;
   custom_domain?: string | null;
   about?: StoreAboutSettings;
+  brands?: StoreBrandItem[];
+  ticker_text?: string;
+  show_live_social_proof?: boolean;
 }
 
 export interface Store {

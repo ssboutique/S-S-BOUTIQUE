@@ -87,8 +87,16 @@ async function handleConfirmOrder() {
       orderItems
     );
 
-    // 2. Trigger celebration confetti
+    // 2. Trigger celebration confetti & live activity event
     try {
+      window.dispatchEvent(new CustomEvent('store-whatsapp-order', {
+        detail: {
+          customerName: form.name.trim(),
+          city: form.address.trim() || storeStore.store?.city || 'Colombia',
+          productName: cartStore.items[0]?.name || 'Colección Exclusiva'
+        }
+      }));
+
       confetti({
         particleCount: 80,
         spread: 70,
