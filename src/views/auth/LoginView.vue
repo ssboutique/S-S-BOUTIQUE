@@ -109,21 +109,6 @@ async function handleLogin() {
           </button>
         </form>
 
-        <!-- Quick Fill for Store Admin -->
-        <div class="p-3 bg-slate-800/60 rounded-2xl border border-slate-700/60 flex items-center justify-between text-xs">
-          <div>
-            <div class="text-slate-300 font-semibold">Credenciales de Administrador</div>
-            <div class="text-slate-400 text-[11px]">admin@ssboutique.com</div>
-          </div>
-          <button
-            type="button"
-            @click="email = 'admin@ssboutique.com'; password = 'admin123'"
-            class="px-2.5 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs font-semibold transition-colors"
-          >
-            Completar
-          </button>
-        </div>
-
         <div class="pt-4 border-t border-slate-800 text-center text-xs text-slate-400">
           ¿Deseas visitar el catálogo como cliente?
           <router-link to="/tienda/ss-boutique" class="text-white font-bold hover:underline ml-1">
