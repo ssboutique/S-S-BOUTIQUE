@@ -144,6 +144,8 @@ async function handleDelete(prod: Product) {
                   <div class="w-12 h-12 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/60">
                     <img
                       :src="prod.images?.[0]?.image_url || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&fit=crop'"
+                      :alt="prod.name"
+                      loading="lazy"
                       class="w-full h-full object-cover"
                     />
                   </div>

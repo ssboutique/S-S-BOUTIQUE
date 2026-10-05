@@ -211,6 +211,8 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
                   <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 shrink-0 border border-slate-200/60 dark:border-slate-700">
                     <img
                       :src="prod.images?.[0]?.image_url || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&fit=crop'"
+                      :alt="prod.name"
+                      loading="lazy"
                       class="w-full h-full object-cover"
                     />
                   </div>
