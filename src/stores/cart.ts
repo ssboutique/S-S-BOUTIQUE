@@ -101,7 +101,11 @@ export const useCartStore = defineStore('cart', () => {
       || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&fit=crop';
 
     if (existingIndex > -1) {
-      items.value[existingIndex].quantity += quantity;
+      const maxQty = product.stock || Infinity;
+      items.value[existingIndex].quantity = Math.min(
+        items.value[existingIndex].quantity + quantity,
+        maxQty
+      );
     } else {
       items.value.push({
         id: cartItemId,
@@ -109,7 +113,7 @@ export const useCartStore = defineStore('cart', () => {
         name: product.name,
         price: finalPrice,
         imageUrl: primaryImg,
-        quantity,
+        quantity: Math.min(quantity, product.stock || quantity),
         selectedVariants,
         product,
       });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStoreStore } from '@/stores/store';
 import { useCartStore } from '@/stores/cart';
@@ -53,12 +53,9 @@ watch(
   () => route.params.slug,
   () => {
     initStorefront();
-  }
+  },
+  { immediate: true }
 );
-
-onMounted(() => {
-  initStorefront();
-});
 </script>
 
 <template>

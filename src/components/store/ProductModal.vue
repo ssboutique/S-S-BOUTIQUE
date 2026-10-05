@@ -238,8 +238,12 @@ onUnmounted(() => {
               <span class="font-bold text-sm w-6 text-center text-slate-900">{{ quantity }}</span>
               <button
                 type="button"
-                @click="quantity++"
-                class="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-slate-900 transition-colors"
+                @click="(!product.stock || quantity < product.stock) ? quantity++ : null"
+                :disabled="!!(product.stock && quantity >= product.stock)"
+                class="w-6 h-6 flex items-center justify-center transition-colors"
+                :class="(product.stock && quantity >= product.stock)
+                  ? 'text-slate-300 cursor-not-allowed opacity-40'
+                  : 'text-slate-600 hover:text-slate-900'"
                 aria-label="Aumentar cantidad"
               >
                 <Plus class="w-4 h-4" />
