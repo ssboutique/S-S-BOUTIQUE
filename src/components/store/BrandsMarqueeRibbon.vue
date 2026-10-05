@@ -80,56 +80,41 @@ const speedClass = computed(() => {
       <div class="absolute left-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none"></div>
       <div class="absolute right-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none"></div>
 
-      <!-- Track 1 -->
+      <!-- Single track with content duplicated inside for seamless loop -->
       <div
         class="marquee-track group-hover:[animation-play-state:paused]"
         :class="direction === 'right' ? 'animate-track-right' : 'animate-track-left'"
         :style="{ animationDuration: speedClass }"
       >
+        <!-- Original set -->
         <div
           v-for="(brand, i) in brands"
-          :key="`b1-${brand.id}-${i}`"
-          class="inline-flex flex-col items-center justify-center px-6 sm:px-8 py-3.5 rounded-2xl bg-slate-950/90 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900 transition-all duration-300 shadow-md min-w-[150px] sm:min-w-[190px] shrink-0 group/card cursor-default"
+          :key="`a-${brand.id}-${i}`"
+          class="marquee-item"
         >
-          <div v-if="brand.logo_url" class="h-8 mb-1 flex items-center justify-center">
-            <img :src="brand.logo_url" :alt="brand.name" class="max-h-7 max-w-[120px] object-contain filter brightness-90 group-hover/card:brightness-110 transition-all" />
+          <div v-if="brand.logo_url" class="h-8 flex items-center justify-center">
+            <img :src="brand.logo_url" :alt="brand.name" class="max-h-7 max-w-[110px] object-contain opacity-70 hover:opacity-100 transition-opacity" />
           </div>
-          <span
-            v-else
-            class="font-black text-sm sm:text-base tracking-[0.25em] text-slate-200 group-hover/card:text-amber-300 transition-colors uppercase font-serif"
-          >
-            {{ brand.name }}
-          </span>
-          <span class="text-[10px] text-slate-500 group-hover/card:text-slate-400 tracking-wider font-medium uppercase mt-0.5">
-            {{ brand.tagline }}
-          </span>
+          <template v-else>
+            <span class="brand-name">{{ brand.name }}</span>
+            <span class="brand-tagline">{{ brand.tagline }}</span>
+          </template>
         </div>
-      </div>
 
-      <!-- Track 2 (Seamless infinite duplicate) -->
-      <div
-        class="marquee-track group-hover:[animation-play-state:paused]"
-        :class="direction === 'right' ? 'animate-track-right' : 'animate-track-left'"
-        :style="{ animationDuration: speedClass }"
-        aria-hidden="true"
-      >
+        <!-- Exact duplicate for seamless infinite loop -->
         <div
           v-for="(brand, i) in brands"
-          :key="`b2-${brand.id}-${i}`"
-          class="inline-flex flex-col items-center justify-center px-6 sm:px-8 py-3.5 rounded-2xl bg-slate-950/90 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900 transition-all duration-300 shadow-md min-w-[150px] sm:min-w-[190px] shrink-0 group/card cursor-default"
+          :key="`b-${brand.id}-${i}`"
+          class="marquee-item"
+          aria-hidden="true"
         >
-          <div v-if="brand.logo_url" class="h-8 mb-1 flex items-center justify-center">
-            <img :src="brand.logo_url" :alt="brand.name" class="max-h-7 max-w-[120px] object-contain filter brightness-90 group-hover/card:brightness-110 transition-all" />
+          <div v-if="brand.logo_url" class="h-8 flex items-center justify-center">
+            <img :src="brand.logo_url" :alt="brand.name" class="max-h-7 max-w-[110px] object-contain opacity-70 hover:opacity-100 transition-opacity" />
           </div>
-          <span
-            v-else
-            class="font-black text-sm sm:text-base tracking-[0.25em] text-slate-200 group-hover/card:text-amber-300 transition-colors uppercase font-serif"
-          >
-            {{ brand.name }}
-          </span>
-          <span class="text-[10px] text-slate-500 group-hover/card:text-slate-400 tracking-wider font-medium uppercase mt-0.5">
-            {{ brand.tagline }}
-          </span>
+          <template v-else>
+            <span class="brand-name">{{ brand.name }}</span>
+            <span class="brand-tagline">{{ brand.tagline }}</span>
+          </template>
         </div>
       </div>
     </div>
@@ -139,47 +124,90 @@ const speedClass = computed(() => {
 <style scoped>
 .marquee-wrapper {
   position: relative;
-  display: flex;
   overflow: hidden;
-  user-select: none;
-  gap: 1.25rem;
   width: 100%;
 }
 
+/* Single track — content is duplicated inside so we only need to shift -50% */
 .marquee-track {
-  flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  min-width: 100%;
+  gap: 2.5rem;
+  width: max-content;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
 }
 
 .animate-track-left {
-  animation-name: marquee-scroll-left;
+  animation-name: marquee-left;
 }
 
 .animate-track-right {
-  animation-name: marquee-scroll-right;
+  animation-name: marquee-right;
 }
 
-@keyframes marquee-scroll-left {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(-100% - 1.25rem));
-  }
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
-@keyframes marquee-scroll-right {
-  from {
-    transform: translateX(calc(-100% - 1.25rem));
-  }
-  to {
-    transform: translateX(0);
-  }
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* Each brand item — clean, no cards */
+.marquee-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 0.15rem;
+  padding: 0 1rem;
+}
+
+.brand-name {
+  font-family: serif;
+  font-weight: 900;
+  font-size: 0.9rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #cbd5e1; /* slate-300 */
+  transition: color 0.25s;
+  white-space: nowrap;
+}
+
+.marquee-item:hover .brand-name {
+  color: #fcd34d; /* amber-300 */
+}
+
+.brand-tagline {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #475569; /* slate-600 */
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.25s;
+}
+
+.marquee-item:hover .brand-tagline {
+  color: #94a3b8; /* slate-400 */
+}
+
+/* Separator dot between items */
+.marquee-item::after {
+  content: '·';
+  position: absolute;
+  right: -1.35rem;
+  color: #1e293b; /* slate-800 */
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.marquee-item {
+  position: relative;
 }
 </style>
