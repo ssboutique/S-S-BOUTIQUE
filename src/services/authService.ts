@@ -4,28 +4,6 @@ import { DEMO_PROFILE } from './demoData';
 
 const LOCAL_AUTH_KEY = 'vendpro_auth_user';
 
-/**
- * Hardcoded admin credentials for local/fallback authentication.
- * Used when Supabase Auth is unreachable or misconfigured.
- */
-const ADMIN_CREDENTIALS = {
-  email: 'admin@ssboutique.com',
-  password: 'admin123',
-};
-
-/**
- * Validates local admin credentials and returns the demo profile if valid.
- */
-function validateLocalCredentials(email: string, password: string): Profile | null {
-  if (
-    email.toLowerCase() === ADMIN_CREDENTIALS.email.toLowerCase() &&
-    password === ADMIN_CREDENTIALS.password
-  ) {
-    return { ...DEMO_PROFILE, email };
-  }
-  return null;
-}
-
 export const authService = {
   /**
    * Register a new user
@@ -108,15 +86,16 @@ export const authService = {
         if (error) {
           console.warn('[Auth] Supabase signIn error:', error.message, '| Status:', (error as any).status);
 
-          // If Supabase Auth returns a server error (500), fall back to local validation
+          // If Supabase Auth returns a server error (500+), fall back to local only in demo mode
           if ((error as any).status && (error as any).status >= 500) {
-            console.warn('[Auth] Supabase server error detected, falling back to local credential validation');
-            return this._localSignIn(email, password);
+            if (import.meta.env.VITE_DEMO_MODE === 'true') {
+              console.warn('[Auth] Supabase server error detected (demo mode), falling back to local credential validation');
+              return this._localSignIn(email, password);
+            }
           }
 
-          // For auth-level errors (wrong password, user not found), also try local credentials
-          // This covers the case where the user exists locally but not in Supabase
-          return this._localSignIn(email, password);
+          // Auth-level errors (wrong password, user not found, etc.) — return error directly
+          return { profile: null, error };
         }
 
         // Successful Supabase sign-in: fetch profile from profiles table
@@ -147,28 +126,26 @@ export const authService = {
         return { profile, error: null };
       } catch (err: any) {
         console.error('[Auth] Unexpected signIn error:', err);
-        // Network failure or unexpected error – try local credentials
-        return this._localSignIn(email, password);
+        // Network failure or unexpected error
+        if (import.meta.env.VITE_DEMO_MODE === 'true') {
+          return this._localSignIn(email, password);
+        }
+        return { profile: null, error: err instanceof Error ? err : new Error(String(err)) };
       }
     }
 
-    // Demo Mode: local sign-in
-    return this._localSignIn(email, password);
+    // Demo Mode (Supabase not configured): local sign-in
+    if (import.meta.env.VITE_DEMO_MODE === 'true') {
+      return this._localSignIn(email, password);
+    }
+
+    return { profile: null, error: new Error('Supabase no está configurado. Verifica las variables de entorno.') };
   },
 
   /**
-   * Local/fallback sign-in: validates against hardcoded admin credentials
-   * or previously stored local accounts
+   * Local/fallback sign-in: checks previously stored local accounts
    */
-  _localSignIn(email: string, password: string): { profile: Profile | null; error: Error | null } {
-    // Check hardcoded admin credentials
-    const adminProfile = validateLocalCredentials(email, password);
-    if (adminProfile) {
-      console.info('[Auth] ✅ Local admin login successful');
-      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(adminProfile));
-      return { profile: adminProfile, error: null };
-    }
-
+  _localSignIn(email: string, _password: string): { profile: Profile | null; error: Error | null } {
     // Check if we have a previously registered local user with this email
     const stored = localStorage.getItem(LOCAL_AUTH_KEY);
     if (stored) {
@@ -232,10 +209,10 @@ export const authService = {
         try {
           return JSON.parse(raw);
         } catch {
-          return null;
+          // corrupted localStorage
         }
       }
-      // No session at all
+      // No Supabase session and no local session
       return null;
     }
 
