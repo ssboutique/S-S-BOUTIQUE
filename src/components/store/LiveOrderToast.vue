@@ -12,41 +12,6 @@ interface SocialEvent {
 
 const currentToast = ref<SocialEvent | null>(null);
 const isVisible = ref(false);
-let timer: any = null;
-
-const sampleNames = ['Valentina', 'Camila', 'Sofía', 'Mariana', 'Carolina', 'Daniela', 'Luciana', 'Isabella', 'Andrea', 'Laura', 'Natalia'];
-const sampleCities = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Bucaramanga', 'Cartagena', 'Pereira', 'Manizales', 'Santa Marta'];
-const sampleProducts = [
-  'Vestido Gala Seda Italiana',
-  'Bolso Cuero Genuino Atelier',
-  'Tacones Elegance Stiletto',
-  'Camisa Lino Premium',
-  'Chaqueta Cuero Edición Limitada',
-  'Conjunto Haute Couture',
-  'Gafas Sol Signature'
-];
-
-function getRandomItem<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function triggerRandomNotification() {
-  const event: SocialEvent = {
-    id: Math.random().toString(),
-    name: getRandomItem(sampleNames),
-    city: getRandomItem(sampleCities),
-    product: getRandomItem(sampleProducts),
-    timeAgo: `hace ${Math.floor(Math.random() * 8) + 1} min`
-  };
-
-  currentToast.value = event;
-  isVisible.value = true;
-
-  // Hide after 5.5 seconds
-  setTimeout(() => {
-    isVisible.value = false;
-  }, 5500);
-}
 
 // Global custom event listener when an actual user clicks WhatsApp order
 function onUserWhatsAppOrder(e: any) {
@@ -68,26 +33,9 @@ function onUserWhatsAppOrder(e: any) {
 
 onMounted(() => {
   window.addEventListener('store-whatsapp-order', onUserWhatsAppOrder);
-
-  // Initial popup after 4 seconds
-  const initialTimeout = setTimeout(() => {
-    triggerRandomNotification();
-  }, 4000);
-
-  // Periodic popups every 18-28 seconds
-  timer = setInterval(() => {
-    triggerRandomNotification();
-  }, 22000);
-
-  return () => {
-    clearTimeout(initialTimeout);
-    clearInterval(timer);
-    window.removeEventListener('store-whatsapp-order', onUserWhatsAppOrder);
-  };
 });
 
 onUnmounted(() => {
-  if (timer) clearInterval(timer);
   window.removeEventListener('store-whatsapp-order', onUserWhatsAppOrder);
 });
 </script>
