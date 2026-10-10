@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStoreStore } from '@/stores/store';
 import { useCartStore } from '@/stores/cart';
-import { ShoppingBag, Search, MessageCircle, X, Users } from 'lucide-vue-next';
+import { ShoppingBag, Search, MessageCircle, X } from 'lucide-vue-next';
 
 const route = useRoute();
 const storeStore = useStoreStore();
@@ -117,16 +117,6 @@ function openWhatsApp() {
           >
             <Search class="w-5 h-5" />
           </button>
-
-          <!-- Quiénes Somos — enlace nativo directo -->
-          <a
-            :href="`/tienda/${currentSlug}/nosotros`"
-            class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-fuchsia-700 hover:bg-fuchsia-50 border border-transparent hover:border-fuchsia-200/60 transition-all duration-200 no-underline cursor-pointer"
-            aria-label="Conocer quiénes somos"
-          >
-            <Users class="w-3.5 h-3.5" />
-            <span>Quiénes Somos</span>
-          </a>
 
           <!-- WhatsApp -->
           <button
