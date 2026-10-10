@@ -44,19 +44,31 @@ export const useStoreStore = defineStore('storefront', () => {
     try {
       const fetchedStore = await storeService.getStoreBySlug(slug);
 
-      // Si Supabase está configurado y no encontró la tienda → error real
-      if (!fetchedStore && isSupabaseConfigured) {
+      // Modo demo sin Supabase → usar datos demo
+      if (!fetchedStore) {
+        if (!isSupabaseConfigured) {
+          store.value = { ...DEMO_STORE, slug };
+          categories.value = DEMO_CATEGORIES;
+          products.value = DEMO_PRODUCTS;
+          return true;
+        }
         error.value = 'No se encontró la tienda en la base de datos.';
         return false;
       }
 
-      // Modo demo sin Supabase → usar datos demo
-      store.value = fetchedStore ?? { ...DEMO_STORE, slug };
+      store.value = fetchedStore;
 
-      // Cargar categorías y productos directamente de Supabase
+      // Cargar categorías y productos de Supabase en paralelo
+      // Si alguno falla retorna [] pero no aborta la carga
       const [cats, prods] = await Promise.all([
-        productService.getCategories(store.value.id),
-        productService.getProducts(store.value.id, undefined, true),
+        productService.getCategories(fetchedStore.id).catch((e) => {
+          console.warn('[Store] getCategories error:', e?.message ?? e);
+          return [] as Category[];
+        }),
+        productService.getProducts(fetchedStore.id, undefined, true).catch((e) => {
+          console.warn('[Store] getProducts error:', e?.message ?? e);
+          return [] as Product[];
+        }),
       ]);
 
       categories.value = cats.filter((c) => c.is_active);
@@ -64,7 +76,6 @@ export const useStoreStore = defineStore('storefront', () => {
       return true;
     } catch (err: any) {
       console.error('[Store] Error loading store:', err);
-      // Solo usar demo si Supabase NO está configurado
       if (!isSupabaseConfigured) {
         store.value = DEMO_STORE;
         categories.value = DEMO_CATEGORIES;
