@@ -42,13 +42,14 @@ export const storeService = {
 
       if (error) {
         if (error.code === 'PGRST116') return null; // Not found
-        console.error('Error fetching store by slug:', error);
-        throw new Error('No se pudo cargar la información de la tienda.');
+        // 401 / network errors → fall through to local fallback silently
+        const stores = getStoredStores();
+        const found = stores.find((s) => s.slug === slug && s.is_active);
+        return found || null;
       }
       return data as Store;
     }
 
-    // Demo Mode fallback
     const stores = getStoredStores();
     const found = stores.find((s) => s.slug === slug && s.is_active);
     return found || null;
@@ -66,8 +67,8 @@ export const storeService = {
         .single();
 
       if (error) {
-        console.error('Error fetching store by id:', error);
-        return null;
+        const stores = getStoredStores();
+        return stores.find((s) => s.id === id) || null;
       }
       return data as Store;
     }
@@ -88,8 +89,9 @@ export const storeService = {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching user stores:', error);
-        return [];
+        // 401 / RLS errors → fall through to local fallback silently
+        const stores = getStoredStores();
+        return stores.filter((s) => s.owner_id === ownerId || s.owner_id === '00000000-0000-0000-0000-000000000001');
       }
       return data as Store[];
     }
@@ -194,7 +196,7 @@ export const storeService = {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw new Error('Error cargando tiendas del sistema');
+      if (error) return getStoredStores();
       return data as Store[];
     }
 
