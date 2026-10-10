@@ -4,6 +4,7 @@ import type { Category, Product, Store } from '../types/database';
 import { storeService } from '../services/storeService';
 import { productService } from '../services/productService';
 import { DEMO_STORE, DEMO_CATEGORIES, DEMO_PRODUCTS } from '../services/demoData';
+import { isSupabaseConfigured } from '../services/supabase';
 
 export const useStoreStore = defineStore('storefront', () => {
   const store = ref<Store | null>(null);
@@ -51,12 +52,19 @@ export const useStoreStore = defineStore('storefront', () => {
 
       // Load categories and products concurrently
       let [cats, prods] = await Promise.all([
-        productService.getCategories(fetchedStore.id).catch(() => []),
-        productService.getProducts(fetchedStore.id, undefined, true).catch(() => []),
+        productService.getCategories(fetchedStore.id).catch(() => null),
+        productService.getProducts(fetchedStore.id, undefined, true).catch(() => null),
       ]);
 
-      if (cats.length === 0) cats = DEMO_CATEGORIES;
-      if (prods.length === 0) prods = DEMO_PRODUCTS;
+      // Only use demo data if Supabase is NOT configured (true offline/demo mode)
+      // If queries returned null it means Supabase failed — show empty rather than fake data
+      if (!isSupabaseConfigured) {
+        if (cats === null || cats.length === 0) cats = DEMO_CATEGORIES;
+        if (prods === null || prods.length === 0) prods = DEMO_PRODUCTS;
+      } else {
+        if (cats === null) cats = [];
+        if (prods === null) prods = [];
+      }
 
       categories.value = cats.filter((c) => c.is_active);
       products.value = prods;

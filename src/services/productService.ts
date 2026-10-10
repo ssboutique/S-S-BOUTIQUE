@@ -165,7 +165,7 @@ export const productService = {
 
       if (error) {
         console.error('Error fetching categories:', error);
-        return [];
+        throw error; // propagate so caller does NOT fall back to demo data
       }
       return data as Category[];
     }
@@ -292,7 +292,7 @@ export const productService = {
       const { data, error } = await query;
       if (error) {
         console.error('Error fetching products from Supabase:', error);
-        return [];
+        throw error; // propagate so caller does NOT fall back to demo data
       }
       return data as Product[];
     }
