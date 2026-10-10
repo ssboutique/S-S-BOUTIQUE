@@ -109,11 +109,11 @@ function getNow(): string {
 
 const previewText = computed(() => {
   const SEPARATOR = '---ITEMS---';
+  const storeName = adminStore.currentStore?.name || 'S&S BOUTIQUE';
   let tpl = messageTemplate.value;
 
-  // Replace variables
   tpl = tpl
-    .replace(/\{\{TIENDA\}\}/g, 'Mi Tienda Demo')
+    .replace(/\{\{TIENDA\}\}/g, storeName)
     .replace(/\{\{NOMBRE\}\}/g, 'Juan Pérez')
     .replace(/\{\{TELEFONO\}\}/g, '300 123 4567')
     .replace(/\{\{DIRECCION\}\}/g, 'Calle 123 #45-67, Bogotá')
