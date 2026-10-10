@@ -106,12 +106,12 @@ function openWhatsApp() {
           </button>
 
           <!-- Quiénes Somos link -->
-          <a
-            href="#quienes-somos"
+          <router-link
+            :to="`/tienda/${storeStore.store?.slug || 'ss-boutique'}/nosotros`"
             class="hidden lg:inline-flex items-center text-xs font-bold text-slate-600 hover:text-fuchsia-600 px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors"
           >
             Quiénes Somos
-          </a>
+          </router-link>
 
           <!-- WhatsApp Direct Contact Button -->
           <button
