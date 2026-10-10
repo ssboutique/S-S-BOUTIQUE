@@ -43,7 +43,7 @@ export const storeService = {
       if (error) {
         if (error.code === 'PGRST116') return null; // Not found
         console.error('Error fetching store by slug:', error);
-        throw new Error('No se pudo cargar la información de la tienda.');
+        return null; // Return null instead of throwing so caller can use fallback
       }
       return data as Store;
     }
@@ -89,6 +89,13 @@ export const storeService = {
 
       if (error) {
         console.error('Error fetching user stores:', error);
+        // Auth/session error — try fetching the default store by slug as recovery
+        try {
+          const fallback = await this.getStoreBySlug('ss-boutique');
+          if (fallback) return [fallback];
+        } catch {
+          // ignore secondary error
+        }
         return [];
       }
       return data as Store[];
