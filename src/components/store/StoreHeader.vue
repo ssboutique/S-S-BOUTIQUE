@@ -118,7 +118,17 @@ function openWhatsApp() {
             <Search class="w-5 h-5" />
           </button>
 
-          <!-- WhatsApp -->
+          <!-- Quiénes Somos -->
+          <a
+            :href="`/tienda/${currentSlug}/nosotros`"
+            class="about-btn"
+            aria-label="Conocer quiénes somos"
+          >
+            <span class="about-btn__shimmer" aria-hidden="true"></span>
+            <span class="about-btn__text">Quiénes Somos</span>
+          </a>
+
+          
           <button
             v-if="storeStore.store?.whatsapp_number"
             type="button"
@@ -177,3 +187,72 @@ function openWhatsApp() {
     </div>
   </header>
 </template>
+
+<style scoped>
+/* ── Quiénes Somos button ─────────────────────────────── */
+.about-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.45rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  color: #7c3aed;                          /* violet-700 */
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border: 1.5px solid #c4b5fd;            /* violet-300 */
+  box-shadow: 0 1px 4px rgba(124,58,237,0.10);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  /* always visible on all screen sizes */
+}
+
+.about-btn:hover,
+.about-btn:focus-visible {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  color: #ffffff;
+  border-color: #7c3aed;
+  box-shadow: 0 4px 16px rgba(124,58,237,0.35);
+  transform: translateY(-1px) scale(1.03);
+  outline: none;
+}
+
+.about-btn:active {
+  transform: scale(0.97);
+}
+
+/* Shimmer sweep animation */
+.about-btn__shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255,255,255,0.55) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: about-shimmer 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.about-btn:hover .about-btn__shimmer {
+  animation-duration: 1.2s;
+}
+
+@keyframes about-shimmer {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+.about-btn__text {
+  position: relative;
+  z-index: 1;
+}
+</style>
