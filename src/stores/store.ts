@@ -42,39 +42,37 @@ export const useStoreStore = defineStore('storefront', () => {
     isLoading.value = true;
     error.value = null;
     try {
-      let fetchedStore = await storeService.getStoreBySlug(slug);
-      if (!fetchedStore) {
-        // Safe fallback for S&S Boutique
-        fetchedStore = { ...DEMO_STORE, slug };
+      const fetchedStore = await storeService.getStoreBySlug(slug);
+
+      // Si Supabase está configurado y no encontró la tienda → error real
+      if (!fetchedStore && isSupabaseConfigured) {
+        error.value = 'No se encontró la tienda en la base de datos.';
+        return false;
       }
 
-      store.value = fetchedStore;
+      // Modo demo sin Supabase → usar datos demo
+      store.value = fetchedStore ?? { ...DEMO_STORE, slug };
 
-      // Load categories and products concurrently
-      let [cats, prods] = await Promise.all([
-        productService.getCategories(fetchedStore.id).catch(() => null),
-        productService.getProducts(fetchedStore.id, undefined, true).catch(() => null),
+      // Cargar categorías y productos directamente de Supabase
+      const [cats, prods] = await Promise.all([
+        productService.getCategories(store.value.id),
+        productService.getProducts(store.value.id, undefined, true),
       ]);
-
-      // Only use demo data if Supabase is NOT configured (true offline/demo mode)
-      // If queries returned null it means Supabase failed — show empty rather than fake data
-      if (!isSupabaseConfigured) {
-        if (cats === null || cats.length === 0) cats = DEMO_CATEGORIES;
-        if (prods === null || prods.length === 0) prods = DEMO_PRODUCTS;
-      } else {
-        if (cats === null) cats = [];
-        if (prods === null) prods = [];
-      }
 
       categories.value = cats.filter((c) => c.is_active);
       products.value = prods;
       return true;
     } catch (err: any) {
-      console.error('Error loading store, falling back gracefully:', err);
-      store.value = DEMO_STORE;
-      categories.value = DEMO_CATEGORIES;
-      products.value = DEMO_PRODUCTS;
-      return true;
+      console.error('[Store] Error loading store:', err);
+      // Solo usar demo si Supabase NO está configurado
+      if (!isSupabaseConfigured) {
+        store.value = DEMO_STORE;
+        categories.value = DEMO_CATEGORIES;
+        products.value = DEMO_PRODUCTS;
+        return true;
+      }
+      error.value = 'Error al cargar la tienda. Por favor recarga la página.';
+      return false;
     } finally {
       isLoading.value = false;
     }
