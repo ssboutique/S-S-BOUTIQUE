@@ -1,20 +1,27 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStoreStore } from '@/stores/store';
 import { useCartStore } from '@/stores/cart';
 import { ShoppingBag, Search, MessageCircle, X, Users } from 'lucide-vue-next';
 
 const route = useRoute();
+const router = useRouter();
 const storeStore = useStoreStore();
 const cartStore = useCartStore();
 
 const showMobileSearch = ref(false);
 
-// Always read the slug directly from the URL — works even before the store loads
-const currentSlug = computed(() =>
-  (route.params.slug as string) || storeStore.store?.slug || 'ss-boutique'
-);
+// Lee el slug de la URL: route.params.slug puede ser string o string[]
+const currentSlug = computed(() => {
+  const param = route.params.slug;
+  const fromRoute = Array.isArray(param) ? param[0] : param;
+  return fromRoute || storeStore.store?.slug || 'ss-boutique';
+});
+
+function goToAbout() {
+  router.push(`/tienda/${currentSlug.value}/nosotros`);
+}
 
 function handleSearchInput(e: Event) {
   const target = e.target as HTMLInputElement;
@@ -113,15 +120,16 @@ function openWhatsApp() {
             <Search class="w-5 h-5" />
           </button>
 
-          <!-- Quiénes Somos — siempre usa currentSlug de la URL -->
-          <router-link
-            :to="`/tienda/${currentSlug}/nosotros`"
-            class="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-fuchsia-700 hover:bg-fuchsia-50 border border-transparent hover:border-fuchsia-200/60 transition-all duration-200"
+          <!-- Quiénes Somos — navegación imperativa, siempre funciona -->
+          <button
+            type="button"
+            @click="goToAbout"
+            class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-fuchsia-700 hover:bg-fuchsia-50 border border-transparent hover:border-fuchsia-200/60 transition-all duration-200"
             aria-label="Conocer quiénes somos"
           >
             <Users class="w-3.5 h-3.5" />
             <span>Quiénes Somos</span>
-          </router-link>
+          </button>
 
           <!-- WhatsApp -->
           <button
