@@ -42,14 +42,13 @@ export const storeService = {
 
       if (error) {
         if (error.code === 'PGRST116') return null; // Not found
-        // 401 / network errors → fall through to local fallback silently
-        const stores = getStoredStores();
-        const found = stores.find((s) => s.slug === slug && s.is_active);
-        return found || null;
+        console.error('Error fetching store by slug:', error);
+        throw new Error('No se pudo cargar la información de la tienda.');
       }
       return data as Store;
     }
 
+    // Demo Mode fallback (only when Supabase is NOT configured)
     const stores = getStoredStores();
     const found = stores.find((s) => s.slug === slug && s.is_active);
     return found || null;
@@ -67,8 +66,8 @@ export const storeService = {
         .single();
 
       if (error) {
-        const stores = getStoredStores();
-        return stores.find((s) => s.id === id) || null;
+        console.error('Error fetching store by id:', error);
+        return null;
       }
       return data as Store;
     }
@@ -89,9 +88,8 @@ export const storeService = {
         .order('created_at', { ascending: false });
 
       if (error) {
-        // 401 / RLS errors → fall through to local fallback silently
-        const stores = getStoredStores();
-        return stores.filter((s) => s.owner_id === ownerId || s.owner_id === '00000000-0000-0000-0000-000000000001');
+        console.error('Error fetching user stores:', error);
+        return [];
       }
       return data as Store[];
     }
@@ -196,7 +194,7 @@ export const storeService = {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) return getStoredStores();
+      if (error) throw new Error('Error cargando tiendas del sistema');
       return data as Store[];
     }
 
