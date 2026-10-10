@@ -40,7 +40,6 @@ export interface StoreThemeSettings {
   brand_marquee_speed?: 'slow' | 'normal' | 'fast';
   ticker_text?: string;
   show_live_social_proof?: boolean;
-  whatsapp_order_template?: string;
 }
 
 export interface Store {

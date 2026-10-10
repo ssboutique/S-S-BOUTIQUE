@@ -20,10 +20,14 @@ export default defineConfig({
         orientation: 'portrait',
         icons: [
           {
-            src: 'icons/icon.svg',
-            sizes: 'any',
-            type: 'image/svg+xml',
-            purpose: 'any maskable',
+            src: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=192&h=192&fit=crop',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=512&h=512&fit=crop',
+            sizes: '512x512',
+            type: 'image/png',
           },
         ],
       },

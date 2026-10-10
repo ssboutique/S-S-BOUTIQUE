@@ -165,9 +165,9 @@ export const productService = {
 
       if (error) {
         console.error('Error fetching categories:', error);
-        throw error;
+        return [];
       }
-      return (data ?? []) as Category[];
+      return data as Category[];
     }
 
     const cats = getStoredCategories();
@@ -282,21 +282,28 @@ export const productService = {
         .eq('store_id', storeId)
         .order('order_index', { ascending: true });
 
-      if (categoryId) query = query.eq('category_id', categoryId);
-      if (onlyAvailable) query = query.eq('is_available', true);
+      if (categoryId) {
+        query = query.eq('category_id', categoryId);
+      }
+      if (onlyAvailable) {
+        query = query.eq('is_available', true);
+      }
 
       const { data, error } = await query;
-
       if (error) {
         console.error('Error fetching products from Supabase:', error);
-        throw error;
+        return [];
       }
-      return (data ?? []) as Product[];
+      return data as Product[];
     }
 
     let prods = getStoredProducts().filter((p) => p.store_id === storeId);
-    if (categoryId) prods = prods.filter((p) => p.category_id === categoryId);
-    if (onlyAvailable) prods = prods.filter((p) => p.is_available);
+    if (categoryId) {
+      prods = prods.filter((p) => p.category_id === categoryId);
+    }
+    if (onlyAvailable) {
+      prods = prods.filter((p) => p.is_available);
+    }
     return prods.sort((a, b) => a.order_index - b.order_index);
   },
 

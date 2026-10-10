@@ -33,33 +33,22 @@ export const storeService = {
    */
   async getStoreBySlug(slug: string): Promise<Store | null> {
     if (isSupabaseConfigured && supabase) {
-      // First try: with is_active filter (standard RLS)
       const { data, error } = await supabase
         .from('stores')
         .select('*')
         .eq('slug', slug)
         .eq('is_active', true)
-        .maybeSingle();
+        .single();
 
-      if (!error && data) return data as Store;
-
-      // Second try: without is_active filter (in case RLS returns empty)
-      if (!data) {
-        const { data: data2, error: error2 } = await supabase
-          .from('stores')
-          .select('*')
-          .eq('slug', slug)
-          .maybeSingle();
-
-        if (!error2 && data2) return data2 as Store;
-        if (error2) console.error('Error fetching store by slug:', error2);
+      if (error) {
+        if (error.code === 'PGRST116') return null; // Not found
+        console.error('Error fetching store by slug:', error);
+        throw new Error('No se pudo cargar la información de la tienda.');
       }
-
-      if (error) console.error('Error fetching store by slug:', error);
-      return null;
+      return data as Store;
     }
 
-    // Demo Mode fallback (only when Supabase is NOT configured)
+    // Demo Mode fallback
     const stores = getStoredStores();
     const found = stores.find((s) => s.slug === slug && s.is_active);
     return found || null;
@@ -100,13 +89,6 @@ export const storeService = {
 
       if (error) {
         console.error('Error fetching user stores:', error);
-        // Auth/session error — try fetching the default store by slug as recovery
-        try {
-          const fallback = await this.getStoreBySlug('ss-boutique');
-          if (fallback) return [fallback];
-        } catch {
-          // ignore secondary error
-        }
         return [];
       }
       return data as Store[];

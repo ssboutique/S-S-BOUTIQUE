@@ -23,88 +23,31 @@ export const whatsappService = {
   },
 
   /**
-   * Builds the dynamic items block (same format for both templated and default messages)
+   * Formats the order summary into a clean, minimalist, high-end message (No generic emojis)
    */
-  _buildItemsBlock(items: CartItem[], currency: string): string {
-    let block = '';
+  generateOrderMessage(payload: WhatsAppOrderPayload): string {
+    const { store, items, customer, subtotal, total } = payload;
+    const currency = store.currency || 'COP';
+
+    let message = `SOLICITUD DE PEDIDO\n`;
+    message += `${store.name.toUpperCase()}\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+    // Items list
     items.forEach((item, index) => {
-      block += `${index + 1}. *${item.name}*\n`;
-      block += `   Cantidad: ${item.quantity}\n`;
+      message += `${index + 1}. *${item.name}*\n`;
+      message += `   Cantidad: ${item.quantity}\n`;
 
       if (item.selectedVariants && Object.keys(item.selectedVariants).length > 0) {
         const variantText = Object.entries(item.selectedVariants)
           .map(([type, val]) => `${type}: ${val}`)
           .join(' | ');
-        block += `   Detalles: ${variantText}\n`;
+        message += `   Detalles: ${variantText}\n`;
       }
 
-      block += `   Precio: ${formatCurrency(item.price, currency)}\n`;
-      block += `   Subtotal: ${formatCurrency(item.price * item.quantity, currency)}\n`;
-      if (index < items.length - 1) block += '\n';
+      message += `   Precio: ${formatCurrency(item.price, currency)}\n`;
+      message += `   Subtotal: ${formatCurrency(item.price * item.quantity, currency)}\n\n`;
     });
-    return block;
-  },
-
-  /**
-   * Replaces all supported template variables in a string
-   */
-  _applyTemplateVars(
-    text: string,
-    store: Store,
-    customer: CheckoutCustomerData,
-    subtotal: number,
-    total: number,
-    currency: string
-  ): string {
-    const now = new Date();
-    const pad = (n: number) => String(n).padStart(2, '0');
-    const fecha = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-
-    return text
-      .replace(/\{\{TIENDA\}\}/g, store.name)
-      .replace(/\{\{NOMBRE\}\}/g, customer.name)
-      .replace(/\{\{TELEFONO\}\}/g, customer.phone)
-      .replace(/\{\{DIRECCION\}\}/g, customer.address || '')
-      .replace(/\{\{TOTAL\}\}/g, formatCurrency(total, currency))
-      .replace(/\{\{SUBTOTAL\}\}/g, formatCurrency(subtotal, currency))
-      .replace(/\{\{NOTAS\}\}/g, customer.notes?.trim() || '')
-      .replace(/\{\{FECHA\}\}/g, fecha);
-  },
-
-  /**
-   * Formats the order summary into a clean, minimalist, high-end message.
-   * If the store has a custom whatsapp_order_template, it is used as the base;
-   * otherwise the hardcoded default is used unchanged.
-   */
-  generateOrderMessage(payload: WhatsAppOrderPayload): string {
-    const { store, items, customer, subtotal, total } = payload;
-    const currency = store.currency || 'COP';
-    const customTemplate = store.theme_settings?.whatsapp_order_template;
-    const itemsBlock = this._buildItemsBlock(items, currency);
-
-    if (customTemplate && customTemplate.trim()) {
-      const SEPARATOR = '---ITEMS---';
-      let message: string;
-
-      if (customTemplate.includes(SEPARATOR)) {
-        const parts = customTemplate.split(SEPARATOR);
-        const header = this._applyTemplateVars(parts[0], store, customer, subtotal, total, currency);
-        const footer = this._applyTemplateVars(parts[1], store, customer, subtotal, total, currency);
-        message = `${header}\n${itemsBlock}\n${footer}`;
-      } else {
-        const base = this._applyTemplateVars(customTemplate, store, customer, subtotal, total, currency);
-        message = `${base}\n\n${itemsBlock}`;
-      }
-
-      return message;
-    }
-
-    // ── Default hardcoded message (unchanged behavior) ──
-    let message = `SOLICITUD DE PEDIDO\n`;
-    message += `${store.name.toUpperCase()}\n`;
-    message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-
-    message += itemsBlock + '\n';
 
     message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     message += `*Subtotal:* ${formatCurrency(subtotal, currency)}\n`;

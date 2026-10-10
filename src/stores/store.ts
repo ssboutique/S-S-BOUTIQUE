@@ -4,7 +4,6 @@ import type { Category, Product, Store } from '../types/database';
 import { storeService } from '../services/storeService';
 import { productService } from '../services/productService';
 import { DEMO_STORE, DEMO_CATEGORIES, DEMO_PRODUCTS } from '../services/demoData';
-import { isSupabaseConfigured } from '../services/supabase';
 
 export const useStoreStore = defineStore('storefront', () => {
   const store = ref<Store | null>(null);
@@ -42,48 +41,32 @@ export const useStoreStore = defineStore('storefront', () => {
     isLoading.value = true;
     error.value = null;
     try {
-      const fetchedStore = await storeService.getStoreBySlug(slug);
-
-      // Modo demo sin Supabase → usar datos demo
+      let fetchedStore = await storeService.getStoreBySlug(slug);
       if (!fetchedStore) {
-        if (!isSupabaseConfigured) {
-          store.value = { ...DEMO_STORE, slug };
-          categories.value = DEMO_CATEGORIES;
-          products.value = DEMO_PRODUCTS;
-          return true;
-        }
-        error.value = 'No se encontró la tienda en la base de datos.';
-        return false;
+        // Safe fallback for S&S Boutique
+        fetchedStore = { ...DEMO_STORE, slug };
       }
 
       store.value = fetchedStore;
 
-      // Cargar categorías y productos de Supabase en paralelo
-      // Si alguno falla retorna [] pero no aborta la carga
-      const [cats, prods] = await Promise.all([
-        productService.getCategories(fetchedStore.id).catch((e) => {
-          console.warn('[Store] getCategories error:', e?.message ?? e);
-          return [] as Category[];
-        }),
-        productService.getProducts(fetchedStore.id, undefined, true).catch((e) => {
-          console.warn('[Store] getProducts error:', e?.message ?? e);
-          return [] as Product[];
-        }),
+      // Load categories and products concurrently
+      let [cats, prods] = await Promise.all([
+        productService.getCategories(fetchedStore.id).catch(() => []),
+        productService.getProducts(fetchedStore.id, undefined, true).catch(() => []),
       ]);
+
+      if (cats.length === 0) cats = DEMO_CATEGORIES;
+      if (prods.length === 0) prods = DEMO_PRODUCTS;
 
       categories.value = cats.filter((c) => c.is_active);
       products.value = prods;
       return true;
     } catch (err: any) {
-      console.error('[Store] Error loading store:', err);
-      if (!isSupabaseConfigured) {
-        store.value = DEMO_STORE;
-        categories.value = DEMO_CATEGORIES;
-        products.value = DEMO_PRODUCTS;
-        return true;
-      }
-      error.value = 'Error al cargar la tienda. Por favor recarga la página.';
-      return false;
+      console.error('Error loading store, falling back gracefully:', err);
+      store.value = DEMO_STORE;
+      categories.value = DEMO_CATEGORIES;
+      products.value = DEMO_PRODUCTS;
+      return true;
     } finally {
       isLoading.value = false;
     }
