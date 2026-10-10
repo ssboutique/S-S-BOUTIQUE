@@ -20,7 +20,17 @@ const currentSlug = computed(() => {
 });
 
 function goToAbout() {
-  router.push(`/tienda/${currentSlug.value}/nosotros`);
+  // Triple fallback: route param → store slug → URL actual → hardcoded
+  const param = route.params.slug;
+  const fromRoute = Array.isArray(param) ? param[0] : param;
+  
+  // Si no hay param en la ruta actual, intenta extraerlo del pathname del browser
+  const pathParts = window.location.pathname.split('/');
+  const tiendaIdx = pathParts.indexOf('tienda');
+  const fromUrl = tiendaIdx !== -1 ? pathParts[tiendaIdx + 1] : null;
+  
+  const slug = fromRoute || storeStore.store?.slug || fromUrl || 'ss-boutique';
+  router.push(`/tienda/${slug}/nosotros`);
 }
 
 function handleSearchInput(e: Event) {
@@ -120,16 +130,16 @@ function openWhatsApp() {
             <Search class="w-5 h-5" />
           </button>
 
-          <!-- Quiénes Somos — navegación imperativa, siempre funciona -->
-          <button
-            type="button"
-            @click="goToAbout"
-            class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-fuchsia-700 hover:bg-fuchsia-50 border border-transparent hover:border-fuchsia-200/60 transition-all duration-200"
+          <!-- Quiénes Somos — recreado con navegación nativa directa -->
+          <a
+            :href="`/tienda/${currentSlug}/nosotros`"
+            class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-fuchsia-700 hover:bg-fuchsia-50 border border-transparent hover:border-fuchsia-200/60 transition-all duration-200 no-underline cursor-pointer"
             aria-label="Conocer quiénes somos"
+            @click.prevent="goToAbout"
           >
             <Users class="w-3.5 h-3.5" />
             <span>Quiénes Somos</span>
-          </button>
+          </a>
 
           <!-- WhatsApp -->
           <button
