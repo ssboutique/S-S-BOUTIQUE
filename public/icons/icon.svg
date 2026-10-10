@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24"/>
+      <stop offset="50%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#d97706"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+
+  <!-- Hanger top bar -->
+  <rect x="128" y="148" width="256" height="18" rx="9" fill="url(#gold)"/>
+
+  <!-- Hanger hook -->
+  <path d="M256 148 Q256 108 276 98 Q296 88 296 108 Q296 120 280 124" fill="none" stroke="url(#gold)" stroke-width="16" stroke-linecap="round"/>
+
+  <!-- Dress / garment shape -->
+  <path d="
+    M180 166
+    L148 240
+    L168 240
+    L152 380
+    Q152 396 168 396
+    L344 396
+    Q360 396 360 380
+    L344 240
+    L364 240
+    L332 166
+    Q310 190 256 190
+    Q202 190 180 166
+    Z
+  " fill="none" stroke="url(#gold)" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Inner neckline accent -->
+  <path d="M214 166 Q256 210 298 166" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Bottom shimmer line -->
+  <rect x="152" y="368" width="208" height="6" rx="3" fill="#f59e0b" opacity="0.5"/>
+
+  <!-- S&S text -->
+  <text x="256" y="460" font-family="Georgia, serif" font-size="48" font-weight="bold" fill="url(#gold)" text-anchor="middle" letter-spacing="6">S&amp;S</text>
+</svg>
