@@ -51,7 +51,7 @@ onUnmounted(() => {
   >
     <div
       v-if="isVisible && currentToast"
-      class="fixed bottom-20 left-4 sm:bottom-6 sm:left-6 z-40 max-w-[340px] bg-slate-900/95 backdrop-blur-md border border-amber-500/30 rounded-2xl p-3.5 shadow-2xl text-white flex items-start gap-3 select-none"
+      class="fixed bottom-20 left-4 sm:bottom-6 sm:left-6 z-[70] max-w-[340px] bg-slate-900/95 backdrop-blur-md border border-amber-500/30 rounded-2xl p-3.5 shadow-2xl text-white flex items-start gap-3 select-none"
       role="status"
     >
       <!-- Icon with pulse -->

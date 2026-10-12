@@ -89,13 +89,22 @@ async function handleConfirmOrder() {
 
     // 2. Trigger celebration confetti & live activity event
     try {
+      const notifyPayload = {
+        customerName: form.name.trim(),
+        city: form.address.trim() || storeStore.store?.city || 'Colombia',
+        productName: cartStore.items[0]?.name || 'Colección Exclusiva',
+        total: cartStore.totals.total,
+        itemCount: cartStore.totals.itemCount,
+        timestamp: Date.now(),
+      };
+
+      // Dispatch in-page event (same tab — LiveOrderToast on storefront)
       window.dispatchEvent(new CustomEvent('store-whatsapp-order', {
-        detail: {
-          customerName: form.name.trim(),
-          city: form.address.trim() || storeStore.store?.city || 'Colombia',
-          productName: cartStore.items[0]?.name || 'Colección Exclusiva'
-        }
+        detail: notifyPayload,
       }));
+
+      // Persist to localStorage so admin panel (other tab) picks it up via storage event
+      localStorage.setItem('vendpro_new_order_notify', JSON.stringify(notifyPayload));
 
       confetti({
         particleCount: 80,

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAdminStore } from '@/stores/admin';
 import { useAuthStore } from '@/stores/auth';
 import { useTheme } from '@/composables/useTheme';
-import { Menu, ExternalLink, LogOut, Eye, Sun, Moon } from 'lucide-vue-next';
+import { Menu, ExternalLink, LogOut, Eye, Sun, Moon, ShoppingBag, X } from 'lucide-vue-next';
 
 defineEmits<{
   (e: 'toggleSidebar'): void;
@@ -15,6 +15,73 @@ const route = useRoute();
 const adminStore = useAdminStore();
 const authStore = useAuthStore();
 const { isDark, toggleTheme } = useTheme();
+
+// ── New order notification ──────────────────────────
+interface OrderNotif {
+  customerName: string;
+  city: string;
+  productName: string;
+  total: number;
+  itemCount: number;
+  timestamp: number;
+}
+
+const orderNotif = ref<OrderNotif | null>(null);
+const showOrderNotif = ref(false);
+let notifTimer: any = null;
+
+function displayNotif(data: OrderNotif) {
+  orderNotif.value = data;
+  showOrderNotif.value = true;
+  if (notifTimer) clearTimeout(notifTimer);
+  notifTimer = setTimeout(() => {
+    showOrderNotif.value = false;
+  }, 8000);
+  // Reload orders list so admin sees the new entry immediately
+  if (adminStore.currentStore?.id) {
+    adminStore.refreshStoreItems(adminStore.currentStore.id);
+  }
+}
+
+function onStorageEvent(e: StorageEvent) {
+  if (e.key === 'vendpro_new_order_notify' && e.newValue) {
+    try {
+      const data: OrderNotif = JSON.parse(e.newValue);
+      displayNotif(data);
+    } catch { /* ignore parse errors */ }
+  }
+}
+
+// Also catch same-tab dispatches (e.g. admin opens storefront in same tab)
+function onSameTabOrder(e: Event) {
+  const detail = (e as CustomEvent).detail;
+  if (detail) displayNotif(detail as OrderNotif);
+}
+
+onMounted(() => {
+  window.addEventListener('storage', onStorageEvent);
+  window.addEventListener('store-whatsapp-order', onSameTabOrder);
+
+  // Show any pending notification that arrived while admin was loading
+  const pending = localStorage.getItem('vendpro_new_order_notify');
+  if (pending) {
+    try {
+      const data: OrderNotif = JSON.parse(pending);
+      // Only show if it arrived in the last 30 seconds
+      if (Date.now() - data.timestamp < 30_000) {
+        displayNotif(data);
+      }
+      localStorage.removeItem('vendpro_new_order_notify');
+    } catch { /* ignore */ }
+  }
+});
+
+onUnmounted(() => {
+  window.removeEventListener('storage', onStorageEvent);
+  window.removeEventListener('store-whatsapp-order', onSameTabOrder);
+  if (notifTimer) clearTimeout(notifTimer);
+});
+// ───────────────────────────────────────────────────
 
 async function handleLogout() {
   await authStore.logout();
@@ -122,4 +189,73 @@ const currentSectionName = computed(() => {
       </button>
     </div>
   </header>
+
+  <!-- ── New order notification toast ── -->
+  <Transition
+    enter-active-class="transition duration-400 ease-out"
+    enter-from-class="opacity-0 translate-y-2 scale-95"
+    enter-to-class="opacity-100 translate-y-0 scale-100"
+    leave-active-class="transition duration-300 ease-in"
+    leave-from-class="opacity-100 translate-y-0 scale-100"
+    leave-to-class="opacity-0 translate-y-2 scale-95"
+  >
+    <div
+      v-if="showOrderNotif && orderNotif"
+      class="fixed bottom-6 right-6 z-[80] w-[320px] bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-500/30 rounded-2xl shadow-2xl overflow-hidden"
+      role="alert"
+      aria-live="assertive"
+    >
+      <!-- Green accent top bar -->
+      <div class="h-1 w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500"></div>
+
+      <div class="p-4 flex items-start gap-3">
+        <!-- Icon -->
+        <div class="relative shrink-0">
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
+            <ShoppingBag class="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          </div>
+          <!-- Pulsing dot -->
+          <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white dark:border-slate-900"></span>
+          </span>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">
+              Nuevo Pedido vía WhatsApp
+            </p>
+            <button
+              type="button"
+              @click="showOrderNotif = false"
+              class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded-md shrink-0"
+              aria-label="Cerrar notificación"
+            >
+              <X class="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <p class="text-sm font-bold text-slate-900 dark:text-white mt-0.5 truncate">
+            {{ orderNotif.customerName }}
+          </p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 truncate">
+            {{ orderNotif.itemCount }} producto{{ orderNotif.itemCount !== 1 ? 's' : '' }}
+            &nbsp;·&nbsp;
+            {{ orderNotif.productName }}
+          </p>
+
+          <!-- CTA -->
+          <router-link
+            to="/admin/orders"
+            @click="showOrderNotif = false"
+            class="inline-flex items-center gap-1.5 mt-2.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-colors"
+          >
+            Ver pedido
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </Transition>
 </template>
