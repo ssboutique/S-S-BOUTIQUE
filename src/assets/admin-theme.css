@@ -370,3 +370,168 @@ html.dark .ad-badge-active { background: rgba(52,211,153,.12); border-color: rgb
 .ad-select:focus { border-color: rgba(238, 42, 123, 0.5); }
 html.dark .ad-select option { background: #160529; }
 html:not(.dark) .ad-select option { background: #fff; color: #1e0a3c; }
+
+/* ── Extra semantic text variables ─────────────── */
+:root {
+  --ad-text-strong:  #0f0520;
+  --ad-text-muted:   #6b5b8a;
+  --ad-text-faint:   #a090c0;
+
+  /* Modal surfaces */
+  --ad-modal-bg:     #ffffff;
+  --ad-modal-border: rgba(139, 92, 246, 0.15);
+  --ad-modal-header: rgba(139, 92, 246, 0.06);
+
+  /* Table row image bg */
+  --ad-img-bg:       #f3eeff;
+  --ad-img-border:   rgba(139, 92, 246, 0.15);
+
+  /* Tag/chip */
+  --ad-chip-bg:      rgba(139, 92, 246, 0.08);
+  --ad-chip-border:  rgba(139, 92, 246, 0.16);
+  --ad-chip-text:    #5b3fa0;
+}
+
+html.dark {
+  --ad-text-strong:  rgba(255,255,255,0.95);
+  --ad-text-muted:   rgba(255,255,255,0.5);
+  --ad-text-faint:   rgba(255,255,255,0.25);
+
+  --ad-modal-bg:     linear-gradient(160deg,#130923 0%,#1a0a30 100%);
+  --ad-modal-border: rgba(255,255,255,0.09);
+  --ad-modal-header: rgba(255,255,255,0.04);
+
+  --ad-img-bg:       rgba(255,255,255,0.05);
+  --ad-img-border:   rgba(255,255,255,0.09);
+
+  --ad-chip-bg:      rgba(255,255,255,0.05);
+  --ad-chip-border:  rgba(255,255,255,0.09);
+  --ad-chip-text:    rgba(255,255,255,0.65);
+}
+
+/* ────────────────────────────────────────────────────
+   GLOBAL LIGHT-MODE OVERRIDES
+   Force all hardcoded white text inside .admin-layout
+   to be readable in light mode.
+   In dark mode these selectors don't apply because
+   html.dark resets color through its own variables.
+──────────────────────────────────────────────────── */
+
+/* Any element that has an inline white/near-white color
+   inside the admin layout in light mode */
+html:not(.dark) .admin-layout [style*="color:#fff"],
+html:not(.dark) .admin-layout [style*="color: #fff"],
+html:not(.dark) .admin-layout [style*="color:white"],
+html:not(.dark) .admin-layout [style*="color: white"] {
+  color: var(--ad-text) !important;
+}
+
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.9"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.9"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.8"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.8"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.7"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.7"] {
+  color: var(--ad-text) !important;
+}
+
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.6"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.6"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.5"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.5"] {
+  color: var(--ad-text-2) !important;
+}
+
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.4"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.4"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.3"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.3"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.2"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.2"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.1"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.1"] {
+  color: var(--ad-text-3) !important;
+}
+
+/* Scoped-style classes that use hardcoded white */
+html:not(.dark) .admin-layout .ad-page-title,
+html:not(.dark) .admin-layout .ad-section-title,
+html:not(.dark) .admin-layout .ad-empty-title {
+  color: var(--ad-text) !important;
+}
+
+html:not(.dark) .admin-layout .ad-page-subtitle,
+html:not(.dark) .admin-layout .ad-empty-sub,
+html:not(.dark) .admin-layout .ad-label {
+  color: var(--ad-text-3) !important;
+}
+
+/* Table cells */
+html:not(.dark) .admin-layout .ad-table tbody td {
+  color: var(--ad-text-2) !important;
+}
+html:not(.dark) .admin-layout .ad-table thead th {
+  color: var(--ad-text-3) !important;
+}
+
+/* Sidebar text overrides in light mode */
+html:not(.dark) .sb-brand-name,
+html:not(.dark) .sb-store-name,
+html:not(.dark) .sb-profile-name,
+html:not(.dark) .sb-section,
+html:not(.dark) .nb-section {
+  color: var(--ad-text) !important;
+}
+html:not(.dark) .sb-brand-sub,
+html:not(.dark) .sb-store-slug,
+html:not(.dark) .sb-profile-email,
+html:not(.dark) .sb-section-title,
+html:not(.dark) .sb-store-slug,
+html:not(.dark) .sb-item-label,
+html:not(.dark) .nb-store-name {
+  color: var(--ad-text-3) !important;
+}
+html:not(.dark) .sb-item-idle {
+  color: var(--ad-text-3) !important;
+}
+html:not(.dark) .sb-item-active {
+  color: var(--ad-text) !important;
+  background: rgba(131,58,180,.08) !important;
+}
+
+/* Ghost button in light mode */
+html:not(.dark) .ad-btn-ghost {
+  color: var(--ad-text-2) !important;
+  background: var(--ad-surface-2) !important;
+  border-color: var(--ad-border) !important;
+}
+
+/* Modal title/content in light mode */
+html:not(.dark) .modal-title,
+html:not(.dark) .modal-box [style*="color:rgba(255,255,255,.9"],
+html:not(.dark) .modal-box [style*="color:rgba(255,255,255,0.9"] {
+  color: var(--ad-text) !important;
+}
+
+/* Input text in light mode */
+html:not(.dark) .ad-input,
+html:not(.dark) .ad-search,
+html:not(.dark) .ad-select {
+  color: var(--ad-text) !important;
+  background: var(--ad-input-bg) !important;
+  border-color: var(--ad-input-border) !important;
+}
+
+/* Search icon */
+html:not(.dark) .ad-search-icon {
+  color: var(--ad-text-3) !important;
+}
+
+/* Bottom nav in light mode */
+html:not(.dark) .mbn-root {
+  background: #fff !important;
+  border-top-color: var(--ad-border) !important;
+}
+html:not(.dark) .mbn-tab-idle  { color: var(--ad-text-3) !important; }
+html:not(.dark) .mbn-tab-active { color: var(--ad-text) !important; }
+html:not(.dark) .mbn-label { color: inherit !important; }

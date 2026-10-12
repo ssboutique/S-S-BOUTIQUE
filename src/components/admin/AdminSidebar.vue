@@ -263,6 +263,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 }
 html.dark .sb-root {
   background: linear-gradient(180deg, #100820 0%, #18062e 40%, #0f0a1e 100%);
+  border-right-color: rgba(255,255,255,.07);
 }
 @media (min-width: 1024px) {
   .sb-root {
