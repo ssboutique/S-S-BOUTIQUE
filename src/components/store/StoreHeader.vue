@@ -108,9 +108,10 @@ function openWhatsApp() {
           <!-- Quiénes Somos link -->
           <router-link
             :to="`/tienda/${storeStore.store?.slug}/nosotros`"
-            class="hidden lg:inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-full border border-fuchsia-300/60 text-fuchsia-700 bg-gradient-to-r from-fuchsia-50 to-purple-50 hover:from-fuchsia-100 hover:to-purple-100 hover:border-fuchsia-400 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95"
+            class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-full border border-fuchsia-300/60 text-fuchsia-700 bg-gradient-to-r from-fuchsia-50 to-purple-50 hover:from-fuchsia-100 hover:to-purple-100 hover:border-fuchsia-400 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95"
           >
-            Quiénes Somos
+            <span class="hidden sm:inline">Quiénes Somos</span>
+            <span class="sm:hidden">Nosotros</span>
           </router-link>
 
           <!-- WhatsApp Direct Contact Button -->
