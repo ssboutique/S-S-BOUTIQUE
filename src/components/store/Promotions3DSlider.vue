@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import type { Product } from '@/types/database';
 import { useStoreStore } from '@/stores/store';
 import { useCartStore } from '@/stores/cart';
@@ -53,25 +53,30 @@ const totalSlides = computed(() => promoProducts.value.length);
 function nextSlide() {
   if (totalSlides.value <= 1) return;
   currentIndex.value = (currentIndex.value + 1) % totalSlides.value;
+  startAutoplay(); // reset timer after manual navigation
 }
 
 function prevSlide() {
   if (totalSlides.value <= 1) return;
   currentIndex.value = (currentIndex.value - 1 + totalSlides.value) % totalSlides.value;
+  startAutoplay();
 }
 
 function goToSlide(index: number) {
   currentIndex.value = index;
+  startAutoplay();
 }
 
 function startAutoplay() {
   stopAutoplay();
   if (totalSlides.value > 1) {
     autoPlayTimer = setInterval(() => {
+      // On touch devices there's no hover, so always advance.
+      // On desktop, pause only while the user is actively hovering.
       if (!isHovered.value) {
         nextSlide();
       }
-    }, 4500);
+    }, 3500);
   }
 }
 
@@ -194,6 +199,11 @@ function handleQuickAddToCart(product: Product, e: Event) {
 
 onMounted(() => {
   startAutoplay();
+});
+
+// Re-start autoplay when products load asynchronously
+watch(totalSlides, (count) => {
+  if (count > 1) startAutoplay();
 });
 
 onUnmounted(() => {
