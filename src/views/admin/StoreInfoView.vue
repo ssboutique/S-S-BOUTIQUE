@@ -217,10 +217,10 @@ async function handleSave() {
   <div class="space-y-6 animate-fade-in max-w-4xl">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-extrabold text-white  tracking-tight">
+        <h1 class="text-2xl font-extrabold text-slate-900 dark:text-slate-900 dark:text-white  tracking-tight">
           Datos de la Tienda
         </h1>
-        <p class="text-sm text-white/38  mt-1">
+        <p class="text-sm text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  mt-1">
           Información general, dominio web, ubicación, horarios y redes sociales
         </p>
       </div>
@@ -229,7 +229,7 @@ async function handleSave() {
         type="button"
         @click="handleSave"
         :disabled="adminStore.isSaving"
-        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-glow transition-all active:scale-95 self-start sm:self-auto disabled:opacity-50"
+        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-slate-900 dark:text-slate-900 dark:text-white font-bold text-xs sm:text-sm shadow-glow transition-all active:scale-95 self-start sm:self-auto disabled:opacity-50"
       >
         <Check class="w-4 h-4" />
         <span>{{ adminStore.isSaving ? 'Guardando...' : 'Guardar Información' }}</span>
@@ -240,17 +240,17 @@ async function handleSave() {
     <ShareStoreBanner />
 
     <!-- Custom Domain Configuration Card -->
-    <div id="domain" class="bg-white/5 border-white/8  p-6 sm:p-8 rounded-3xl border border-white/8  space-y-5 transition-all">
+    <div id="domain" class="bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-white/8  space-y-5 transition-all">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 ">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-brand-50 dark:bg-brand-500/10 text-fuchsia-400 dark:text-fuchsia-400 flex items-center justify-center font-bold">
             <Globe class="w-5 h-5 text-fuchsia-400 dark:text-fuchsia-400" />
           </div>
           <div>
-            <h3 class="text-base font-bold text-white ">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-900 dark:text-white ">
               Dominio Propio &amp; Dirección Web
             </h3>
-            <p class="text-xs text-white/38 ">
+            <p class="text-xs text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 ">
               Personaliza el enlace con el que tus clientes acceden a tu tienda
             </p>
           </div>
@@ -265,53 +265,53 @@ async function handleSave() {
         </span>
         <span
           v-else
-          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/6  text-white/50  text-xs font-medium self-start sm:self-auto"
+          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-100 dark:bg-white/6  text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/50  text-xs font-medium self-start sm:self-auto"
         >
-          <Link2 class="w-3.5 h-3.5 text-white/30" />
+          <Link2 class="w-3.5 h-3.5 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30" />
           <span>Usando Subruta Estándar</span>
         </span>
       </div>
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
             Tu Dominio Web Comprado (Opcional)
           </label>
           <div class="relative">
             <div class="flex items-center">
-              <span class="px-3.5 py-2.5 bg-white/6  text-xs text-white/50  font-mono rounded-l-xl border border-r-0 border-white/10  select-none">
+              <span class="px-3.5 py-2.5 bg-slate-100 dark:bg-slate-100 dark:bg-white/6  text-xs text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/50  font-mono rounded-l-xl border border-r-0 border-slate-200 dark:border-slate-200 dark:border-white/10  select-none">
                 https://
               </span>
               <input
                 v-model="form.custom_domain"
                 type="text"
                 placeholder="mitienda.com o www.mitienda.com"
-                class="w-full px-3.5 py-2.5 rounded-r-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm font-mono text-white  outline-none placeholder-white/25"
+                class="w-full px-3.5 py-2.5 rounded-r-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm font-mono text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none placeholder-white/25"
               />
             </div>
           </div>
-          <p class="text-[11px] text-white/38  mt-1.5">
-            Si compraste un dominio en GoDaddy, Namecheap, DonDominio, Hostinger, etc. (ej: <code class="bg-white/6  px-1 py-0.5 rounded text-white/60 ">ssboutique.com</code>), escríbelo aquí y guarda los cambios.
+          <p class="text-[11px] text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  mt-1.5">
+            Si compraste un dominio en GoDaddy, Namecheap, DonDominio, Hostinger, etc. (ej: <code class="bg-slate-100 dark:bg-slate-100 dark:bg-white/6  px-1 py-0.5 rounded text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 ">ssboutique.com</code>), escríbelo aquí y guarda los cambios.
           </p>
         </div>
 
         <!-- Live Preview of Link for Customers -->
-        <div class="p-4 rounded-2xl bg-white/4  border border-white/10/80  space-y-2">
-          <div class="flex items-center justify-between text-xs font-semibold text-white/60 ">
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-50 dark:bg-white/4  border border-slate-200 dark:border-slate-200 dark:border-white/10/80  space-y-2">
+          <div class="flex items-center justify-between text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 ">
             <span>Enlace final que verán y recibirán tus clientes:</span>
-            <span class="text-[10px] text-white/38  uppercase tracking-wider font-bold">Vista previa en vivo</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  uppercase tracking-wider font-bold">Vista previa en vivo</span>
           </div>
-          <div class="flex items-center justify-between gap-3 bg-white/5 border-white/8  p-2.5 rounded-xl border border-white/10 /80">
+          <div class="flex items-center justify-between gap-3 bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  p-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10 /80">
             <span class="text-xs font-mono text-fuchsia-400 dark:text-fuchsia-400 font-bold truncate select-all">
               {{ previewCustomerUrl }}
             </span>
             <a
               :href="previewCustomerUrl"
               target="_blank"
-              class="inline-flex items-center gap-1 text-xs text-white/50  hover:text-white dark:hover:text-white font-semibold px-2 py-1 rounded-lg hover:bg-white/6  transition-all shrink-0"
+              class="inline-flex items-center gap-1 text-xs text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/50  hover:text-white dark:hover:text-slate-900 dark:text-slate-900 dark:text-white font-semibold px-2 py-1 rounded-lg hover:bg-slate-100 dark:bg-slate-100 dark:bg-white/6  transition-all shrink-0"
             >
               <span>Probar</span>
-              <ExternalLink class="w-3 h-3 text-white/30" />
+              <ExternalLink class="w-3 h-3 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30" />
             </a>
           </div>
         </div>
@@ -330,25 +330,25 @@ async function handleSave() {
           <!-- DNS Guide Details -->
           <div
             v-if="showDnsGuide"
-            class="mt-3 p-4 rounded-2xl bg-white/4  border border-white/10  text-xs text-white/60  space-y-3 animate-fade-in"
+            class="mt-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-50 dark:bg-white/4  border border-slate-200 dark:border-slate-200 dark:border-white/10  text-xs text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  space-y-3 animate-fade-in"
           >
-            <div class="font-bold text-white  flex items-center gap-2">
+            <div class="font-bold text-slate-900 dark:text-slate-900 dark:text-white  flex items-center gap-2">
               <span>📋 Instrucciones para apuntar los DNS de tu proveedor:</span>
             </div>
 
-            <ol class="list-decimal list-inside space-y-2 text-white/60  pl-1">
+            <ol class="list-decimal list-inside space-y-2 text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  pl-1">
               <li>
                 Inicia sesión en la plataforma donde compraste tu dominio (GoDaddy, Hostinger, Namecheap, etc.) y ve a la sección <strong>"Gestión de DNS"</strong> o <strong>"Zona DNS"</strong>.
               </li>
               <li>
                 Agrega o edita el siguiente registro <strong>CNAME</strong>:
-                <div class="mt-1.5 p-2.5 bg-white/5 border-white/8  rounded-xl border border-blue-200 dark:border-blue-900/60 font-mono text-[11px] grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <div><strong class="text-white/38  block text-[10px]">TIPO:</strong> CNAME</div>
-                  <div><strong class="text-white/38  block text-[10px]">NOMBRE / HOST:</strong> www</div>
+                <div class="mt-1.5 p-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  rounded-xl border border-blue-200 dark:border-blue-900/60 font-mono text-[11px] grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div><strong class="text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  block text-[10px]">TIPO:</strong> CNAME</div>
+                  <div><strong class="text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  block text-[10px]">NOMBRE / HOST:</strong> www</div>
                   <div class="flex items-center justify-between">
                     <div>
-                      <strong class="text-white/38  block text-[10px]">DESTINO / VALOR:</strong>
-                      <span class="text-white ">cname.vercel-dns.com</span>
+                      <strong class="text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  block text-[10px]">DESTINO / VALOR:</strong>
+                      <span class="text-slate-900 dark:text-slate-900 dark:text-white ">cname.vercel-dns.com</span>
                     </div>
                     <button
                       type="button"
@@ -364,13 +364,13 @@ async function handleSave() {
               </li>
               <li>
                 Para el dominio raíz (sin www), agrega un registro <strong>A</strong>:
-                <div class="mt-1.5 p-2.5 bg-white/5 border-white/8  rounded-xl border border-blue-200 dark:border-blue-900/60 font-mono text-[11px] grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <div><strong class="text-white/38  block text-[10px]">TIPO:</strong> A</div>
-                  <div><strong class="text-white/38  block text-[10px]">NOMBRE / HOST:</strong> @</div>
+                <div class="mt-1.5 p-2.5 bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  rounded-xl border border-blue-200 dark:border-blue-900/60 font-mono text-[11px] grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div><strong class="text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  block text-[10px]">TIPO:</strong> A</div>
+                  <div><strong class="text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  block text-[10px]">NOMBRE / HOST:</strong> @</div>
                   <div class="flex items-center justify-between">
                     <div>
-                      <strong class="text-white/38  block text-[10px]">DESTINO / VALOR:</strong>
-                      <span class="text-white ">76.76.21.21</span>
+                      <strong class="text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  block text-[10px]">DESTINO / VALOR:</strong>
+                      <span class="text-slate-900 dark:text-slate-900 dark:text-white ">76.76.21.21</span>
                     </div>
                     <button
                       type="button"
@@ -388,7 +388,7 @@ async function handleSave() {
                 Escribe tu dominio arriba en el campo <strong>"Tu Dominio Web Comprado"</strong> y presiona <strong>"Guardar Información"</strong>.
               </li>
             </ol>
-            <p class="text-[11px] text-white/38  italic pt-1 border-t border-blue-200/60 dark:border-blue-900/40">
+            <p class="text-[11px] text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  italic pt-1 border-t border-blue-200/60 dark:border-blue-900/40">
               * Nota: La propagación de DNS en internet puede tardar entre 5 minutos y unas horas dependiendo de tu registrador.
             </p>
           </div>
@@ -397,8 +397,8 @@ async function handleSave() {
     </div>
 
     <!-- Identity & Branding Card -->
-    <div class="bg-white/5 border-white/8  p-6 sm:p-8 rounded-3xl border border-white/8  space-y-6 transition-all">
-      <h3 class="text-base font-bold text-white  flex items-center gap-2">
+    <div class="bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-white/8  space-y-6 transition-all">
+      <h3 class="text-base font-bold text-slate-900 dark:text-slate-900 dark:text-white  flex items-center gap-2">
         <Sparkles class="w-5 h-5 text-brand-500" />
         <span>Logotipo y Portada</span>
       </h3>
@@ -406,16 +406,16 @@ async function handleSave() {
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <!-- Logo Uploader -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold text-white/60  uppercase tracking-wider">
+          <label class="block text-xs font-bold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  uppercase tracking-wider">
             Logo de tu tienda
           </label>
           <div class="flex items-center gap-4">
-            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-white/6  border border-white/10  shrink-0 shadow-inner flex items-center justify-center">
+            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-100 dark:bg-white/6  border border-slate-200 dark:border-slate-200 dark:border-white/10  shrink-0 shadow-inner flex items-center justify-center">
               <img v-if="form.logo_url" :src="form.logo_url" class="w-full h-full object-cover" />
-              <ImageIcon v-else class="w-8 h-8 text-white/30" />
+              <ImageIcon v-else class="w-8 h-8 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30" />
             </div>
 
-            <label class="px-4 py-2 bg-white/6 hover:bg-white/10   text-white/80  rounded-xl text-xs font-bold cursor-pointer transition-all">
+            <label class="px-4 py-2 bg-slate-100 dark:bg-slate-100 dark:bg-white/6 hover:bg-slate-100 dark:bg-slate-100 dark:bg-white/10   text-slate-800 dark:text-slate-900 dark:text-slate-800 dark:text-slate-900 dark:text-white/80  rounded-xl text-xs font-bold cursor-pointer transition-all">
               <span>{{ isUploadingLogo ? 'Cargando...' : 'Subir nuevo logo' }}</span>
               <input type="file" accept="image/*" class="hidden" @change="handleLogoUpload" :disabled="isUploadingLogo" />
             </label>
@@ -424,16 +424,16 @@ async function handleSave() {
 
         <!-- Banner Uploader -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold text-white/60  uppercase tracking-wider">
+          <label class="block text-xs font-bold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  uppercase tracking-wider">
             Imagen de Portada (Banner)
           </label>
           <div class="flex items-center gap-4">
-            <div class="w-28 h-20 rounded-2xl overflow-hidden bg-white/6  border border-white/10  shrink-0 shadow-inner flex items-center justify-center">
+            <div class="w-28 h-20 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-100 dark:bg-white/6  border border-slate-200 dark:border-slate-200 dark:border-white/10  shrink-0 shadow-inner flex items-center justify-center">
               <img v-if="form.banner_url" :src="form.banner_url" class="w-full h-full object-cover" />
-              <ImageIcon v-else class="w-8 h-8 text-white/30" />
+              <ImageIcon v-else class="w-8 h-8 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30" />
             </div>
 
-            <label class="px-4 py-2 bg-white/6 hover:bg-white/10   text-white/80  rounded-xl text-xs font-bold cursor-pointer transition-all">
+            <label class="px-4 py-2 bg-slate-100 dark:bg-slate-100 dark:bg-white/6 hover:bg-slate-100 dark:bg-slate-100 dark:bg-white/10   text-slate-800 dark:text-slate-900 dark:text-slate-800 dark:text-slate-900 dark:text-white/80  rounded-xl text-xs font-bold cursor-pointer transition-all">
               <span>{{ isUploadingBanner ? 'Cargando...' : 'Subir portada' }}</span>
               <input type="file" accept="image/*" class="hidden" @change="handleBannerUpload" :disabled="isUploadingBanner" />
             </label>
@@ -443,15 +443,15 @@ async function handleSave() {
     </div>
 
     <!-- General Info Card -->
-    <div class="bg-white/5 border-white/8  p-6 sm:p-8 rounded-3xl border border-white/8  space-y-5 transition-all">
-      <h3 class="text-base font-bold text-white  flex items-center gap-2">
+    <div class="bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-white/8  space-y-5 transition-all">
+      <h3 class="text-base font-bold text-slate-900 dark:text-slate-900 dark:text-white  flex items-center gap-2">
         <Store class="w-5 h-5 text-brand-500" />
         <span>Información del Negocio</span>
       </h3>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
             Nombre del Negocio / Marca <span class="text-rose-500">*</span>
           </label>
           <input
@@ -459,47 +459,47 @@ async function handleSave() {
             @input="handleNameChange"
             type="text"
             required
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
           />
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
             URL de tu tienda (Slug) <span class="text-rose-500">*</span>
           </label>
           <div class="flex items-center">
-            <span class="px-3 py-2.5 bg-white/6  text-xs text-white/38  rounded-l-xl border border-r-0 border-white/10  font-mono">
+            <span class="px-3 py-2.5 bg-slate-100 dark:bg-slate-100 dark:bg-white/6  text-xs text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  rounded-l-xl border border-r-0 border-slate-200 dark:border-slate-200 dark:border-white/10  font-mono">
               /tienda/
             </span>
             <input
               v-model="form.slug"
               type="text"
               required
-              class="w-full px-3 py-2.5 rounded-r-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-xs font-mono text-white  outline-none"
+              class="w-full px-3 py-2.5 rounded-r-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-xs font-mono text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
             />
           </div>
         </div>
       </div>
 
       <div>
-        <label class="block text-xs font-semibold text-white/60  mb-1">
+        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
           Descripción o Lema Comercial
         </label>
         <textarea
           v-model="form.description"
           rows="2"
-          class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none resize-none"
+          class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none resize-none"
         ></textarea>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
             Moneda de la tienda
           </label>
           <select
             v-model="form.currency"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none bg-white/5 border-white/8 "
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8 "
           >
             <option value="COP">COP - Peso Colombiano ($ 50.000)</option>
             <option value="USD">USD - Dólar Estadounidense ($50.00)</option>
@@ -509,38 +509,38 @@ async function handleSave() {
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
             Teléfono Fijo / Secundario (Opcional)
           </label>
           <input
             v-model="form.phone"
             type="text"
             placeholder="+57 601 234 5678"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
           />
         </div>
       </div>
     </div>
 
     <!-- About Us & Boutique Photo Gallery Section -->
-    <div class="bg-white/5 border-white/8  p-6 sm:p-8 rounded-3xl border border-white/8  space-y-6 transition-all">
+    <div class="bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-white/8  space-y-6 transition-all">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 ">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500/20 via-fuchsia-500/20 to-purple-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
             <Crown class="w-5 h-5 text-amber-600 dark:text-amber-400" />
           </div>
           <div>
-            <h3 class="text-base font-bold text-white ">
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-900 dark:text-white ">
               Quiénes Somos & Galería de Fotos del Local
             </h3>
-            <p class="text-xs text-white/38 ">
+            <p class="text-xs text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 ">
               Cuenta la historia de tu marca, a qué se dedican y sube fotos de tu tienda o atelier
             </p>
           </div>
         </div>
 
         <label class="flex items-center gap-2 cursor-pointer self-start sm:self-auto">
-          <span class="text-xs font-semibold text-white/60 ">Mostrar en tienda:</span>
+          <span class="text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 ">Mostrar en tienda:</span>
           <input
             v-model="aboutForm.enabled"
             type="checkbox"
@@ -552,39 +552,39 @@ async function handleSave() {
       <div class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-semibold text-white/60  mb-1">
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
               Título de la Sección (Opcional)
             </label>
             <input
               v-model="aboutForm.title"
               type="text"
               placeholder="Ej: Quiénes Somos | Nuestra Esencia & Atelier"
-              class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
             />
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-white/60  mb-1">
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
               Lema / Subtítulo Corto
             </label>
             <input
               v-model="aboutForm.subtitle"
               type="text"
               placeholder="Ej: Alta confección, calzado de autor y asesoría personalizada"
-              class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
             Historia de la Marca, a qué se dedican & Experiencia del Cliente
           </label>
           <textarea
             v-model="aboutForm.story"
             rows="4"
             placeholder="Describe la pasión de tu tienda, la confección de tus prendas, materiales utilizados, atención personalizada o por qué tus clientes eligen tu marca..."
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none resize-none leading-relaxed"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none resize-none leading-relaxed"
           ></textarea>
         </div>
 
@@ -592,17 +592,17 @@ async function handleSave() {
         <div class="pt-3 border-t border-slate-100  space-y-3">
           <div class="flex items-center justify-between">
             <div>
-              <h4 class="text-xs font-bold text-white/80  flex items-center gap-1.5">
+              <h4 class="text-xs font-bold text-slate-800 dark:text-slate-900 dark:text-slate-800 dark:text-slate-900 dark:text-white/80  flex items-center gap-1.5">
                 <Camera class="w-4 h-4 text-fuchsia-600 dark:text-fuchsia-400" />
                 <span>Fotos del Local Físico, Atelier o Equipo ({{ aboutForm.photos.length }})</span>
               </h4>
-              <p class="text-[11px] text-white/38 ">
+              <p class="text-[11px] text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 ">
                 Estas imágenes se mostrarán en un slider automático elegante en la sección Quiénes Somos.
               </p>
             </div>
 
             <!-- Upload Button -->
-            <label class="cursor-pointer inline-flex items-center gap-2 px-3.5 py-2 bg-slate-900 dark:bg-white/6 hover:bg-slate-800 text-white  rounded-xl text-xs font-bold shadow-sm transition-all active:scale-95">
+            <label class="cursor-pointer inline-flex items-center gap-2 px-3.5 py-2 bg-slate-900 dark:bg-slate-100 dark:bg-slate-100 dark:bg-white/6 hover:bg-slate-800 text-slate-900 dark:text-slate-900 dark:text-white  rounded-xl text-xs font-bold shadow-sm transition-all active:scale-95">
               <Upload class="w-3.5 h-3.5" />
               <span>{{ isUploadingAboutPhotos ? 'Subiendo fotos...' : '+ Subir Fotos' }}</span>
               <input
@@ -621,7 +621,7 @@ async function handleSave() {
             <div
               v-for="(photoUrl, idx) in aboutForm.photos"
               :key="idx"
-              class="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10  group shadow-sm bg-white/6 "
+              class="relative aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-200 dark:border-white/10  group shadow-sm bg-slate-100 dark:bg-slate-100 dark:bg-white/6 "
             >
               <img :src="photoUrl" class="w-full h-full object-cover" />
               
@@ -630,7 +630,7 @@ async function handleSave() {
                 <button
                   type="button"
                   @click="removeAboutPhoto(idx)"
-                  class="p-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white shadow-sm"
+                  class="p-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-slate-900 dark:text-slate-900 dark:text-white shadow-sm"
                   title="Eliminar foto"
                 >
                   <Trash2 class="w-4 h-4" />
@@ -641,11 +641,11 @@ async function handleSave() {
 
           <div
             v-else
-            class="p-6 rounded-2xl border-2 border-dashed border-white/10  text-center bg-white/4 "
+            class="p-6 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-200 dark:border-white/10  text-center bg-slate-50 dark:bg-slate-50 dark:bg-white/4 "
           >
-            <Camera class="w-8 h-8 text-white/30 mx-auto mb-2" />
-            <p class="text-xs font-semibold text-white/60 ">Aún no has subido fotos de tu tienda o taller</p>
-            <p class="text-[11px] text-white/38  mt-0.5">
+            <Camera class="w-8 h-8 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 mx-auto mb-2" />
+            <p class="text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 ">Aún no has subido fotos de tu tienda o taller</p>
+            <p class="text-[11px] text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38  mt-0.5">
               (Si no subes fotos personalizadas, se mostrará una galería de atelier boutique por defecto).
             </p>
           </div>
@@ -654,84 +654,84 @@ async function handleSave() {
     </div>
 
     <!-- Location & Schedule -->
-    <div class="bg-white/5 border-white/8  p-6 sm:p-8 rounded-3xl border border-white/8  space-y-5 transition-all">
-      <h3 class="text-base font-bold text-white  flex items-center gap-2">
+    <div class="bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-white/8  space-y-5 transition-all">
+      <h3 class="text-base font-bold text-slate-900 dark:text-slate-900 dark:text-white  flex items-center gap-2">
         <MapPin class="w-5 h-5 text-brand-500" />
         <span>Ubicación y Horarios</span>
       </h3>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
             Dirección del local o punto físico
           </label>
           <input
             v-model="form.address"
             type="text"
             placeholder="Calle 72 # 10-34"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
           />
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
             Ciudad / País
           </label>
           <input
             v-model="form.city"
             type="text"
             placeholder="Bogotá, Colombia"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
           />
         </div>
       </div>
 
       <div>
-        <label class="block text-xs font-semibold text-white/60  mb-1">
+        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">
           Horarios de Atención
         </label>
         <input
           v-model="form.business_hours"
           type="text"
           placeholder="Lunes a Sábado: 9:00 AM - 7:00 PM"
-          class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
+          class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
         />
       </div>
     </div>
 
     <!-- Social Links -->
-    <div class="bg-white/5 border-white/8  p-6 sm:p-8 rounded-3xl border border-white/8  space-y-5 transition-all">
-      <h3 class="text-base font-bold text-white  flex items-center gap-2">
+    <div class="bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-white/8  space-y-5 transition-all">
+      <h3 class="text-base font-bold text-slate-900 dark:text-slate-900 dark:text-white  flex items-center gap-2">
         <Globe class="w-5 h-5 text-brand-500" />
         <span>Redes Sociales</span>
       </h3>
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">Instagram URL</label>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">Instagram URL</label>
           <input
             v-model="form.instagram_url"
             type="url"
             placeholder="https://instagram.com/tu-tienda"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  text-sm text-white  outline-none"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
           />
         </div>
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">Facebook URL</label>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">Facebook URL</label>
           <input
             v-model="form.facebook_url"
             type="url"
             placeholder="https://facebook.com/tu-tienda"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  text-sm text-white  outline-none"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
           />
         </div>
         <div>
-          <label class="block text-xs font-semibold text-white/60  mb-1">TikTok URL</label>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60  mb-1">TikTok URL</label>
           <input
             v-model="form.tiktok_url"
             type="url"
             placeholder="https://tiktok.com/@tu-tienda"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  text-sm text-white  outline-none"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/10  bg-slate-50 dark:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-200 dark:border-white/8  text-sm text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none"
           />
         </div>
       </div>

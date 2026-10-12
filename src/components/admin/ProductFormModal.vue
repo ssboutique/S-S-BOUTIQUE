@@ -261,18 +261,18 @@ async function handleSubmit() {
     aria-modal="true"
     @click.self="emit('close')"
   >
-    <div class="relative w-full max-w-3xl max-h-[92vh] flex flex-col" style="background:linear-gradient(160deg,#130923 0%,#1a0a30 100%);border:1px solid rgba(255,255,255,.09);border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.7)">
+    <div class="relative w-full max-w-3xl max-h-[92vh] flex flex-col" style="background:linear-gradient(160deg,#130923 0%,#1a0a30 100%);border:1px solid var(--ad-border);border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.7)">
       <!-- Modal Header -->
-      <div style="padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--ad-divider);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
         <div class="flex items-center gap-2.5">
           <div style="width:36px;height:36px;border-radius:10px;background:rgba(238,42,123,.12);border:1px solid rgba(238,42,123,.2);display:flex;align-items:center;justify-content:center">
             <Package class="w-5 h-5" />
           </div>
           <div>
-            <h3 style="font-size:16px;font-weight:800;color:rgba(255,255,255,.9)">
+            <h3 style="font-size:16px;font-weight:800;color:var(--ad-text)">
               {{ form.id ? 'Editar Producto' : 'Crear Nuevo Producto' }}
             </h3>
-            <p style="font-size:11px;color:rgba(255,255,255,.32)">
+            <p style="font-size:11px;color:var(--ad-text-3)">
               Configura los detalles, fotos, precios y opciones de tu artículo
             </p>
           </div>
@@ -455,7 +455,7 @@ async function handleSubmit() {
                 type="button"
                 @click="applyDiscountPercent(0)"
                 class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all"
-                :class="discountPercent === 0 ? 'bg-slate-900 text-white shadow-sm' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'"
+                :class="discountPercent === 0 ? 'bg-slate-900 text-slate-900 dark:text-slate-900 dark:text-white shadow-sm' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'"
               >
                 Sin Descuento (0%)
               </button>
@@ -465,7 +465,7 @@ async function handleSubmit() {
                 type="button"
                 @click="applyDiscountPercent(p)"
                 class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all"
-                :class="discountPercent === p ? 'bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-sm' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'"
+                :class="discountPercent === p ? 'bg-gradient-to-r from-fuchsia-600 to-purple-600 text-slate-900 dark:text-slate-900 dark:text-white shadow-sm' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'"
               >
                 {{ p }}% OFF
               </button>
@@ -478,14 +478,14 @@ async function handleSubmit() {
             class="modal-discount-card"
           >
             <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-xl bg-fuchsia-600 text-white flex items-center justify-center font-black text-xs shrink-0">
+              <div class="w-8 h-8 rounded-xl bg-fuchsia-600 text-slate-900 dark:text-slate-900 dark:text-white flex items-center justify-center font-black text-xs shrink-0">
                 %
               </div>
               <div>
-                <p style="font-size:12px;font-weight:800;color:rgba(255,255,255,.85)">
+                <p style="font-size:12px;font-weight:800;color:var(--ad-text)">
                   Descuento del {{ discountPercent }}% aplicado
                 </p>
-                <p style="font-size:11px;color:rgba(255,255,255,.4)">
+                <p style="font-size:11px;color:var(--ad-text-3)">
                   El cliente verá <span class="line-through text-slate-400 font-semibold">${{ form.original_price.toLocaleString('es-CO') }}</span> y pagará <strong style="color:#ee2a7b">${{ form.price.toLocaleString('es-CO') }}</strong>
                 </p>
               </div>
@@ -528,14 +528,14 @@ async function handleSubmit() {
             <div
               v-for="(url, idx) in imageUrls"
               :key="idx"
-              style="position:relative;width:96px;height:96px;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.05);flex-shrink:0"
+              style="position:relative;width:96px;height:96px;border-radius:16px;overflow:hidden;background:var(--ad-surface);flex-shrink:0"
               :class="idx === 0 ? 'border-brand-500' : 'border-slate-200'"
             >
               <img :src="url" class="w-full h-full object-cover" />
 
               <div
                 v-if="idx === 0"
-                class="absolute bottom-0 inset-x-0 bg-brand-500 text-white text-[9px] font-bold text-center py-0.5"
+                class="absolute bottom-0 inset-x-0 bg-brand-500 text-slate-900 dark:text-slate-900 dark:text-white text-[9px] font-bold text-center py-0.5"
               >
                 Portada
               </div>
@@ -554,7 +554,7 @@ async function handleSubmit() {
                 <button
                   type="button"
                   @click="removeImage(idx)"
-                  class="p-1 rounded-md bg-rose-500 text-white hover:bg-rose-600"
+                  class="p-1 rounded-md bg-rose-500 text-slate-900 dark:text-slate-900 dark:text-white hover:bg-rose-600"
                   title="Eliminar foto"
                 >
                   <Trash2 class="w-3.5 h-3.5" />
@@ -652,8 +652,8 @@ async function handleSubmit() {
         <div class="space-y-3 pt-4 modal-section">
           <div class="modal-toggle-row">
             <div>
-              <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,.85)">Disponible para la venta</div>
-              <div style="font-size:10px;color:rgba(255,255,255,.3)">Muestra u oculta este producto inmediatamente en tu tienda pública</div>
+              <div style="font-size:12px;font-weight:800;color:var(--ad-text)">Disponible para la venta</div>
+              <div style="font-size:10px;color:var(--ad-text-3)">Muestra u oculta este producto inmediatamente en tu tienda pública</div>
             </div>
             <input
               v-model="form.is_available"
@@ -665,24 +665,24 @@ async function handleSubmit() {
           <!-- Promotions Slider Selector Card -->
           <div
             class="flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer"
-            :class="form.is_featured ? 'bg-fuchsia-500/8 border-fuchsia-500/25' : 'bg-white/4 border-white/7 hover:bg-white/6'"
+            :class="form.is_featured ? 'bg-fuchsia-500/8 border-fuchsia-500/25' : 'bg-slate-50 dark:bg-slate-50 dark:bg-white/4 border-slate-200 dark:border-slate-200 dark:border-white/7 hover:bg-slate-100 dark:bg-slate-100 dark:bg-white/6'"
             @click="form.is_featured = !form.is_featured"
           >
             <div class="flex items-center gap-3">
               <div
                 class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
-                :class="form.is_featured ? 'bg-gradient-to-br from-fuchsia-600 to-purple-600 text-white' : 'bg-white/8 text-white/28'"
+                :class="form.is_featured ? 'bg-gradient-to-br from-fuchsia-600 to-purple-600 text-slate-900 dark:text-slate-900 dark:text-white' : 'bg-slate-100 dark:bg-slate-100 dark:bg-white/8 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28'"
               >
                 <Flame class="w-5 h-5" />
               </div>
               <div>
-                <div style="font-size:12px;font-weight:900;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:6px">
+                <div style="font-size:12px;font-weight:900;color:var(--ad-text);display:flex;align-items:center;gap:6px">
                   <span>Exhibir en el Slider Principal de Promociones</span>
-                  <span v-if="form.is_featured" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-fuchsia-600 text-white">
+                  <span v-if="form.is_featured" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-fuchsia-600 text-slate-900 dark:text-slate-900 dark:text-white">
                     DESTACADO EN SLIDER
                   </span>
                 </div>
-                <div style="font-size:10px;color:rgba(255,255,255,.3)">
+                <div style="font-size:10px;color:var(--ad-text-3)">
                   Aparecerá en la pasarela destacada superior de la tienda para máxima atracción visual
                 </div>
               </div>
@@ -708,7 +708,7 @@ async function handleSubmit() {
           <button
             type="submit"
             :disabled="adminStore.isSaving"
-            class="px-6 py-2.5 bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold shadow-glow transition-all active:scale-95"
+            class="px-6 py-2.5 bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-slate-900 dark:text-slate-900 dark:text-white rounded-xl text-xs font-bold shadow-glow transition-all active:scale-95"
           >
             {{ adminStore.isSaving ? 'Guardando...' : 'Guardar Producto' }}
           </button>

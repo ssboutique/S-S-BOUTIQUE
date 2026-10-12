@@ -1,65 +1,160 @@
 /*
   Admin panel design tokens.
-  Light mode: clean white/lavender slate (default).
+  Light mode: clean white/slate (default).
   Dark mode:  deep IG-inspired purple-black (html.dark).
 */
 
-/* ── LIGHT MODE (default) ───────────────────────── */
+/* ── LIGHT MODE (default) ─────────────────────── */
 :root {
-  --ad-page-bg:     #f4f0fb;
-  --ad-surface:     #ffffff;
-  --ad-surface-2:   #f8f5ff;
-  --ad-surface-3:   #f0ebff;
+  --ad-page-bg:      #f4f0fb;
+  --ad-surface:      #ffffff;
+  --ad-surface-2:    #f8f5ff;
+  --ad-surface-3:    #f0ebff;
 
-  --ad-border:      rgba(139, 92, 246, 0.13);
-  --ad-border-2:    rgba(139, 92, 246, 0.22);
+  --ad-border:       rgba(139, 92, 246, 0.13);
+  --ad-border-2:     rgba(139, 92, 246, 0.22);
 
-  --ad-text:        #1e0a3c;
-  --ad-text-2:      #4b3a6b;
-  --ad-text-3:      #8b7aaa;
+  --ad-text:         #1e0a3c;
+  --ad-text-2:       #4b3a6b;
+  --ad-text-3:       #8b7aaa;
 
-  --ad-input-bg:    #ffffff;
-  --ad-input-border:rgba(139, 92, 246, 0.2);
-  --ad-input-focus: rgba(238, 42, 123, 0.35);
+  --ad-input-bg:     #ffffff;
+  --ad-input-border: rgba(139, 92, 246, 0.2);
+  --ad-input-focus:  rgba(238, 42, 123, 0.25);
 
-  --ad-divider:     rgba(139, 92, 246, 0.1);
-
-  --ad-table-hover: rgba(139, 92, 246, 0.04);
-  --ad-shadow:      0 2px 16px rgba(139, 92, 246, 0.08);
+  --ad-divider:      rgba(139, 92, 246, 0.1);
+  --ad-table-hover:  rgba(139, 92, 246, 0.04);
+  --ad-shadow:       0 2px 16px rgba(139, 92, 246, 0.08);
 }
 
-/* ── DARK MODE ──────────────────────────────────── */
+/* ── DARK MODE ───────────────────────────────── */
 html.dark {
-  --ad-page-bg:     #0b0717;
-  --ad-surface:     rgba(255, 255, 255, 0.045);
-  --ad-surface-2:   rgba(255, 255, 255, 0.075);
-  --ad-surface-3:   rgba(255, 255, 255, 0.11);
+  --ad-page-bg:      #0b0717;
+  --ad-surface:      rgba(255, 255, 255, 0.045);
+  --ad-surface-2:    rgba(255, 255, 255, 0.075);
+  --ad-surface-3:    rgba(255, 255, 255, 0.11);
 
-  --ad-border:      rgba(255, 255, 255, 0.08);
-  --ad-border-2:    rgba(255, 255, 255, 0.13);
+  --ad-border:       rgba(255, 255, 255, 0.08);
+  --ad-border-2:     rgba(255, 255, 255, 0.13);
 
-  --ad-text:        rgba(255, 255, 255, 0.92);
-  --ad-text-2:      rgba(255, 255, 255, 0.55);
-  --ad-text-3:      rgba(255, 255, 255, 0.28);
+  --ad-text:         rgba(255, 255, 255, 0.92);
+  --ad-text-2:       rgba(255, 255, 255, 0.55);
+  --ad-text-3:       rgba(255, 255, 255, 0.28);
 
-  --ad-input-bg:    rgba(255, 255, 255, 0.06);
-  --ad-input-border:rgba(255, 255, 255, 0.1);
-  --ad-input-focus: rgba(238, 42, 123, 0.4);
+  --ad-input-bg:     rgba(255, 255, 255, 0.06);
+  --ad-input-border: rgba(255, 255, 255, 0.10);
+  --ad-input-focus:  rgba(238, 42, 123, 0.40);
 
-  --ad-divider:     rgba(255, 255, 255, 0.07);
-
-  --ad-table-hover: rgba(255, 255, 255, 0.04);
-  --ad-shadow:      0 4px 24px rgba(0, 0, 0, 0.5);
+  --ad-divider:      rgba(255, 255, 255, 0.07);
+  --ad-table-hover:  rgba(255, 255, 255, 0.04);
+  --ad-shadow:       0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
-/* ── Admin layout background ────────────────────── */
+/* ── Admin layout background ─────────────────── */
 .admin-layout {
   background: var(--ad-page-bg);
   min-height: 100vh;
   transition: background 0.2s;
 }
 
-/* ── Card / section wrapper ─────────────────────── */
+/* ═══════════════════════════════════════════════
+   LIGHT-MODE GLOBAL TEXT OVERRIDE
+   Tailwind .text-white = color:#fff — invisible
+   on light backgrounds. Override ALL white text
+   inside .admin-layout when NOT in dark mode.
+   Covers: text-white, text-white/*, inline styles.
+═══════════════════════════════════════════════ */
+html:not(.dark) .admin-layout .text-white,
+html:not(.dark) .admin-layout [class*="text-white/"] {
+  color: var(--ad-text) !important;
+}
+
+/* Slightly muted variants */
+html:not(.dark) .admin-layout [class*="text-white/5"],
+html:not(.dark) .admin-layout [class*="text-white/4"],
+html:not(.dark) .admin-layout [class*="text-white/3"],
+html:not(.dark) .admin-layout [class*="text-white/2"],
+html:not(.dark) .admin-layout [class*="text-white/1"] {
+  color: var(--ad-text-3) !important;
+}
+
+/* Keep white text on colored buttons/badges (IG gradient, emerald, rose) */
+html:not(.dark) .admin-layout .ad-btn-primary,
+html:not(.dark) .admin-layout .ad-btn-primary *,
+html:not(.dark) .admin-layout [class*="bg-gradient-to-r"] .text-white,
+html:not(.dark) .admin-layout [class*="bg-fuchsia-"] .text-white,
+html:not(.dark) .admin-layout [class*="bg-emerald-6"] .text-white,
+html:not(.dark) .admin-layout [class*="bg-emerald-5"] .text-white,
+html:not(.dark) .admin-layout [class*="bg-rose-6"] .text-white,
+html:not(.dark) .admin-layout [class*="bg-rose-5"] .text-white,
+html:not(.dark) .admin-layout [class*="bg-red-6"] .text-white,
+html:not(.dark) .admin-layout .nb-view-btn,
+html:not(.dark) .admin-layout .nb-view-btn *,
+html:not(.dark) .admin-layout [class*="from-fuchsia-"],
+html:not(.dark) .admin-layout [class*="from-fuchsia-"] *,
+html:not(.dark) .admin-layout .sb-profile-avatar {
+  color: #ffffff !important;
+}
+
+/* ── Inline white styles in light mode ─────── */
+html:not(.dark) .admin-layout [style*="color:#fff"],
+html:not(.dark) .admin-layout [style*="color: #fff"] {
+  color: var(--ad-text) !important;
+}
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255"] {
+  color: var(--ad-text) !important;
+}
+/* Faint inline whites → tertiary text */
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.3"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.3"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.2"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.2"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.1"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.1"] {
+  color: var(--ad-text-3) !important;
+}
+/* Mid inline whites → secondary text */
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.4"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.4"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.5"],
+html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.5"] {
+  color: var(--ad-text-2) !important;
+}
+
+/* ── White placeholder fix ───────────────── */
+html:not(.dark) .admin-layout input::placeholder,
+html:not(.dark) .admin-layout textarea::placeholder {
+  color: var(--ad-text-3) !important;
+}
+
+/* ── Backgrounds in light mode ───────────── */
+html:not(.dark) .admin-layout [class*="bg-white/"] {
+  background-color: var(--ad-surface-2) !important;
+}
+/* Slightly lighter for bg-white/4 and bg-white/5 */
+html:not(.dark) .admin-layout .bg-white\/4,
+html:not(.dark) .admin-layout .bg-white\/5 {
+  background-color: var(--ad-surface-2) !important;
+}
+
+/* Keep white backgrounds that should stay white */
+html:not(.dark) .admin-layout .ad-card,
+html:not(.dark) .admin-layout .ad-input,
+html:not(.dark) .admin-layout .ad-search,
+html:not(.dark) .admin-layout .ad-select,
+html:not(.dark) .admin-layout .modal-box {
+  background: var(--ad-surface) !important;
+}
+
+/* ── Borders in light mode ───────────────── */
+html:not(.dark) .admin-layout [class*="border-white/"] {
+  border-color: var(--ad-border) !important;
+}
+html:not(.dark) .admin-layout [class*="divide-white/"] {
+  border-color: var(--ad-divider) !important;
+}
+
+/* ── Shared component tokens ──────────────── */
 .ad-card {
   background: var(--ad-surface);
   border: 1px solid var(--ad-border);
@@ -68,18 +163,14 @@ html.dark {
   box-shadow: var(--ad-shadow);
   transition: background 0.2s, border-color 0.2s;
 }
-@media (min-width: 640px) {
-  .ad-card { padding: 32px; }
-}
+@media (min-width: 640px) { .ad-card { padding: 32px; } }
 
-/* ── Card section divider ───────────────────────── */
 .ad-card-header {
   padding-bottom: 16px;
   border-bottom: 1px solid var(--ad-divider);
   margin-bottom: 20px;
 }
 
-/* ── Page heading ───────────────────────────────── */
 .ad-page-title {
   font-size: clamp(20px, 4vw, 26px);
   font-weight: 900;
@@ -95,7 +186,6 @@ html.dark {
   font-weight: 500;
 }
 
-/* ── Label ──────────────────────────────────────── */
 .ad-label {
   display: block;
   font-size: 11px;
@@ -106,7 +196,6 @@ html.dark {
   margin-bottom: 6px;
 }
 
-/* ── Input / select / textarea ──────────────────── */
 .ad-input {
   width: 100%;
   padding: 10px 14px;
@@ -126,7 +215,6 @@ html.dark {
   box-shadow: 0 0 0 3px var(--ad-input-focus);
 }
 
-/* ── Input group ────────────────────────────────── */
 .ad-input-group { display: flex; align-items: stretch; }
 .ad-input-prefix {
   padding: 10px 12px;
@@ -137,13 +225,11 @@ html.dark {
   font-size: 12px;
   color: var(--ad-text-3);
   font-family: monospace;
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   white-space: nowrap;
 }
 .ad-input-group .ad-input { border-radius: 0 12px 12px 0; }
 
-/* ── Sub-section box ────────────────────────────── */
 .ad-sub-box {
   background: var(--ad-surface-2);
   border: 1px solid var(--ad-border);
@@ -151,387 +237,204 @@ html.dark {
   padding: 14px 16px;
 }
 
-/* ── Icon badge ─────────────────────────────────── */
 .ad-icon-badge {
-  width: 38px;
-  height: 38px;
+  width: 38px; height: 38px;
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 
-/* ── Table ──────────────────────────────────────── */
 .ad-table { width: 100%; text-align: left; border-collapse: collapse; }
 .ad-table thead tr { border-bottom: 1px solid var(--ad-divider); }
 .ad-table thead th {
   padding: 10px 20px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase;
   color: var(--ad-text-3);
 }
-.ad-table tbody tr {
-  border-bottom: 1px solid var(--ad-divider);
-  transition: background .15s;
-}
+.ad-table tbody tr { border-bottom: 1px solid var(--ad-divider); transition: background .15s; }
 .ad-table tbody tr:hover { background: var(--ad-table-hover); }
 .ad-table tbody tr:last-child { border-bottom: none; }
-.ad-table tbody td {
-  padding: 13px 20px;
-  font-size: 13px;
-  color: var(--ad-text-2);
-}
+.ad-table tbody td { padding: 13px 20px; font-size: 13px; color: var(--ad-text-2); }
 
-/* ── Buttons ────────────────────────────────────── */
 .ad-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 9px 20px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 800;
-  color: #fff;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 20px; border-radius: 12px;
+  font-size: 13px; font-weight: 800;
+  color: #fff !important;
   background: linear-gradient(135deg, #833ab4 0%, #ee2a7b 100%);
-  border: none;
-  cursor: pointer;
+  border: none; cursor: pointer;
   transition: opacity .2s, transform .15s, box-shadow .2s;
-  box-shadow: 0 3px 14px rgba(238, 42, 123, 0.3);
-  white-space: nowrap;
-  font-family: inherit;
+  box-shadow: 0 3px 14px rgba(238,42,123,.3);
+  white-space: nowrap; font-family: inherit;
 }
-.ad-btn-primary:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 5px 20px rgba(238,42,123,.45); }
-.ad-btn-primary:active { transform: scale(.96); }
-.ad-btn-primary:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.ad-btn-primary:hover { opacity:.9; transform:translateY(-1px); box-shadow:0 5px 20px rgba(238,42,123,.45); }
+.ad-btn-primary:active { transform:scale(.96); }
+.ad-btn-primary:disabled { opacity:.55; cursor:not-allowed; transform:none; }
+.ad-btn-primary * { color: #fff !important; }
 
 .ad-btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 12px;
+  font-size: 12px; font-weight: 700;
   color: var(--ad-text-2);
   background: var(--ad-surface-2);
   border: 1px solid var(--ad-border);
-  cursor: pointer;
-  transition: background .18s, color .18s;
+  cursor: pointer; transition: background .18s, color .18s;
   font-family: inherit;
 }
 .ad-btn-ghost:hover { background: var(--ad-surface-3); color: var(--ad-text); }
 
 .ad-btn-danger {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
-  border-radius: 9px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #dc2626;
-  background: rgba(220, 38, 38, 0.08);
-  border: 1px solid rgba(220, 38, 38, 0.18);
-  cursor: pointer;
-  transition: background .18s, color .18s;
-  font-family: inherit;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 10px; border-radius: 9px;
+  font-size: 11px; font-weight: 700;
+  color: #dc2626; background: rgba(220,38,38,.08); border: 1px solid rgba(220,38,38,.18);
+  cursor: pointer; transition: background .18s; font-family: inherit;
 }
-html.dark .ad-btn-danger { color: #f87171; background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.18); }
-.ad-btn-danger:hover { background: rgba(220, 38, 38, 0.15); }
+html.dark .ad-btn-danger { color:#f87171; background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.18); }
+.ad-btn-danger:hover { background: rgba(220,38,38,.15); }
 
 .ad-btn-edit {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
-  border-radius: 9px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #7c3aed;
-  background: rgba(124, 58, 237, 0.08);
-  border: 1px solid rgba(124, 58, 237, 0.15);
-  cursor: pointer;
-  transition: background .18s;
-  font-family: inherit;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 10px; border-radius: 9px;
+  font-size: 11px; font-weight: 700;
+  color: #7c3aed; background: rgba(124,58,237,.08); border: 1px solid rgba(124,58,237,.15);
+  cursor: pointer; transition: background .18s; font-family: inherit;
 }
-html.dark .ad-btn-edit { color: #c4b5fd; background: rgba(139,92,246,.08); border-color: rgba(139,92,246,.15); }
-.ad-btn-edit:hover { background: rgba(124, 58, 237, 0.14); }
+html.dark .ad-btn-edit { color:#c4b5fd; background:rgba(139,92,246,.08); border-color:rgba(139,92,246,.15); }
+.ad-btn-edit:hover { background: rgba(124,58,237,.14); }
 
-/* ── Badge pills ────────────────────────────────── */
 .ad-badge-active {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 9px;
-  border-radius: 99px;
-  font-size: 10px;
-  font-weight: 700;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.22);
-  color: #059669;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 700;
+  background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.22); color: #059669;
 }
-html.dark .ad-badge-active { background: rgba(52,211,153,.12); border-color: rgba(52,211,153,.22); color: rgba(52,211,153,.9); }
+html.dark .ad-badge-active { background:rgba(52,211,153,.12); border-color:rgba(52,211,153,.22); color:rgba(52,211,153,.9); }
 
 .ad-badge-inactive {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 9px;
-  border-radius: 99px;
-  font-size: 10px;
-  font-weight: 700;
-  background: var(--ad-surface-2);
-  border: 1px solid var(--ad-border);
-  color: var(--ad-text-3);
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 700;
+  background: var(--ad-surface-2); border: 1px solid var(--ad-border); color: var(--ad-text-3);
 }
-.ad-badge-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-}
+.ad-badge-dot { width: 5px; height: 5px; border-radius: 50%; }
 
-/* ── Section title inside card ──────────────────── */
 .ad-section-title {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--ad-text);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
+  font-size: 14px; font-weight: 800; color: var(--ad-text);
+  display: flex; align-items: center; gap: 8px; margin: 0;
 }
 
-/* ── Empty state ────────────────────────────────── */
 .ad-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 24px;
-  text-align: center;
-  gap: 8px;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 48px 24px; text-align: center; gap: 8px;
 }
 .ad-empty-icon {
-  width: 52px; height: 52px;
-  border-radius: 16px;
-  background: var(--ad-surface-2);
-  border: 1px solid var(--ad-border);
+  width: 52px; height: 52px; border-radius: 16px;
+  background: var(--ad-surface-2); border: 1px solid var(--ad-border);
   display: flex; align-items: center; justify-content: center;
-  color: var(--ad-text-3);
-  margin-bottom: 4px;
+  color: var(--ad-text-3); margin-bottom: 4px;
 }
 .ad-empty-title { font-size: 15px; font-weight: 800; color: var(--ad-text); margin: 0; }
 .ad-empty-sub   { font-size: 12px; color: var(--ad-text-3); max-width: 320px; margin: 0; line-height: 1.5; }
 
-/* ── Toolbar ────────────────────────────────────── */
 .ad-toolbar { display: flex; flex-direction: column; gap: 10px; }
 @media (min-width: 640px) { .ad-toolbar { flex-direction: row; align-items: center; } }
 
 .ad-search-wrap { position: relative; flex: 1; }
 .ad-search-icon {
-  position: absolute;
-  left: 13px; top: 50%;
-  transform: translateY(-50%);
-  width: 15px; height: 15px;
-  color: var(--ad-text-3);
-  pointer-events: none;
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  width: 15px; height: 15px; color: var(--ad-text-3); pointer-events: none;
 }
 .ad-search {
-  width: 100%;
-  padding: 9px 14px 9px 38px;
-  background: var(--ad-input-bg);
-  border: 1px solid var(--ad-input-border);
-  border-radius: 12px;
-  color: var(--ad-text);
-  font-size: 13px;
-  outline: none;
-  transition: border-color .2s;
-  font-family: inherit;
+  width: 100%; padding: 9px 14px 9px 38px;
+  background: var(--ad-input-bg); border: 1px solid var(--ad-input-border);
+  border-radius: 12px; color: var(--ad-text); font-size: 13px;
+  outline: none; transition: border-color .2s; font-family: inherit;
 }
 .ad-search::placeholder { color: var(--ad-text-3); }
-.ad-search:focus { border-color: rgba(238, 42, 123, 0.5); }
+.ad-search:focus { border-color: rgba(238,42,123,.5); }
 
 .ad-select {
-  padding: 9px 14px;
-  background: var(--ad-input-bg);
-  border: 1px solid var(--ad-input-border);
-  border-radius: 12px;
-  color: var(--ad-text);
-  font-size: 13px;
-  outline: none;
-  cursor: pointer;
-  font-family: inherit;
-  min-width: 160px;
-  transition: background .2s, border-color .2s;
+  padding: 9px 14px; background: var(--ad-input-bg);
+  border: 1px solid var(--ad-input-border); border-radius: 12px;
+  color: var(--ad-text); font-size: 13px; outline: none; cursor: pointer;
+  font-family: inherit; min-width: 160px; transition: background .2s, border-color .2s;
 }
-.ad-select:focus { border-color: rgba(238, 42, 123, 0.5); }
+.ad-select:focus { border-color: rgba(238,42,123,.5); }
 html.dark .ad-select option { background: #160529; }
 html:not(.dark) .ad-select option { background: #fff; color: #1e0a3c; }
 
-/* ── Extra semantic text variables ─────────────── */
-:root {
-  --ad-text-strong:  #0f0520;
-  --ad-text-muted:   #6b5b8a;
-  --ad-text-faint:   #a090c0;
-
-  /* Modal surfaces */
-  --ad-modal-bg:     #ffffff;
-  --ad-modal-border: rgba(139, 92, 246, 0.15);
-  --ad-modal-header: rgba(139, 92, 246, 0.06);
-
-  /* Table row image bg */
-  --ad-img-bg:       #f3eeff;
-  --ad-img-border:   rgba(139, 92, 246, 0.15);
-
-  /* Tag/chip */
-  --ad-chip-bg:      rgba(139, 92, 246, 0.08);
-  --ad-chip-border:  rgba(139, 92, 246, 0.16);
-  --ad-chip-text:    #5b3fa0;
+/* ── Sidebar light mode overrides ─────────── */
+html:not(.dark) .sb-root {
+  background: #ffffff !important;
+  border-right-color: rgba(139,92,246,.13) !important;
 }
-
-html.dark {
-  --ad-text-strong:  rgba(255,255,255,0.95);
-  --ad-text-muted:   rgba(255,255,255,0.5);
-  --ad-text-faint:   rgba(255,255,255,0.25);
-
-  --ad-modal-bg:     linear-gradient(160deg,#130923 0%,#1a0a30 100%);
-  --ad-modal-border: rgba(255,255,255,0.09);
-  --ad-modal-header: rgba(255,255,255,0.04);
-
-  --ad-img-bg:       rgba(255,255,255,0.05);
-  --ad-img-border:   rgba(255,255,255,0.09);
-
-  --ad-chip-bg:      rgba(255,255,255,0.05);
-  --ad-chip-border:  rgba(255,255,255,0.09);
-  --ad-chip-text:    rgba(255,255,255,0.65);
-}
-
-/* ────────────────────────────────────────────────────
-   GLOBAL LIGHT-MODE OVERRIDES
-   Force all hardcoded white text inside .admin-layout
-   to be readable in light mode.
-   In dark mode these selectors don't apply because
-   html.dark resets color through its own variables.
-──────────────────────────────────────────────────── */
-
-/* Any element that has an inline white/near-white color
-   inside the admin layout in light mode */
-html:not(.dark) .admin-layout [style*="color:#fff"],
-html:not(.dark) .admin-layout [style*="color: #fff"],
-html:not(.dark) .admin-layout [style*="color:white"],
-html:not(.dark) .admin-layout [style*="color: white"] {
-  color: var(--ad-text) !important;
-}
-
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.9"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.9"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.8"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.8"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.7"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.7"] {
-  color: var(--ad-text) !important;
-}
-
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.6"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.6"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.5"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.5"] {
-  color: var(--ad-text-2) !important;
-}
-
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.4"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.4"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.3"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.3"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.2"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.2"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,0.1"],
-html:not(.dark) .admin-layout [style*="color:rgba(255,255,255,.1"] {
-  color: var(--ad-text-3) !important;
-}
-
-/* Scoped-style classes that use hardcoded white */
-html:not(.dark) .admin-layout .ad-page-title,
-html:not(.dark) .admin-layout .ad-section-title,
-html:not(.dark) .admin-layout .ad-empty-title {
-  color: var(--ad-text) !important;
-}
-
-html:not(.dark) .admin-layout .ad-page-subtitle,
-html:not(.dark) .admin-layout .ad-empty-sub,
-html:not(.dark) .admin-layout .ad-label {
-  color: var(--ad-text-3) !important;
-}
-
-/* Table cells */
-html:not(.dark) .admin-layout .ad-table tbody td {
-  color: var(--ad-text-2) !important;
-}
-html:not(.dark) .admin-layout .ad-table thead th {
-  color: var(--ad-text-3) !important;
-}
-
-/* Sidebar text overrides in light mode */
 html:not(.dark) .sb-brand-name,
 html:not(.dark) .sb-store-name,
-html:not(.dark) .sb-profile-name,
-html:not(.dark) .sb-section,
-html:not(.dark) .nb-section {
-  color: var(--ad-text) !important;
-}
+html:not(.dark) .sb-profile-name { color: #1e0a3c !important; }
+
 html:not(.dark) .sb-brand-sub,
 html:not(.dark) .sb-store-slug,
 html:not(.dark) .sb-profile-email,
 html:not(.dark) .sb-section-title,
-html:not(.dark) .sb-store-slug,
-html:not(.dark) .sb-item-label,
-html:not(.dark) .nb-store-name {
-  color: var(--ad-text-3) !important;
-}
-html:not(.dark) .sb-item-idle {
-  color: var(--ad-text-3) !important;
-}
+html:not(.dark) .sb-item-idle,
+html:not(.dark) .sb-item-label { color: #8b7aaa !important; }
+
 html:not(.dark) .sb-item-active {
-  color: var(--ad-text) !important;
   background: rgba(131,58,180,.08) !important;
+  color: #1e0a3c !important;
 }
+html:not(.dark) .sb-snapshot-inner { background: #f8f5ff !important; border-color: rgba(139,92,246,.13) !important; }
+html:not(.dark) .sb-footer { background: #f8f5ff !important; border-top-color: rgba(139,92,246,.13) !important; }
 
-/* Ghost button in light mode */
-html:not(.dark) .ad-btn-ghost {
-  color: var(--ad-text-2) !important;
-  background: var(--ad-surface-2) !important;
-  border-color: var(--ad-border) !important;
+/* ── Navbar light mode overrides ───────────── */
+html:not(.dark) .nb-root {
+  background: #ffffff !important;
+  border-bottom-color: rgba(139,92,246,.13) !important;
 }
+html:not(.dark) .nb-section { color: #1e0a3c !important; }
+html:not(.dark) .nb-store-name { color: #8b7aaa !important; }
+html:not(.dark) .nb-menu-btn,
+html:not(.dark) .nb-icon-btn,
+html:not(.dark) .nb-logout-btn { color: #4b3a6b !important; background: #f8f5ff !important; border-color: rgba(139,92,246,.13) !important; }
 
-/* Modal title/content in light mode */
-html:not(.dark) .modal-title,
-html:not(.dark) .modal-box [style*="color:rgba(255,255,255,.9"],
-html:not(.dark) .modal-box [style*="color:rgba(255,255,255,0.9"] {
-  color: var(--ad-text) !important;
-}
-
-/* Input text in light mode */
-html:not(.dark) .ad-input,
-html:not(.dark) .ad-search,
-html:not(.dark) .ad-select {
-  color: var(--ad-text) !important;
-  background: var(--ad-input-bg) !important;
-  border-color: var(--ad-input-border) !important;
-}
-
-/* Search icon */
-html:not(.dark) .ad-search-icon {
-  color: var(--ad-text-3) !important;
-}
-
-/* Bottom nav in light mode */
-html:not(.dark) .mbn-root {
-  background: #fff !important;
-  border-top-color: var(--ad-border) !important;
-}
-html:not(.dark) .mbn-tab-idle  { color: var(--ad-text-3) !important; }
-html:not(.dark) .mbn-tab-active { color: var(--ad-text) !important; }
+/* ── Mobile nav light mode ───────────────── */
+html:not(.dark) .mbn-root { background: #ffffff !important; border-top-color: rgba(139,92,246,.13) !important; }
+html:not(.dark) .mbn-tab-idle  { color: #8b7aaa !important; }
+html:not(.dark) .mbn-tab-active { color: #1e0a3c !important; }
 html:not(.dark) .mbn-label { color: inherit !important; }
+
+/* ── Modal light mode ────────────────────── */
+html:not(.dark) .modal-box {
+  background: #ffffff !important;
+  border-color: rgba(139,92,246,.15) !important;
+  box-shadow: 0 16px 50px rgba(139,92,246,.15) !important;
+}
+html:not(.dark) .modal-title { color: #1e0a3c !important; }
+html:not(.dark) .modal-close-btn,
+html:not(.dark) .modal-close-btn-prod,
+html:not(.dark) .modal-close-btn-lg {
+  color: #8b7aaa !important;
+  background: #f8f5ff !important;
+  border-color: rgba(139,92,246,.13) !important;
+}
+html:not(.dark) .modal-section { border-top-color: rgba(139,92,246,.1) !important; }
+html:not(.dark) .modal-section-title { color: #8b7aaa !important; }
+html:not(.dark) .modal-footer-sticky { background: #ffffff !important; border-top-color: rgba(139,92,246,.1) !important; }
+html:not(.dark) .modal-footer { border-top-color: rgba(139,92,246,.1) !important; }
+html:not(.dark) .modal-slug-prefix { background: #f8f5ff !important; border-color: rgba(139,92,246,.15) !important; color: #8b7aaa !important; }
+html:not(.dark) .modal-help { color: #8b7aaa !important; }
+html:not(.dark) .modal-toggle-row { background: #f8f5ff !important; border-color: rgba(139,92,246,.13) !important; }
+html:not(.dark) .modal-variant-row { background: #f8f5ff !important; border-color: rgba(139,92,246,.13) !important; }
+html:not(.dark) .modal-variant-chip { background: #f0ebff !important; border-color: rgba(139,92,246,.15) !important; color: #4b3a6b !important; }
+html:not(.dark) .modal-discount-card { background: rgba(238,42,123,.06) !important; border-color: rgba(238,42,123,.15) !important; }
+html:not(.dark) .modal-upload-btn { border-color: rgba(139,92,246,.2) !important; background: #f8f5ff !important; color: #8b7aaa !important; }
+
+/* ── Order toast light mode ─────────────── */
+html:not(.dark) .nb-toast {
+  background: #ffffff !important;
+  border-color: rgba(52,211,153,.25) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,.12) !important;
+}
+html:not(.dark) .nb-toast-name { color: #1e0a3c !important; }
+html:not(.dark) .nb-toast-meta { color: #8b7aaa !important; }

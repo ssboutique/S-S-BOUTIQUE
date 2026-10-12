@@ -83,7 +83,7 @@ function testWhatsAppLink() {
         Así se estructura automáticamente cada pedido cuando un cliente lo confirma desde tu catálogo:
       </p>
 
-      <div style="background:rgba(0,0,0,.35);border:1px solid var(--ad-border);border-radius:16px;padding:20px;font-family:monospace;font-size:12px;line-height:1.7;color:rgba(255,255,255,.7);white-space:pre-wrap;overflow-x:auto">SOLICITUD DE PEDIDO
+      <div style="background:var(--ad-surface-2);border:1px solid var(--ad-border);border-radius:16px;padding:20px;font-family:monospace;font-size:12px;line-height:1.7;color:var(--ad-text);white-space:pre-wrap;overflow-x:auto">SOLICITUD DE PEDIDO
 {{ adminStore.currentStore?.name?.toUpperCase() || 'S&S BOUTIQUE' }}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

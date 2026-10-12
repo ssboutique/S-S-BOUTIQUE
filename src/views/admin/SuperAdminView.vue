@@ -54,23 +54,23 @@ onMounted(() => {
           <div>
             <div class="flex items-center gap-2">
               <Shield class="w-6 h-6 text-amber-400" />
-              <h1 class="text-2xl font-black tracking-tight text-white">
+              <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-900 dark:text-white">
                 Super Admin VendPro
               </h1>
             </div>
-            <p class="text-xs text-white/30 mt-0.5">
+            <p class="text-xs text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 mt-0.5">
               Gestión global de todas las tiendas de la plataforma
             </p>
           </div>
         </div>
 
         <div class="relative w-full sm:w-72">
-          <Search class="w-4 h-4 text-white/30 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search class="w-4 h-4 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             v-model="searchQuery"
             type="search"
             placeholder="Buscar tienda por nombre o slug..."
-            class="w-full pl-9 pr-4 py-2 bg-slate-800 rounded-xl border border-slate-700 text-xs text-white outline-none focus:border-amber-400"
+            class="w-full pl-9 pr-4 py-2 bg-slate-800 rounded-xl border border-slate-700 text-xs text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white outline-none focus:border-amber-400"
           />
         </div>
       </div>
@@ -78,17 +78,17 @@ onMounted(() => {
       <!-- Stats Bar -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="bg-slate-850 p-5 rounded-2xl border border-slate-800">
-          <span class="text-xs font-bold text-white/30 uppercase">Tiendas Registradas</span>
-          <div class="text-3xl font-black text-white mt-2">{{ stores.length }}</div>
+          <span class="text-xs font-bold text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 uppercase">Tiendas Registradas</span>
+          <div class="text-3xl font-black text-slate-900 dark:text-slate-900 dark:text-white mt-2">{{ stores.length }}</div>
         </div>
         <div class="bg-slate-850 p-5 rounded-2xl border border-slate-800">
-          <span class="text-xs font-bold text-white/30 uppercase">Tiendas Activas</span>
+          <span class="text-xs font-bold text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 uppercase">Tiendas Activas</span>
           <div class="text-3xl font-black text-emerald-400 mt-2">
             {{ stores.filter(s => s.is_active).length }}
           </div>
         </div>
         <div class="bg-slate-850 p-5 rounded-2xl border border-slate-800">
-          <span class="text-xs font-bold text-white/30 uppercase">Planes Preparados</span>
+          <span class="text-xs font-bold text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 uppercase">Planes Preparados</span>
           <div class="text-sm font-bold text-amber-400 mt-3 flex items-center gap-2">
             <span>FREE</span> • <span>PRO</span> • <span>PREMIUM</span>
           </div>
@@ -98,14 +98,14 @@ onMounted(() => {
       <!-- Stores Table -->
       <div class="bg-slate-850 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
         <div class="p-6 border-b border-slate-800 flex items-center justify-between">
-          <h2 class="font-bold text-base text-white">Directorio de Tiendas</h2>
-          <span class="text-xs text-white/30">{{ filteredStores.length }} tiendas</span>
+          <h2 class="font-bold text-base text-slate-900 dark:text-slate-900 dark:text-white">Directorio de Tiendas</h2>
+          <span class="text-xs text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30">{{ filteredStores.length }} tiendas</span>
         </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-sm">
             <thead>
-              <tr class="bg-slate-900 text-[11px] font-bold text-white/30 uppercase tracking-wider border-b border-slate-800">
+              <tr class="bg-slate-900 text-[11px] font-bold text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 uppercase tracking-wider border-b border-slate-800">
                 <th class="py-3 px-6">Tienda</th>
                 <th class="py-3 px-6">WhatsApp</th>
                 <th class="py-3 px-6">Moneda</th>
@@ -119,20 +119,20 @@ onMounted(() => {
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-800 shrink-0 border border-slate-700">
                       <img v-if="s.logo_url" :src="s.logo_url" class="w-full h-full object-cover" />
-                      <div v-else class="w-full h-full flex items-center justify-center font-bold text-white bg-slate-700">
+                      <div v-else class="w-full h-full flex items-center justify-center font-bold text-slate-900 dark:text-slate-900 dark:text-white bg-slate-700">
                         {{ s.name.charAt(0) }}
                       </div>
                     </div>
                     <div>
-                      <div class="font-bold text-white text-sm">{{ s.name }}</div>
-                      <div class="text-white/30 font-mono">/tienda/{{ s.slug }}</div>
+                      <div class="font-bold text-slate-900 dark:text-slate-900 dark:text-white text-sm">{{ s.name }}</div>
+                      <div class="text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 font-mono">/tienda/{{ s.slug }}</div>
                     </div>
                   </div>
                 </td>
                 <td class="py-4 px-6 text-slate-300 font-mono">
                   +{{ s.whatsapp_number }}
                 </td>
-                <td class="py-4 px-6 text-white/30 font-bold">
+                <td class="py-4 px-6 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/30 font-bold">
                   {{ s.currency }}
                 </td>
                 <td class="py-4 px-6">

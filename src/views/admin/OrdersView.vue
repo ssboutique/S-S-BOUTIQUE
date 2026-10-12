@@ -154,10 +154,10 @@ function formatDate(iso: string) {
     <!-- ── Page Header ── -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-extrabold text-white dark:text-white tracking-tight">
+        <h1 class="text-2xl font-extrabold text-white dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-tight">
           Pedidos por WhatsApp
         </h1>
-        <p class="text-sm text-white/38 dark:text-white/28 mt-1">
+        <p class="text-sm text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 mt-1">
           Selecciona pedidos con el checkbox para archivarlos o eliminarlos
         </p>
       </div>
@@ -171,21 +171,21 @@ function formatDate(iso: string) {
     </div>
 
     <!-- ── Tabs ── -->
-    <div class="flex items-center gap-1 p-1 bg-white/6 dark:bg-slate-800 rounded-2xl w-fit">
+    <div class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-100 dark:bg-white/6 dark:bg-slate-800 rounded-2xl w-fit">
       <button
         type="button"
         @click="switchTab('active')"
         class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
         :class="activeTab === 'active'
-          ? 'bg-white dark:bg-slate-900 text-white dark:text-white shadow-sm'
-          : 'text-white/38 dark:text-white/28 hover:text-white/60 dark:hover:text-slate-200'"
+          ? 'bg-white dark:bg-slate-900 text-white dark:text-slate-900 dark:text-slate-900 dark:text-white shadow-sm'
+          : 'text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 hover:text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 dark:hover:text-slate-200'"
       >
         <ShoppingBag class="w-4 h-4" />
         Activos
         <span
           v-if="adminStore.orders.length"
           class="px-1.5 py-0.5 rounded-full text-[10px] font-bold"
-          :class="activeTab === 'active' ? 'bg-brand-100 text-brand-700 dark:bg-brand-500/20 dark:text-brand-300' : 'bg-slate-200 dark:bg-slate-700 text-white/38'"
+          :class="activeTab === 'active' ? 'bg-brand-100 text-brand-700 dark:bg-brand-500/20 dark:text-brand-300' : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38'"
         >{{ adminStore.orders.length }}</span>
       </button>
       <button
@@ -193,15 +193,15 @@ function formatDate(iso: string) {
         @click="switchTab('history')"
         class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
         :class="activeTab === 'history'
-          ? 'bg-white dark:bg-slate-900 text-white dark:text-white shadow-sm'
-          : 'text-white/38 dark:text-white/28 hover:text-white/60 dark:hover:text-slate-200'"
+          ? 'bg-white dark:bg-slate-900 text-white dark:text-slate-900 dark:text-slate-900 dark:text-white shadow-sm'
+          : 'text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 hover:text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 dark:hover:text-slate-200'"
       >
         <History class="w-4 h-4" />
         Historial
         <span
           v-if="archivedOrders.length"
           class="px-1.5 py-0.5 rounded-full text-[10px] font-bold"
-          :class="activeTab === 'history' ? 'bg-white/6 text-white/60 dark:bg-slate-700 dark:text-slate-300' : 'bg-slate-200 dark:bg-slate-700 text-white/38'"
+          :class="activeTab === 'history' ? 'bg-slate-100 dark:bg-slate-100 dark:bg-white/6 text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 dark:bg-slate-700 dark:text-slate-300' : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38'"
         >{{ archivedOrders.length }}</span>
       </button>
     </div>
@@ -217,18 +217,18 @@ function formatDate(iso: string) {
     >
       <div
         v-if="someSelected"
-        class="flex items-center justify-between gap-3 px-5 py-3 bg-white dark:bg-slate-900 border border-white/10/70 dark:border-slate-700 rounded-2xl shadow-card"
+        class="flex items-center justify-between gap-3 px-5 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-200 dark:border-white/10/70 dark:border-slate-700 rounded-2xl shadow-card"
       >
         <div class="flex items-center gap-3">
           <button
             type="button"
             @click="selected = new Set()"
-            class="p-1.5 text-white/28 hover:text-white/60 dark:hover:text-slate-200 rounded-lg hover:bg-white/6  transition-colors"
+            class="p-1.5 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 hover:text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:bg-slate-100 dark:bg-white/6  transition-colors"
             aria-label="Deseleccionar todos"
           >
             <X class="w-4 h-4" />
           </button>
-          <span class="text-sm font-bold text-white dark:text-white">
+          <span class="text-sm font-bold text-white dark:text-slate-900 dark:text-slate-900 dark:text-white">
             {{ selected.size }} seleccionado{{ selected.size !== 1 ? 's' : '' }}
           </span>
         </div>
@@ -249,7 +249,7 @@ function formatDate(iso: string) {
           <button
             type="button"
             @click="requestDelete"
-            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-colors shadow-sm"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-slate-900 dark:text-slate-900 dark:text-white text-xs font-bold transition-colors shadow-sm"
           >
             <Trash2 class="w-3.5 h-3.5" />
             {{ activeTab === 'active' ? 'Archivar' : 'Eliminar definitivamente' }}
@@ -263,13 +263,13 @@ function formatDate(iso: string) {
       <!-- Empty -->
       <div
         v-if="adminStore.orders.length === 0"
-        class="bg-white dark:bg-slate-900 p-12 rounded-3xl border border-white/10/70 dark:border-slate-800 shadow-soft text-center"
+        class="bg-white dark:bg-slate-900 p-12 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-white/10/70 dark:border-slate-800 shadow-soft text-center"
       >
-        <div class="w-16 h-16 rounded-2xl bg-white/6 dark:bg-slate-800 text-white/28 flex items-center justify-center mx-auto mb-4">
+        <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-100 dark:bg-white/6 dark:bg-slate-800 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 flex items-center justify-center mx-auto mb-4">
           <ShoppingBag class="w-8 h-8" />
         </div>
-        <h3 class="font-bold text-white/80 dark:text-white text-base">Sin pedidos activos</h3>
-        <p class="text-xs text-white/38 dark:text-white/28 max-w-sm mx-auto mt-1">
+        <h3 class="font-bold text-slate-800 dark:text-slate-900 dark:text-slate-800 dark:text-slate-900 dark:text-white/80 dark:text-slate-900 dark:text-slate-900 dark:text-white text-base">Sin pedidos activos</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 max-w-sm mx-auto mt-1">
           Cuando un cliente confirme un pedido desde la tienda, aparecerá aquí.
         </p>
       </div>
@@ -279,7 +279,7 @@ function formatDate(iso: string) {
         <button
           type="button"
           @click="toggleSelectAll"
-          class="flex items-center gap-2 text-xs font-semibold text-white/38 dark:text-white/28 hover:text-white/80 dark:hover:text-slate-200 transition-colors"
+          class="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 hover:text-slate-800 dark:text-slate-900 dark:text-slate-800 dark:text-slate-900 dark:text-white/80 dark:hover:text-slate-200 transition-colors"
         >
           <CheckSquare v-if="allSelected" class="w-4 h-4 text-fuchsia-400 dark:text-fuchsia-400" />
           <Square v-else class="w-4 h-4" />
@@ -295,7 +295,7 @@ function formatDate(iso: string) {
           class="bg-white dark:bg-slate-900 rounded-3xl border shadow-soft overflow-hidden flex flex-col transition-all cursor-pointer"
           :class="selected.has(order.id)
             ? 'border-brand-400 dark:border-brand-500 ring-2 ring-brand-400/30'
-            : 'border-white/10/70 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'"
+            : 'border-slate-200 dark:border-slate-200 dark:border-white/10/70 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'"
           @click="toggleSelect(order.id)"
         >
           <!-- Card header with checkbox -->
@@ -309,7 +309,7 @@ function formatDate(iso: string) {
                   <path d="M1 5L4.5 9L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <span class="text-xs font-bold text-white/28 dark:text-white/38 font-mono">
+              <span class="text-xs font-bold text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 dark:text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 font-mono">
                 #{{ order.id.slice(0, 8).toUpperCase() }}
               </span>
             </div>
@@ -320,36 +320,36 @@ function formatDate(iso: string) {
 
           <!-- Body -->
           <div class="px-5 py-4 flex-1 space-y-3">
-            <div class="space-y-1.5 text-xs text-white/50 dark:text-white/28">
-              <div class="flex items-center gap-2 text-white dark:text-white font-bold text-sm">
+            <div class="space-y-1.5 text-xs text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/50 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28">
+              <div class="flex items-center gap-2 text-white dark:text-slate-900 dark:text-slate-900 dark:text-white font-bold text-sm">
                 <User class="w-4 h-4 text-brand-500 shrink-0" />
                 <span class="truncate">{{ order.customer_name }}</span>
               </div>
               <div class="flex items-center gap-2" @click.stop>
-                <Phone class="w-4 h-4 text-white/28 shrink-0" />
+                <Phone class="w-4 h-4 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 shrink-0" />
                 <a :href="`https://wa.me/${order.customer_phone.replace(/\D/g,'')}`" target="_blank" rel="noopener" class="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">
                   {{ order.customer_phone }}
                 </a>
               </div>
               <div v-if="order.customer_address" class="flex items-center gap-2">
-                <MapPin class="w-4 h-4 text-white/28 shrink-0" />
+                <MapPin class="w-4 h-4 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 shrink-0" />
                 <span class="truncate">{{ order.customer_address }}</span>
               </div>
-              <p v-if="order.notes" class="italic text-white/38 dark:text-white/28 pl-6">"{{ order.notes }}"</p>
+              <p v-if="order.notes" class="italic text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 pl-6">"{{ order.notes }}"</p>
             </div>
 
-            <div v-if="order.items?.length" class="bg-white/4 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-100 dark:border-slate-700/50 space-y-1 text-xs">
-              <div v-for="(item, idx) in order.items" :key="idx" class="flex items-center justify-between gap-2 text-white/60 dark:text-slate-300">
-                <span class="truncate"><strong class="text-white dark:text-white">{{ item.quantity }}×</strong> {{ item.product_name }}</span>
-                <span class="font-semibold text-white dark:text-white shrink-0">{{ formatCurrency(item.subtotal, adminStore.currentStore?.currency) }}</span>
+            <div v-if="order.items?.length" class="bg-slate-50 dark:bg-slate-50 dark:bg-white/4 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-100 dark:border-slate-700/50 space-y-1 text-xs">
+              <div v-for="(item, idx) in order.items" :key="idx" class="flex items-center justify-between gap-2 text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 dark:text-slate-300">
+                <span class="truncate"><strong class="text-white dark:text-slate-900 dark:text-slate-900 dark:text-white">{{ item.quantity }}×</strong> {{ item.product_name }}</span>
+                <span class="font-semibold text-white dark:text-slate-900 dark:text-slate-900 dark:text-white shrink-0">{{ formatCurrency(item.subtotal, adminStore.currentStore?.currency) }}</span>
               </div>
             </div>
           </div>
 
           <!-- Footer -->
           <div class="px-5 py-3.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-            <span class="text-xs font-bold text-white/38 dark:text-white/28 uppercase tracking-wider">Total</span>
-            <span class="text-lg font-black text-white dark:text-white">{{ formatCurrency(order.total, adminStore.currentStore?.currency) }}</span>
+            <span class="text-xs font-bold text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 uppercase tracking-wider">Total</span>
+            <span class="text-lg font-black text-white dark:text-slate-900 dark:text-slate-900 dark:text-white">{{ formatCurrency(order.total, adminStore.currentStore?.currency) }}</span>
           </div>
         </div>
       </div>
@@ -360,13 +360,13 @@ function formatDate(iso: string) {
       <!-- Empty -->
       <div
         v-if="archivedOrders.length === 0"
-        class="bg-white dark:bg-slate-900 p-12 rounded-3xl border border-white/10/70 dark:border-slate-800 shadow-soft text-center"
+        class="bg-white dark:bg-slate-900 p-12 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-white/10/70 dark:border-slate-800 shadow-soft text-center"
       >
-        <div class="w-16 h-16 rounded-2xl bg-white/6 dark:bg-slate-800 text-white/28 flex items-center justify-center mx-auto mb-4">
+        <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-100 dark:bg-white/6 dark:bg-slate-800 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 flex items-center justify-center mx-auto mb-4">
           <History class="w-8 h-8" />
         </div>
-        <h3 class="font-bold text-white/80 dark:text-white text-base">Historial vacío</h3>
-        <p class="text-xs text-white/38 dark:text-white/28 max-w-sm mx-auto mt-1">
+        <h3 class="font-bold text-slate-800 dark:text-slate-900 dark:text-slate-800 dark:text-slate-900 dark:text-white/80 dark:text-slate-900 dark:text-slate-900 dark:text-white text-base">Historial vacío</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 max-w-sm mx-auto mt-1">
           Los pedidos que archives desde la pestaña "Activos" aparecerán aquí.
         </p>
       </div>
@@ -376,7 +376,7 @@ function formatDate(iso: string) {
         <button
           type="button"
           @click="toggleSelectAll"
-          class="flex items-center gap-2 text-xs font-semibold text-white/38 dark:text-white/28 hover:text-white/80 dark:hover:text-slate-200 transition-colors"
+          class="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 hover:text-slate-800 dark:text-slate-900 dark:text-slate-800 dark:text-slate-900 dark:text-white/80 dark:hover:text-slate-200 transition-colors"
         >
           <CheckSquare v-if="allSelected" class="w-4 h-4 text-rose-600" />
           <Square v-else class="w-4 h-4" />
@@ -392,7 +392,7 @@ function formatDate(iso: string) {
           class="bg-white dark:bg-slate-900 rounded-3xl border shadow-soft overflow-hidden flex flex-col transition-all cursor-pointer opacity-75 hover:opacity-100"
           :class="selected.has(order.id)
             ? 'border-rose-400 dark:border-rose-500 ring-2 ring-rose-400/30 opacity-100'
-            : 'border-white/10/70 dark:border-slate-800'"
+            : 'border-slate-200 dark:border-slate-200 dark:border-white/10/70 dark:border-slate-800'"
           @click="toggleSelect(order.id)"
         >
           <div class="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
@@ -404,35 +404,35 @@ function formatDate(iso: string) {
                   <path d="M1 5L4.5 9L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <span class="text-xs font-bold text-white/28 dark:text-white/38 font-mono">
+              <span class="text-xs font-bold text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 dark:text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 font-mono">
                 #{{ order.id.slice(0, 8).toUpperCase() }}
               </span>
             </div>
-            <span class="text-[11px] bg-white/6 dark:bg-slate-800 text-white/38 dark:text-white/28 px-2.5 py-0.5 rounded-full font-semibold">
+            <span class="text-[11px] bg-slate-100 dark:bg-slate-100 dark:bg-white/6 dark:bg-slate-800 text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 px-2.5 py-0.5 rounded-full font-semibold">
               Archivado
             </span>
           </div>
 
           <div class="px-5 py-4 flex-1 space-y-2">
-            <div class="flex items-center gap-2 text-white dark:text-white font-bold text-sm">
-              <User class="w-4 h-4 text-white/28 shrink-0" />
+            <div class="flex items-center gap-2 text-white dark:text-slate-900 dark:text-slate-900 dark:text-white font-bold text-sm">
+              <User class="w-4 h-4 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 shrink-0" />
               <span class="truncate">{{ order.customer_name }}</span>
             </div>
             <div class="flex items-center gap-2 text-xs" @click.stop>
-              <Phone class="w-3.5 h-3.5 text-white/28 shrink-0" />
+              <Phone class="w-3.5 h-3.5 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 shrink-0" />
               <a :href="`https://wa.me/${order.customer_phone.replace(/\D/g,'')}`" target="_blank" rel="noopener" class="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">
                 {{ order.customer_phone }}
               </a>
             </div>
-            <div class="flex items-center gap-2 text-[11px] text-white/28 dark:text-white/38">
+            <div class="flex items-center gap-2 text-[11px] text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 dark:text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38">
               <Clock class="w-3.5 h-3.5 shrink-0" />
               <span>Archivado el {{ formatDate(order.archived_at) }}</span>
             </div>
           </div>
 
           <div class="px-5 py-3.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-            <span class="text-xs font-bold text-white/28 dark:text-white/38 uppercase tracking-wider">Total</span>
-            <span class="text-base font-black text-white/38 dark:text-white/28">{{ formatCurrency(order.total, adminStore.currentStore?.currency) }}</span>
+            <span class="text-xs font-bold text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 dark:text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 uppercase tracking-wider">Total</span>
+            <span class="text-base font-black text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28">{{ formatCurrency(order.total, adminStore.currentStore?.currency) }}</span>
           </div>
         </div>
       </div>
@@ -446,16 +446,16 @@ function formatDate(iso: string) {
         @click.self="showConfirm = false"
       >
         <Transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100">
-          <div v-if="showConfirm" class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-white/10/70 dark:border-slate-800 w-full max-w-sm p-6 space-y-4">
+          <div v-if="showConfirm" class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-200 dark:border-white/10/70 dark:border-slate-800 w-full max-w-sm p-6 space-y-4">
             <div class="flex items-start gap-4">
               <div class="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
                 <AlertTriangle class="w-5 h-5" />
               </div>
               <div class="flex-1">
-                <h3 class="font-bold text-white dark:text-white text-base">
+                <h3 class="font-bold text-white dark:text-slate-900 dark:text-slate-900 dark:text-white text-base">
                   {{ activeTab === 'active' ? 'Archivar pedidos' : 'Eliminar definitivamente' }}
                 </h3>
-                <p class="text-sm text-white/38 dark:text-white/28 mt-1 leading-relaxed">
+                <p class="text-sm text-slate-500 dark:text-slate-900 dark:text-slate-500 dark:text-slate-900 dark:text-white/38 dark:text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 mt-1 leading-relaxed">
                   <template v-if="activeTab === 'active'">
                     Se archivarán <strong>{{ selected.size }}</strong> pedido{{ selected.size !== 1 ? 's' : '' }}. Podrás restaurarlos desde la pestaña Historial.
                   </template>
@@ -464,13 +464,13 @@ function formatDate(iso: string) {
                   </template>
                 </p>
               </div>
-              <button type="button" @click="showConfirm = false" class="p-1 text-white/28 hover:text-white/60 rounded-lg shrink-0"><X class="w-4 h-4" /></button>
+              <button type="button" @click="showConfirm = false" class="p-1 text-slate-400 dark:text-slate-900 dark:text-slate-400 dark:text-slate-900 dark:text-white/28 hover:text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 rounded-lg shrink-0"><X class="w-4 h-4" /></button>
             </div>
             <div class="flex items-center justify-end gap-3">
-              <button type="button" @click="showConfirm = false" class="px-4 py-2 rounded-xl bg-white/6 dark:bg-slate-800 hover:bg-white/10  text-white/60 dark:text-slate-300 text-sm font-semibold transition-colors">
+              <button type="button" @click="showConfirm = false" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-100 dark:bg-white/6 dark:bg-slate-800 hover:bg-slate-100 dark:bg-slate-100 dark:bg-white/10  text-slate-600 dark:text-slate-900 dark:text-slate-600 dark:text-slate-900 dark:text-white/60 dark:text-slate-300 text-sm font-semibold transition-colors">
                 Cancelar
               </button>
-              <button type="button" :disabled="isDeleting" @click="executeDelete" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-60 text-white text-sm font-bold transition-colors flex items-center gap-2">
+              <button type="button" :disabled="isDeleting" @click="executeDelete" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-60 text-slate-900 dark:text-slate-900 dark:text-white text-sm font-bold transition-colors flex items-center gap-2">
                 <Trash2 class="w-4 h-4" />
                 {{ isDeleting ? 'Procesando...' : activeTab === 'active' ? 'Archivar' : 'Eliminar' }}
               </button>
