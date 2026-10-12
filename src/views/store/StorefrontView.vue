@@ -72,6 +72,9 @@ watch(
     <!-- Header -->
     <StoreHeader />
 
+    <!-- Brands marquee — top of page, just below header -->
+    <BrandsMarqueeRibbon />
+
     <!-- Luxury Top Ribbon Ticker -->
     <RibbonTicker />
 
@@ -174,7 +177,7 @@ watch(
       </section>
 
       <!-- Luxury Brands Marquee Ribbon Slider -->
-      <BrandsMarqueeRibbon v-if="!storeStore.searchQuery && !storeStore.selectedCategoryId" />
+      <!-- Moved to top of page -->
     </main>
 
     <!-- Footer -->
