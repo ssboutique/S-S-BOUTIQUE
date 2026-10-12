@@ -74,8 +74,8 @@ function isTabActive(tab: typeof primaryTabs[0]) {
   bottom: 0;
   left: 0; right: 0;
   z-index: 40;
-  background: #0f0a1e;
-  border-top: 1px solid rgba(255,255,255,.06);
+  background: var(--ad-surface);
+  border-top: 1px solid var(--ad-border);
   box-shadow: 0 -8px 30px rgba(0,0,0,.4);
   /* Safe area for notched phones */
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -109,9 +109,9 @@ function isTabActive(tab: typeof primaryTabs[0]) {
   transition: background .18s;
   min-width: 56px;
 }
-.mbn-tab-idle  { color: rgba(255,255,255,.3); }
-.mbn-tab-active { color: #fff; }
-.mbn-tab-idle:hover { background: rgba(255,255,255,.05); color: rgba(255,255,255,.7); }
+.mbn-tab-idle  { color: var(--ad-text-3); }
+.mbn-tab-active { color: var(--ad-text); }
+.mbn-tab-idle:hover { background: rgba(255,255,255,.05); color: var(--ad-text-2); }
 
 /* Icon wrapper */
 .mbn-icon-wrap {

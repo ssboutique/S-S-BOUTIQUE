@@ -256,10 +256,13 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: linear-gradient(180deg, #100820 0%, #18062e 40%, #0f0a1e 100%);
-  border-right: 1px solid rgba(255,255,255,.07);
-  transition: width .3s ease, transform .3s ease;
+  background: var(--ad-surface);
+  border-right: 1px solid var(--ad-border);
+  transition: width .3s ease, transform .3s ease, background .2s;
   overflow: hidden;
+}
+html.dark .sb-root {
+  background: linear-gradient(180deg, #100820 0%, #18062e 40%, #0f0a1e 100%);
 }
 @media (min-width: 1024px) {
   .sb-root {
@@ -289,7 +292,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255,255,255,.05);
+  border-bottom: 1px solid var(--ad-border);
   flex-shrink: 0;
 }
 .sb-brand-link {
@@ -339,7 +342,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   font-size: 13px;
   font-weight: 900;
   letter-spacing: -.2px;
-  color: #fff;
+  color: var(--ad-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -349,27 +352,27 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   font-weight: 600;
   letter-spacing: 1.8px;
   text-transform: uppercase;
-  color: rgba(255,255,255,.28);
+  color: var(--ad-text-3);
 }
 
 .sb-close {
   padding: 6px;
-  color: rgba(255,255,255,.4);
+  color: var(--ad-text-3);
   border-radius: 10px;
   background: none;
   border: none;
   cursor: pointer;
   transition: color .2s, background .2s;
 }
-.sb-close:hover { color: #fff; background: rgba(255,255,255,.07); }
+.sb-close:hover { color: var(--ad-text); background: var(--ad-surface-2); }
 
 /* ── Snapshot card ───────────────────────────────── */
 .sb-snapshot {
   padding: 10px 12px 8px;
 }
 .sb-snapshot-inner {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.07);
+  background: var(--ad-surface-2);
+  border: 1px solid var(--ad-border);
   border-radius: 16px;
   padding: 10px 12px;
   display: flex;
@@ -385,8 +388,8 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
+  background: var(--ad-surface-2);
+  border: 1px solid var(--ad-border);
   overflow: hidden;
   flex-shrink: 0;
   display: flex;
@@ -406,14 +409,14 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 .sb-store-name {
   font-size: 11px;
   font-weight: 800;
-  color: #fff;
+  color: var(--ad-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .sb-store-slug {
   font-size: 9px;
-  color: rgba(255,255,255,.3);
+  color: var(--ad-text-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -427,19 +430,19 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   justify-content: center;
   gap: 5px;
   padding: 6px 10px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.08);
+  background: var(--ad-surface-2);
+  border: 1px solid var(--ad-border);
   border-radius: 10px;
   font-size: 10px;
   font-weight: 700;
-  color: rgba(255,255,255,.5);
+  color: var(--ad-text-3);
   text-decoration: none;
   transition: background .2s, color .2s, border-color .2s;
 }
 .sb-view-store:hover {
   background: rgba(238,42,123,.12);
-  border-color: rgba(238,42,123,.3);
-  color: rgba(255,255,255,.85);
+  border-color: rgba(238,42,123,.4);
+  color: var(--ad-text);
 }
 
 /* ── Navigation ──────────────────────────────────── */
@@ -460,7 +463,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   font-weight: 800;
   letter-spacing: 1.6px;
   text-transform: uppercase;
-  color: rgba(255,255,255,.22);
+  color: var(--ad-text-3);
   padding: 0 10px 6px;
   display: block;
 }
@@ -480,15 +483,15 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   overflow: hidden;
 }
 .sb-item-idle {
-  color: rgba(255,255,255,.38);
+  color: var(--ad-text-2);
 }
 .sb-item-idle:hover {
-  background: rgba(255,255,255,.05);
-  color: rgba(255,255,255,.75);
+  background: var(--ad-surface-2);
+  color: var(--ad-text);
 }
 .sb-item-active {
-  background: rgba(255,255,255,.07);
-  color: #fff;
+  background: var(--ad-surface-2);
+  color: var(--ad-text);
 }
 
 /* Left accent bar on active */
@@ -509,8 +512,8 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   flex-shrink: 0;
   transition: color .18s;
 }
-.sb-icon-idle  { color: rgba(255,255,255,.3); }
-.sb-item-idle:hover .sb-icon-idle { color: rgba(255,255,255,.65); }
+.sb-icon-idle  { color: var(--ad-text-3); }
+.sb-item-idle:hover .sb-icon-idle { color: var(--ad-text-2); }
 .sb-icon-active { color: #ee2a7b; }
 
 .sb-item-label {
@@ -522,7 +525,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 /* Super admin */
 .sb-section-super {
   padding-top: 10px;
-  border-top: 1px solid rgba(255,255,255,.05);
+  border-top: 1px solid var(--ad-border);
 }
 .sb-item-super { color: rgba(245,158,11,.65); }
 .sb-item-super:hover { background: rgba(245,158,11,.08); color: #fbbf24; }
@@ -534,9 +537,9 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   align-items: center;
   justify-content: space-between;
   padding: 10px 12px;
-  border-top: 1px solid rgba(255,255,255,.05);
+  border-top: 1px solid var(--ad-border);
   flex-shrink: 0;
-  background: rgba(0,0,0,.15);
+  background: var(--ad-surface-2);
 }
 .sb-profile {
   display: flex;
@@ -556,7 +559,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   justify-content: center;
   font-size: 11px;
   font-weight: 900;
-  color: #fff;
+  color: var(--ad-text);
   flex-shrink: 0;
 }
 .sb-profile-text {
@@ -567,14 +570,14 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 .sb-profile-name {
   font-size: 11px;
   font-weight: 800;
-  color: rgba(255,255,255,.8);
+  color: var(--ad-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .sb-profile-email {
   font-size: 9px;
-  color: rgba(255,255,255,.28);
+  color: var(--ad-text-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -582,7 +585,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 
 .sb-collapse-btn {
   padding: 6px;
-  color: rgba(255,255,255,.3);
+  color: var(--ad-text-3);
   border-radius: 10px;
   background: none;
   border: none;
@@ -590,5 +593,5 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
   transition: color .2s, background .2s;
   flex-shrink: 0;
 }
-.sb-collapse-btn:hover { color: #fff; background: rgba(255,255,255,.07); }
+.sb-collapse-btn:hover { color: var(--ad-text); background: var(--ad-surface-2); }
 </style>

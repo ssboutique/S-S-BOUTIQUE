@@ -238,8 +238,8 @@ const currentSectionName = computed(() => {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: #0f0a1e;
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  background: var(--ad-surface);
+  border-bottom: 1px solid var(--ad-border);
   flex-shrink: 0;
 }
 
@@ -272,15 +272,15 @@ const currentSectionName = computed(() => {
 
 .nb-menu-btn {
   padding: 7px;
-  color: rgba(255,255,255,.45);
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.07);
+  color: var(--ad-text-3);
+  background: var(--ad-surface-2);
+  border: 1px solid var(--ad-border);
   border-radius: 10px;
   cursor: pointer;
   transition: background .18s, color .18s;
   flex-shrink: 0;
 }
-.nb-menu-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+.nb-menu-btn:hover { background: var(--ad-surface-3); color: var(--ad-text); }
 
 .nb-breadcrumb {
   display: flex;
@@ -291,7 +291,7 @@ const currentSectionName = computed(() => {
 .nb-section {
   font-size: 14px;
   font-weight: 800;
-  color: #fff;
+  color: var(--ad-text);
   letter-spacing: -.2px;
   white-space: nowrap;
   overflow: hidden;
@@ -338,7 +338,7 @@ const currentSectionName = computed(() => {
 
 .nb-store-name {
   font-size: 11px;
-  color: rgba(255,255,255,.28);
+  color: var(--ad-text-3);
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -357,14 +357,14 @@ const currentSectionName = computed(() => {
 .nb-icon-btn {
   width: 36px; height: 36px;
   border-radius: 10px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.07);
-  color: rgba(255,255,255,.45);
+  background: var(--ad-surface-2);
+  border: 1px solid var(--ad-border);
+  color: var(--ad-text-3);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   transition: background .18s, color .18s;
 }
-.nb-icon-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+.nb-icon-btn:hover { background: var(--ad-surface-3); color: var(--ad-text); }
 
 .nb-view-btn {
   display: inline-flex;
@@ -374,7 +374,7 @@ const currentSectionName = computed(() => {
   border-radius: 10px;
   font-size: 12px;
   font-weight: 700;
-  color: #fff;
+  color: var(--ad-text);
   background: linear-gradient(135deg, #833ab4 0%, #ee2a7b 100%);
   border: none;
   text-decoration: none;
@@ -392,8 +392,8 @@ const currentSectionName = computed(() => {
   width: 36px; height: 36px;
   border-radius: 10px;
   background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.06);
-  color: rgba(255,255,255,.35);
+  border: 1px solid var(--ad-border);
+  color: var(--ad-text-3);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   transition: background .18s, color .18s, border-color .18s;
@@ -411,7 +411,7 @@ const currentSectionName = computed(() => {
   right: 20px;
   z-index: 80;
   width: 300px;
-  background: #0f0a1e;
+  background: var(--ad-surface);
   border: 1px solid rgba(255,255,255,.09);
   border-radius: 18px;
   overflow: hidden;
@@ -491,7 +491,7 @@ const currentSectionName = computed(() => {
 .nb-toast-name {
   font-size: 13px;
   font-weight: 800;
-  color: #fff;
+  color: var(--ad-text);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -499,7 +499,7 @@ const currentSectionName = computed(() => {
 }
 .nb-toast-meta {
   font-size: 11px;
-  color: rgba(255,255,255,.35);
+  color: var(--ad-text-3);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -516,7 +516,7 @@ const currentSectionName = computed(() => {
   border-radius: 8px;
   font-size: 11px;
   font-weight: 800;
-  color: #fff;
+  color: var(--ad-text);
   background: linear-gradient(135deg, #059669, #34d399);
   text-decoration: none;
   transition: opacity .2s;

@@ -20,7 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex bg-[#0b0717] dark:bg-[#0b0717] text-slate-100 font-sans antialiased overflow-x-hidden">
+  <div class="admin-layout min-h-screen flex text-slate-900 dark:text-slate-100 font-sans antialiased overflow-x-hidden" style="color: var(--ad-text)">
 
     <!-- ── Admin Panel Preloader ── -->
     <Transition name="al-fade">
