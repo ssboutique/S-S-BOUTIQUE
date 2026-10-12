@@ -5,6 +5,7 @@ import AdminSidebar from '@/components/admin/AdminSidebar.vue';
 import AdminNavbar from '@/components/admin/AdminNavbar.vue';
 import AdminMobileBottomNav from '@/components/admin/AdminMobileBottomNav.vue';
 import ToastNotification from '@/components/ui/ToastNotification.vue';
+import '@/assets/admin-theme.css';
 
 const adminStore = useAdminStore();
 const mobileSidebarOpen   = ref(false);

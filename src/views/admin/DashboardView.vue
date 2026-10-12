@@ -41,7 +41,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
         <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
           Panel de Control
         </h1>
-        <p class="text-sm text-slate-400 mt-1">
+        <p class="text-sm text-white/28 mt-1">
           Gestiona los productos, pedidos y la presencia digital de tu negocio
         </p>
       </div>
@@ -66,56 +66,56 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
       <!-- Active Products -->
       <div class="bg-white/5 border border-white/8 p-5 rounded-3xl flex flex-col justify-between">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Productos Activos</span>
+          <span class="text-xs font-bold text-white/28 uppercase tracking-wider">Productos Activos</span>
           <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
             <Package class="w-5 h-5" />
           </div>
         </div>
         <div class="mt-4">
           <div class="text-2xl sm:text-3xl font-black text-white">{{ adminStore.metrics.activeProducts }}</div>
-          <div class="text-xs text-slate-500 mt-1">Visibles para tus clientes</div>
+          <div class="text-xs text-white/38 mt-1">Visibles para tus clientes</div>
         </div>
       </div>
 
       <!-- Out of stock / inactive -->
       <div class="bg-white/5 border border-white/8 p-5 rounded-3xl flex flex-col justify-between">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Agotados / Ocultos</span>
+          <span class="text-xs font-bold text-white/28 uppercase tracking-wider">Agotados / Ocultos</span>
           <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center">
             <AlertTriangle class="w-5 h-5" />
           </div>
         </div>
         <div class="mt-4">
           <div class="text-2xl sm:text-3xl font-black text-white">{{ adminStore.metrics.outOfStockProducts }}</div>
-          <div class="text-xs text-slate-500 mt-1">Requieren atención o reposición</div>
+          <div class="text-xs text-white/38 mt-1">Requieren atención o reposición</div>
         </div>
       </div>
 
       <!-- Categories -->
       <div class="bg-white/5 border border-white/8 p-5 rounded-3xl flex flex-col justify-between">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Categorías</span>
+          <span class="text-xs font-bold text-white/28 uppercase tracking-wider">Categorías</span>
           <div class="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center">
             <Layers class="w-5 h-5" />
           </div>
         </div>
         <div class="mt-4">
           <div class="text-2xl sm:text-3xl font-black text-white">{{ adminStore.metrics.totalCategories }}</div>
-          <div class="text-xs text-slate-500 mt-1">Organización del catálogo</div>
+          <div class="text-xs text-white/38 mt-1">Organización del catálogo</div>
         </div>
       </div>
 
       <!-- Orders -->
       <div class="bg-white/5 border border-white/8 p-5 rounded-3xl flex flex-col justify-between">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pedidos Generados</span>
+          <span class="text-xs font-bold text-white/28 uppercase tracking-wider">Pedidos Generados</span>
           <div class="w-10 h-10 rounded-2xl bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 flex items-center justify-center">
             <ShoppingBag class="w-5 h-5" />
           </div>
         </div>
         <div class="mt-4">
           <div class="text-2xl sm:text-3xl font-black text-white">{{ adminStore.metrics.totalOrders }}</div>
-          <div class="text-xs text-slate-500 mt-1">Derivados a tu WhatsApp</div>
+          <div class="text-xs text-white/38 mt-1">Derivados a tu WhatsApp</div>
         </div>
       </div>
     </div>
@@ -123,7 +123,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
     <!-- Quick Access Hub -->
     <div class="bg-white/5 border border-white/8 rounded-3xl p-6 sm:p-8">
       <h2 class="text-lg font-bold text-white mb-2">Accesos Rápidos</h2>
-      <p class="text-xs sm:text-sm text-slate-400 mb-6">Configura tu negocio con un par de clics</p>
+      <p class="text-xs sm:text-sm text-white/28 mb-6">Configura tu negocio con un par de clics</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <router-link
@@ -135,7 +135,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
           </div>
           <div>
             <div class="text-sm font-bold text-white">Editar Apariencia</div>
-            <div class="text-[11px] text-slate-500">Logo, banner y colores</div>
+            <div class="text-[11px] text-white/38">Logo, banner y colores</div>
           </div>
         </router-link>
 
@@ -148,7 +148,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
           </div>
           <div>
             <div class="text-sm font-bold text-white">Configurar WhatsApp</div>
-            <div class="text-[11px] text-slate-500">Número receptor de pedidos</div>
+            <div class="text-[11px] text-white/38">Número receptor de pedidos</div>
           </div>
         </router-link>
 
@@ -161,7 +161,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
           </div>
           <div>
             <div class="text-sm font-bold text-white">Gestionar Categorías</div>
-            <div class="text-[11px] text-slate-500">Crear y ordenar secciones</div>
+            <div class="text-[11px] text-white/38">Crear y ordenar secciones</div>
           </div>
         </router-link>
       </div>
@@ -184,7 +184,7 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-white/8">
+            <tr class="text-[11px] font-bold text-white/38 uppercase tracking-wider border-b border-white/8">
               <th class="py-3 px-6">Producto</th>
               <th class="py-3 px-6">Precio</th>
               <th class="py-3 px-6">Categoría</th>
@@ -210,14 +210,14 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
                   </div>
                   <div>
                     <div class="font-bold text-white">{{ prod.name }}</div>
-                    <div class="text-[11px] text-slate-500">SKU: {{ prod.sku || 'N/A' }}</div>
+                    <div class="text-[11px] text-white/38">SKU: {{ prod.sku || 'N/A' }}</div>
                   </div>
                 </div>
               </td>
               <td class="py-3.5 px-6 font-semibold text-slate-200">
                 {{ formatCurrency(prod.price, adminStore.currentStore?.currency) }}
               </td>
-              <td class="py-3.5 px-6 text-slate-500 text-xs">
+              <td class="py-3.5 px-6 text-white/38 text-xs">
                 {{ adminStore.categories.find(c => c.id === prod.category_id)?.name || 'General' }}
               </td>
               <td class="py-3.5 px-6">
@@ -225,9 +225,9 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
                   type="button"
                   @click="adminStore.toggleProductAvailability(prod)"
                   class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-all"
-                  :class="prod.is_available ? 'bg-emerald-500/15 border border-emerald-500/25 text-emerald-400' : 'bg-white/8 border border-white/12 text-slate-500'"
+                  :class="prod.is_available ? 'bg-emerald-500/15 border border-emerald-500/25 text-emerald-400' : 'bg-white/8 border border-white/12 text-white/38'"
                 >
-                  <span class="w-1.5 h-1.5 rounded-full" :class="prod.is_available ? 'bg-emerald-400' : 'bg-slate-500'"></span>
+                  <span class="w-1.5 h-1.5 rounded-full" :class="prod.is_available ? 'bg-emerald-400' : 'bg-white/40'"></span>
                   <span>{{ prod.is_available ? 'Visible' : 'Oculto' }}</span>
                 </button>
               </td>

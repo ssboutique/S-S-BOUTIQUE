@@ -160,10 +160,10 @@ async function handleSave() {
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+        <h1 class="text-2xl font-extrabold text-white tracking-tight">
           Apariencia de mi Tienda
         </h1>
-        <p class="text-sm text-slate-500 mt-1">
+        <p class="text-sm text-white/38 mt-1">
           Personaliza la identidad visual, logo, portada y colores de tu catálogo
         </p>
       </div>
@@ -180,8 +180,8 @@ async function handleSave() {
     </div>
 
     <!-- Identity & Branding Card -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/70 shadow-soft space-y-6">
-      <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+    <div class="bg-white/5 border-white/8 p-6 sm:p-8 rounded-3xl border border-white/8 space-y-6">
+      <h3 class="text-base font-bold text-white flex items-center gap-2">
         <Sparkles class="w-5 h-5 text-brand-500" />
         <span>Identidad Visual & Logo</span>
       </h3>
@@ -189,16 +189,16 @@ async function handleSave() {
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <!-- Logo Uploader -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label class="block text-xs font-bold text-white/60 uppercase tracking-wider">
             Logo de tu tienda
           </label>
           <div class="flex items-center gap-4">
-            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0 shadow-inner flex items-center justify-center">
+            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-white/6 border border-white/10 shrink-0 shadow-inner flex items-center justify-center">
               <img v-if="form.logo_url" :src="form.logo_url" class="w-full h-full object-cover" />
-              <ImageIcon v-else class="w-8 h-8 text-slate-400" />
+              <ImageIcon v-else class="w-8 h-8 text-white/30" />
             </div>
 
-            <label class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold cursor-pointer transition-colors">
+            <label class="px-4 py-2 bg-white/6 hover:bg-white/10 text-white/80 rounded-xl text-xs font-bold cursor-pointer transition-all">
               <span>{{ isUploadingLogo ? 'Cargando...' : 'Subir nuevo logo' }}</span>
               <input type="file" accept="image/*" class="hidden" @change="handleLogoUpload" :disabled="isUploadingLogo" />
             </label>
@@ -207,16 +207,16 @@ async function handleSave() {
 
         <!-- Banner Uploader -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label class="block text-xs font-bold text-white/60 uppercase tracking-wider">
             Imagen de Portada (Banner)
           </label>
           <div class="flex items-center gap-4">
-            <div class="w-28 h-20 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0 shadow-inner flex items-center justify-center">
+            <div class="w-28 h-20 rounded-2xl overflow-hidden bg-white/6 border border-white/10 shrink-0 shadow-inner flex items-center justify-center">
               <img v-if="form.banner_url" :src="form.banner_url" class="w-full h-full object-cover" />
-              <ImageIcon v-else class="w-8 h-8 text-slate-400" />
+              <ImageIcon v-else class="w-8 h-8 text-white/30" />
             </div>
 
-            <label class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold cursor-pointer transition-colors">
+            <label class="px-4 py-2 bg-white/6 hover:bg-white/10 text-white/80 rounded-xl text-xs font-bold cursor-pointer transition-all">
               <span>{{ isUploadingBanner ? 'Cargando...' : 'Subir portada' }}</span>
               <input type="file" accept="image/*" class="hidden" @change="handleBannerUpload" :disabled="isUploadingBanner" />
             </label>
@@ -226,8 +226,8 @@ async function handleSave() {
     </div>
 
     <!-- Colors & Styling -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/70 shadow-soft space-y-6">
-      <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+    <div class="bg-white/5 border-white/8 p-6 sm:p-8 rounded-3xl border border-white/8 space-y-6">
+      <h3 class="text-base font-bold text-white flex items-center gap-2">
         <Palette class="w-5 h-5 text-brand-500" />
         <span>Paleta de Color Principal</span>
       </h3>
@@ -240,7 +240,7 @@ async function handleSave() {
             type="button"
             @click="form.primary_color = preset.color"
             class="flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all"
-            :class="form.primary_color === preset.color ? 'border-slate-900 bg-slate-50 shadow-sm' : 'border-slate-200 hover:border-slate-300'"
+            :class="form.primary_color === preset.color ? 'border-slate-900 bg-white/4 shadow-sm' : 'border-white/10 hover:border-slate-300'"
           >
             <span class="w-4 h-4 rounded-full shadow-inner" :style="{ backgroundColor: preset.color }"></span>
             <span>{{ preset.name }}</span>
@@ -248,19 +248,19 @@ async function handleSave() {
         </div>
 
         <div class="flex items-center gap-3 pt-2">
-          <label class="text-xs text-slate-600 font-medium">O elige un color personalizado:</label>
+          <label class="text-xs text-white/50 font-medium">O elige un color personalizado:</label>
           <input
             v-model="form.primary_color"
             type="color"
-            class="w-10 h-10 p-0.5 rounded-xl border border-slate-200 cursor-pointer"
+            class="w-10 h-10 p-0.5 rounded-xl border border-white/10 cursor-pointer"
           />
-          <span class="font-mono text-xs text-slate-500">{{ form.primary_color }}</span>
+          <span class="font-mono text-xs text-white/38">{{ form.primary_color }}</span>
         </div>
       </div>
 
       <!-- Card Styles -->
       <div class="pt-4 border-t border-slate-100 space-y-3">
-        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+        <label class="block text-xs font-bold text-white/60 uppercase tracking-wider">
           Estilo de Tarjetas de Producto
         </label>
         <div class="grid grid-cols-3 gap-3">
@@ -268,7 +268,7 @@ async function handleSave() {
             type="button"
             @click="form.card_style = 'rounded-xl'"
             class="p-4 border rounded-xl text-center text-xs font-bold transition-all"
-            :class="form.card_style === 'rounded-xl' ? 'border-brand-500 bg-brand-50/30 text-brand-700 shadow-sm' : 'border-slate-200 text-slate-600'"
+            :class="form.card_style === 'rounded-xl' ? 'border-brand-500 bg-brand-50/30 text-brand-700 shadow-sm' : 'border-white/10 text-white/50'"
           >
             Clásico Suave
           </button>
@@ -276,7 +276,7 @@ async function handleSave() {
             type="button"
             @click="form.card_style = 'rounded-2xl'"
             class="p-4 border rounded-2xl text-center text-xs font-bold transition-all"
-            :class="form.card_style === 'rounded-2xl' ? 'border-brand-500 bg-brand-50/30 text-brand-700 shadow-sm' : 'border-slate-200 text-slate-600'"
+            :class="form.card_style === 'rounded-2xl' ? 'border-brand-500 bg-brand-50/30 text-brand-700 shadow-sm' : 'border-white/10 text-white/50'"
           >
             Moderno Curvo (Recomendado)
           </button>
@@ -284,7 +284,7 @@ async function handleSave() {
             type="button"
             @click="form.card_style = 'rounded-3xl'"
             class="p-4 border rounded-3xl text-center text-xs font-bold transition-all"
-            :class="form.card_style === 'rounded-3xl' ? 'border-brand-500 bg-brand-50/30 text-brand-700 shadow-sm' : 'border-slate-200 text-slate-600'"
+            :class="form.card_style === 'rounded-3xl' ? 'border-brand-500 bg-brand-50/30 text-brand-700 shadow-sm' : 'border-white/10 text-white/50'"
           >
             Ultra Redondeado
           </button>
@@ -293,9 +293,9 @@ async function handleSave() {
     </div>
 
     <!-- Ribbon Ticker & Live Social Proof -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/70 shadow-soft space-y-6">
+    <div class="bg-white/5 border-white/8 p-6 sm:p-8 rounded-3xl border border-white/8 space-y-6">
       <div class="flex items-center justify-between">
-        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
           <Sparkles class="w-5 h-5 text-amber-500" />
           <span>Cinta de Anuncios & Actividad en Vivo</span>
         </h3>
@@ -306,52 +306,52 @@ async function handleSave() {
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+          <label class="block text-xs font-bold text-white/60 uppercase tracking-wider mb-1">
             Texto de la Cinta Animada (Separar beneficios con •)
           </label>
           <input
             v-model="form.ticker_text"
             type="text"
-            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500 font-medium"
+            class="w-full px-4 py-2.5 rounded-xl border border-white/10 text-xs focus:ring-2 focus:ring-brand-500 font-medium"
             placeholder="Ej: ENVÍOS GRATIS • ATENCIÓN VIP • ALTA COSTURA • PAGOS CONTRA ENTREGA"
           />
-          <p class="text-[11px] text-slate-400 mt-1">
+          <p class="text-[11px] text-white/30 mt-1">
             Aparece en la parte superior como una cinta infinita de lujo destacando los beneficios de tu tienda.
           </p>
         </div>
 
         <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
           <div>
-            <span class="block text-xs font-bold text-slate-800">Contador de Visitas & Notificaciones de WhatsApp</span>
-            <span class="text-[11px] text-slate-500">Muestra clientes activos en tiempo real y alerta de pedidos VIP para dar máxima confianza</span>
+            <span class="block text-xs font-bold text-white/80">Contador de Visitas & Notificaciones de WhatsApp</span>
+            <span class="text-[11px] text-white/38">Muestra clientes activos en tiempo real y alerta de pedidos VIP para dar máxima confianza</span>
           </div>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" v-model="form.show_live_social_proof" class="sr-only peer" />
-            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white/5 border-white/8 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
           </label>
         </div>
       </div>
     </div>
 
     <!-- Brands Worked With Slider (Marcas Trabajadas) -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/70 shadow-soft space-y-6">
+    <div class="bg-white/5 border-white/8 p-6 sm:p-8 rounded-3xl border border-white/8 space-y-6">
       <div class="flex items-center justify-between">
-        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
           <Crown class="w-5 h-5 text-amber-500" />
           <span>Marcas & Diseñadores Destacados (Slider de Marcas)</span>
         </h3>
-        <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 font-bold">
+        <span class="text-xs px-2.5 py-0.5 rounded-full bg-white/6 text-white/50 font-bold">
           {{ brandsList.length }} marcas activas
         </span>
       </div>
 
-      <p class="text-xs text-slate-500">
+      <p class="text-xs text-white/38">
         Personaliza las marcas o firmas que comercializas. Se mostrarán en una cinta infinita elegante en la tienda para dar respaldo y confianza a tus clientes.
       </p>
 
       <!-- Preset Luxury Brands Quick Add -->
       <div class="space-y-2">
-        <label class="block text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+        <label class="block text-[11px] font-bold text-white/50 uppercase tracking-wider">
           Agregar rápidamente marcas de lujo reconocidas:
         </label>
         <div class="flex flex-wrap gap-2">
@@ -360,7 +360,7 @@ async function handleSave() {
             :key="preset.name"
             type="button"
             @click="addPresetBrand(preset)"
-            class="px-3 py-1.5 rounded-xl border border-slate-200 hover:border-amber-500 hover:bg-amber-50/40 text-xs font-bold text-slate-700 transition-colors inline-flex items-center gap-1.5 shadow-2xs"
+            class="px-3 py-1.5 rounded-xl border border-white/10 hover:border-amber-500 hover:bg-amber-50/40 text-xs font-bold text-white/60 transition-all inline-flex items-center gap-1.5 shadow-2xs"
           >
             <Plus class="w-3 h-3 text-amber-600" />
             <span>{{ preset.name }}</span>
@@ -375,7 +375,7 @@ async function handleSave() {
             v-model="newBrandName"
             type="text"
             placeholder="Nombre de la marca (ej: GUCCI, ARMANI, ZARA)"
-            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500 font-bold"
+            class="w-full px-4 py-2.5 rounded-xl border border-white/10 text-xs focus:ring-2 focus:ring-brand-500 font-bold"
             @keyup.enter="addBrand"
           />
         </div>
@@ -384,7 +384,7 @@ async function handleSave() {
             v-model="newBrandTagline"
             type="text"
             placeholder="Lema o subtítulo (ej: Alta Costura)"
-            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500"
+            class="w-full px-4 py-2.5 rounded-xl border border-white/10 text-xs focus:ring-2 focus:ring-brand-500"
             @keyup.enter="addBrand"
           />
         </div>
@@ -393,7 +393,7 @@ async function handleSave() {
             type="button"
             @click="addBrand"
             :disabled="!newBrandName.trim()"
-            class="w-full h-full py-2.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+            class="w-full h-full py-2.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm"
           >
             <Plus class="w-4 h-4" />
             <span>Agregar</span>
@@ -406,20 +406,20 @@ async function handleSave() {
         <div
           v-for="brand in brandsList"
           :key="brand.id"
-          class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 hover:border-slate-300 transition-all"
+          class="flex items-center justify-between p-3.5 bg-white/4 rounded-2xl border border-white/10/80 hover:border-slate-300 transition-all"
         >
           <div class="min-w-0 pr-2">
-            <span class="block text-xs font-extrabold text-slate-900 tracking-wider uppercase font-serif truncate">
+            <span class="block text-xs font-extrabold text-white tracking-wider uppercase font-serif truncate">
               {{ brand.name }}
             </span>
-            <span class="block text-[10px] text-slate-500 truncate">
+            <span class="block text-[10px] text-white/38 truncate">
               {{ brand.description || 'Diseño Exclusivo' }}
             </span>
           </div>
           <button
             type="button"
             @click="removeBrand(brand.id)"
-            class="text-slate-400 hover:text-rose-500 p-1.5 rounded-lg hover:bg-rose-50 transition-colors"
+            class="text-white/30 hover:text-rose-500 p-1.5 rounded-lg hover:bg-rose-50 transition-all"
             aria-label="Eliminar marca"
           >
             <Trash2 class="w-4 h-4" />

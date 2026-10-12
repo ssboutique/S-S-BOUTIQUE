@@ -4,27 +4,16 @@ import { useAdminStore } from '@/stores/admin';
 import { whatsappService } from '@/services/whatsappService';
 import { MessageCircle, Check, ShieldCheck, Sparkles, Send } from 'lucide-vue-next';
 
-const adminStore = useAdminStore();
-
+const adminStore    = useAdminStore();
 const whatsappNumber = ref('');
 
-watch(
-  () => adminStore.currentStore?.whatsapp_number,
-  (val) => {
-    if (val) whatsappNumber.value = val;
-  },
-  { immediate: true }
-);
+watch(() => adminStore.currentStore?.whatsapp_number, v => { if (v) whatsappNumber.value = v; }, { immediate: true });
 
-const sanitizedNumber = computed(() => {
-  return whatsappService.sanitizePhoneNumber(whatsappNumber.value);
-});
+const sanitizedNumber = computed(() => whatsappService.sanitizePhoneNumber(whatsappNumber.value));
 
 async function handleSave() {
   if (!whatsappNumber.value.trim()) return;
-  await adminStore.updateStore({
-    whatsapp_number: sanitizedNumber.value,
-  });
+  await adminStore.updateStore({ whatsapp_number: sanitizedNumber.value });
 }
 
 function testWhatsAppLink() {
@@ -34,83 +23,67 @@ function testWhatsAppLink() {
 </script>
 
 <template>
-  <div class="space-y-6 animate-fade-in max-w-4xl">
+  <div class="space-y-6 animate-fade-in max-w-3xl">
+
+    <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">
-          Configuración de WhatsApp
-        </h1>
-        <p class="text-sm text-slate-500 mt-1">
-          Configura el número al cual llegarán todos los pedidos del carrito
-        </p>
+        <h1 class="ad-page-title">Canal WhatsApp</h1>
+        <p class="ad-page-subtitle">Configura el número al cual llegarán todos los pedidos del carrito</p>
       </div>
-
-      <button
-        type="button"
-        @click="handleSave"
-        :disabled="adminStore.isSaving"
-        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-glow transition-all active:scale-95 self-start sm:self-auto"
-      >
-        <Check class="w-4 h-4" />
-        <span>{{ adminStore.isSaving ? 'Guardando...' : 'Guardar WhatsApp' }}</span>
+      <button type="button" @click="handleSave" :disabled="adminStore.isSaving" class="ad-btn-primary self-start sm:self-auto">
+        <Check class="w-4 h-4" aria-hidden="true" />
+        {{ adminStore.isSaving ? 'Guardando...' : 'Guardar' }}
       </button>
     </div>
 
-    <!-- Phone Configuration Card -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/70 shadow-soft space-y-6">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-          <MessageCircle class="w-6 h-6" />
+    <!-- Phone card -->
+    <div class="ad-card space-y-5">
+      <div class="ad-card-header" style="display:flex;align-items:center;gap:12px">
+        <div class="ad-icon-badge" style="background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2)">
+          <MessageCircle class="w-5 h-5" style="color:#34d399" aria-hidden="true" />
         </div>
         <div>
-          <h3 class="text-base font-bold text-slate-900">Número Receptor de Pedidos</h3>
-          <p class="text-xs text-slate-500">Ingresa el número con el código de país (sin el signo + ni espacios)</p>
+          <p class="ad-section-title">Número Receptor de Pedidos</p>
+          <p style="font-size:12px;color:var(--ad-text-3);margin:2px 0 0">Ingresa el número con código de país, sin espacios ni +</p>
         </div>
       </div>
 
-      <div class="max-w-md space-y-2">
-        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-          Número de WhatsApp Comercial <span class="text-rose-500">*</span>
-        </label>
-        <div class="relative">
-          <input
-            v-model="whatsappNumber"
-            type="tel"
-            placeholder="Ej: 573001234567"
-            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-base font-bold text-slate-900 outline-none"
-          />
-        </div>
-        <div class="text-[11px] text-slate-500 flex items-center gap-1.5 pt-1">
-          <ShieldCheck class="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>Formato internacional limpio detectado: <strong class="text-slate-800 font-mono">+{{ sanitizedNumber }}</strong></span>
+      <div style="max-width:420px;display:flex;flex-direction:column;gap:6px">
+        <label class="ad-label" for="wa-number">Número de WhatsApp comercial <span style="color:#f87171">*</span></label>
+        <input
+          id="wa-number"
+          v-model="whatsappNumber"
+          type="tel"
+          placeholder="573001234567"
+          class="ad-input"
+          style="font-size:16px;font-weight:800;letter-spacing:1px"
+        />
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ad-text-3)">
+          <ShieldCheck class="w-3.5 h-3.5" style="color:#34d399;flex-shrink:0" aria-hidden="true" />
+          Detectado: <strong style="font-family:monospace;color:var(--ad-text-2)">+{{ sanitizedNumber }}</strong>
         </div>
       </div>
 
-      <!-- Test Button -->
-      <div class="pt-4 border-t border-slate-100 flex items-center gap-3">
-        <button
-          type="button"
-          @click="testWhatsAppLink"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-xs font-bold transition-all border border-emerald-200/60"
-        >
-          <Send class="w-3.5 h-3.5 text-emerald-600" />
-          <span>Probar mi enlace de WhatsApp</span>
+      <div style="padding-top:16px;border-top:1px solid var(--ad-border)">
+        <button type="button" @click="testWhatsAppLink" class="ad-btn-ghost">
+          <Send class="w-3.5 h-3.5" aria-hidden="true" />
+          Probar enlace de WhatsApp
         </button>
       </div>
     </div>
 
-    <!-- Live Template Message Preview -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/70 shadow-soft space-y-4">
-      <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-        <Sparkles class="w-5 h-5 text-brand-500" />
-        <span>Vista Previa del Mensaje que recibirás</span>
-      </h3>
-      <p class="text-xs text-slate-500">
+    <!-- Preview card -->
+    <div class="ad-card space-y-4">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <Sparkles class="w-4 h-4" style="color:#ee2a7b" aria-hidden="true" />
+        <p class="ad-section-title">Vista previa del mensaje que recibirás</p>
+      </div>
+      <p style="font-size:12px;color:var(--ad-text-3);margin:0">
         Así se estructura automáticamente cada pedido cuando un cliente lo confirma desde tu catálogo:
       </p>
 
-      <div class="bg-slate-900 text-slate-100 p-5 rounded-2xl font-mono text-xs leading-relaxed max-w-lg shadow-inner border border-slate-800 whitespace-pre-wrap">
-SOLICITUD DE PEDIDO
+      <div style="background:rgba(0,0,0,.35);border:1px solid var(--ad-border);border-radius:16px;padding:20px;font-family:monospace;font-size:12px;line-height:1.7;color:rgba(255,255,255,.7);white-space:pre-wrap;overflow-x:auto">SOLICITUD DE PEDIDO
 {{ adminStore.currentStore?.name?.toUpperCase() || 'S&S BOUTIQUE' }}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -120,23 +93,13 @@ SOLICITUD DE PEDIDO
    Precio: $ 180.000
    Subtotal: $ 360.000
 
-2. *Sneakers Minimalistas en Cuero Nobuk*
-   Cantidad: 1
-   Detalles: Talla (EU): 41
-   Precio: $ 320.000
-   Subtotal: $ 320.000
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-*Subtotal:* $ 680.000
-*Total a Pagar:* $ 680.000
+*Total a Pagar:* $ 360.000
 
 DATOS DE ENTREGA:
 • Nombre: Juan Pérez
 • Contacto: 300 123 4567
 • Dirección: Calle 82 # 12-45
-
-OBSERVACIONES:
-Entregar preferiblemente en la tarde.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 _Pedido generado desde la tienda oficial_</div>

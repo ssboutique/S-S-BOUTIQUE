@@ -103,14 +103,14 @@ async function handleSave() {
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h1 class="text-2xl font-extrabold text-white  tracking-tight">
             Página Quiénes Somos
           </h1>
           <span class="px-2.5 py-0.5 rounded-full bg-fuchsia-50 dark:bg-fuchsia-950/40 border border-fuchsia-200 text-fuchsia-700 dark:text-fuchsia-400 text-xs font-bold">
             Página Dedicada
           </span>
         </div>
-        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+        <p class="text-sm text-white/38  mt-1">
           Edita la historia de tu marca, a qué se dedican y gestiona la galería fotográfica de tu tienda
         </p>
       </div>
@@ -119,10 +119,10 @@ async function handleSave() {
         <a
           :href="publicAboutUrl"
           target="_blank"
-          class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 text-slate-700 dark:text-slate-200 text-xs font-bold shadow-sm transition-all"
+          class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/5 border-white/8  border border-white/10  hover:bg-white/4 text-white/60  text-xs font-bold shadow-sm transition-all"
         >
           <span>Ver Página</span>
-          <ExternalLink class="w-3.5 h-3.5 text-slate-400" />
+          <ExternalLink class="w-3.5 h-3.5 text-white/30" />
         </a>
 
         <button
@@ -144,7 +144,7 @@ async function handleSave() {
           <Crown class="w-5 h-5" />
         </div>
         <div>
-          <div class="text-xs font-bold text-slate-900">Enlace directo de la página Quiénes Somos:</div>
+          <div class="text-xs font-bold text-white">Enlace directo de la página Quiénes Somos:</div>
           <div class="text-xs font-mono font-bold text-fuchsia-700 select-all truncate">
             {{ publicAboutUrl }}
           </div>
@@ -153,7 +153,7 @@ async function handleSave() {
       <a
         :href="publicAboutUrl"
         target="_blank"
-        class="inline-flex items-center gap-1 text-xs font-bold text-fuchsia-700 hover:text-fuchsia-900 bg-white px-3 py-1.5 rounded-xl border border-fuchsia-200 shadow-sm shrink-0"
+        class="inline-flex items-center gap-1 text-xs font-bold text-fuchsia-700 hover:text-fuchsia-900 bg-white/5 border-white/8 px-3 py-1.5 rounded-xl border border-fuchsia-200 shadow-sm shrink-0"
       >
         <span>Abrir en nueva pestaña</span>
         <ExternalLink class="w-3 h-3" />
@@ -164,15 +164,15 @@ async function handleSave() {
     <form @submit.prevent="handleSave" class="space-y-6">
       
       <!-- Card: Story & Brand Details -->
-      <div class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
-          <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+      <div class="bg-white/5 border-white/8  p-6 sm:p-8 rounded-3xl border border-white/8  space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 ">
+          <h3 class="text-base font-bold text-white  flex items-center gap-2">
             <Sparkles class="w-5 h-5 text-fuchsia-600 dark:text-fuchsia-400" />
             <span>Información de la Marca & Historia</span>
           </h3>
 
           <label class="flex items-center gap-2 cursor-pointer self-start sm:self-auto">
-            <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Página activa:</span>
+            <span class="text-xs font-semibold text-white/60 ">Página activa:</span>
             <input
               v-model="form.enabled"
               type="checkbox"
@@ -183,57 +183,57 @@ async function handleSave() {
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label class="block text-xs font-semibold text-white/60  mb-1">
               Título Principal
             </label>
             <input
               v-model="form.title"
               type="text"
               placeholder="Ej: Quiénes Somos | Nuestra Esencia & Atelier"
-              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-white outline-none"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
             />
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label class="block text-xs font-semibold text-white/60  mb-1">
               Lema o Subtítulo
             </label>
             <input
               v-model="form.subtitle"
               type="text"
               placeholder="Ej: Alta confección, calzado de autor y asesoría personalizada"
-              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-white outline-none"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          <label class="block text-xs font-semibold text-white/60  mb-1">
             Historia, Propósito & A qué se dedican
           </label>
           <textarea
             v-model="form.story"
             rows="6"
             placeholder="Cuenta la trayectoria de tu marca, el cuidado en la confección de cada prenda, materiales nobles utilizados, el valor del calzado artesanal y la experiencia que reciben tus clientes..."
-            class="w-full px-3.5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 dark:text-white outline-none resize-none leading-relaxed"
+            class="w-full px-3.5 py-3 rounded-xl border border-white/10  bg-white/5 border-white/8  focus:border-fuchsia-500/60 focus:ring-2 focus:ring-brand-500/20 text-sm text-white  outline-none resize-none leading-relaxed"
           ></textarea>
         </div>
       </div>
 
       <!-- Card: Photo Gallery Slider Upload -->
-      <div class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-soft space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+      <div class="bg-white/5 border-white/8  p-6 sm:p-8 rounded-3xl border border-white/8  space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 ">
           <div>
-            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <h3 class="text-base font-bold text-white  flex items-center gap-2">
               <Camera class="w-5 h-5 text-amber-500" />
               <span>Galería de Fotos del Local, Taller & Equipo ({{ form.photos.length }})</span>
             </h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <p class="text-xs text-white/38  mt-0.5">
               Estas fotos se exhiben en el slider automático de la página Quiénes Somos
             </p>
           </div>
 
-          <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 text-white dark:text-slate-900 rounded-xl text-xs font-bold shadow-sm transition-all active:scale-95 shrink-0">
+          <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 dark:bg-white/6 hover:bg-slate-800 text-white  rounded-xl text-xs font-bold shadow-sm transition-all active:scale-95 shrink-0">
             <Upload class="w-4 h-4" />
             <span>{{ isUploadingPhotos ? 'Subiendo fotos...' : '+ Subir Fotos' }}</span>
             <input
@@ -252,7 +252,7 @@ async function handleSave() {
           <div
             v-for="(photoUrl, idx) in form.photos"
             :key="idx"
-            class="relative aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 group shadow-sm bg-slate-100 dark:bg-slate-800"
+            class="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10  group shadow-sm bg-white/6 "
           >
             <img :src="photoUrl" class="w-full h-full object-cover" />
             
@@ -275,11 +275,11 @@ async function handleSave() {
 
         <div
           v-else
-          class="p-8 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-center bg-slate-50 dark:bg-slate-850"
+          class="p-8 rounded-2xl border-2 border-dashed border-white/10  text-center bg-white/4 "
         >
-          <Camera class="w-10 h-10 text-slate-400 mx-auto mb-2" />
-          <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Aún no has subido fotografías de tu tienda</p>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
+          <Camera class="w-10 h-10 text-white/30 mx-auto mb-2" />
+          <p class="text-sm font-bold text-white/60 ">Aún no has subido fotografías de tu tienda</p>
+          <p class="text-xs text-white/38  mt-1 max-w-sm mx-auto">
             Sube fotos de tu vitrina, el taller de confección, telas exclusivas o el equipo de trabajo para transmitir confianza a tus clientes.
           </p>
         </div>
