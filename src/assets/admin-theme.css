@@ -6,25 +6,26 @@
 
 /* ── LIGHT MODE (default) ─────────────────────── */
 :root {
-  --ad-page-bg:      #f4f0fb;
+  --ad-page-bg:      #f0ebfa;
   --ad-surface:      #ffffff;
-  --ad-surface-2:    #f8f5ff;
-  --ad-surface-3:    #f0ebff;
+  --ad-surface-2:    #f5f0ff;
+  --ad-surface-3:    #ede7ff;
 
-  --ad-border:       rgba(139, 92, 246, 0.13);
-  --ad-border-2:     rgba(139, 92, 246, 0.22);
+  --ad-border:       rgba(124, 58, 237, 0.15);
+  --ad-border-2:     rgba(124, 58, 237, 0.25);
 
-  --ad-text:         #1e0a3c;
-  --ad-text-2:       #4b3a6b;
-  --ad-text-3:       #8b7aaa;
+  /* Stronger text contrast in light mode */
+  --ad-text:         #12002e;
+  --ad-text-2:       #3b2460;
+  --ad-text-3:       #6d4fa0;
 
   --ad-input-bg:     #ffffff;
-  --ad-input-border: rgba(139, 92, 246, 0.2);
-  --ad-input-focus:  rgba(238, 42, 123, 0.25);
+  --ad-input-border: rgba(124, 58, 237, 0.22);
+  --ad-input-focus:  rgba(238, 42, 123, 0.22);
 
-  --ad-divider:      rgba(139, 92, 246, 0.1);
-  --ad-table-hover:  rgba(139, 92, 246, 0.04);
-  --ad-shadow:       0 2px 16px rgba(139, 92, 246, 0.08);
+  --ad-divider:      rgba(124, 58, 237, 0.1);
+  --ad-table-hover:  rgba(124, 58, 237, 0.04);
+  --ad-shadow:       0 2px 16px rgba(124, 58, 237, 0.09);
 }
 
 /* ── DARK MODE ───────────────────────────────── */
@@ -67,15 +68,6 @@ html.dark {
 html:not(.dark) .admin-layout .text-white,
 html:not(.dark) .admin-layout [class*="text-white/"] {
   color: var(--ad-text) !important;
-}
-
-/* Slightly muted variants */
-html:not(.dark) .admin-layout [class*="text-white/5"],
-html:not(.dark) .admin-layout [class*="text-white/4"],
-html:not(.dark) .admin-layout [class*="text-white/3"],
-html:not(.dark) .admin-layout [class*="text-white/2"],
-html:not(.dark) .admin-layout [class*="text-white/1"] {
-  color: var(--ad-text-3) !important;
 }
 
 /* Keep white text on colored buttons/badges (IG gradient, emerald, rose) */
@@ -367,36 +359,36 @@ html:not(.dark) .ad-select option { background: #fff; color: #1e0a3c; }
 /* ── Sidebar light mode overrides ─────────── */
 html:not(.dark) .sb-root {
   background: #ffffff !important;
-  border-right-color: rgba(139,92,246,.13) !important;
+  border-right-color: rgba(124,58,237,.15) !important;
 }
 html:not(.dark) .sb-brand-name,
 html:not(.dark) .sb-store-name,
-html:not(.dark) .sb-profile-name { color: #1e0a3c !important; }
+html:not(.dark) .sb-profile-name { color: #12002e !important; }
 
 html:not(.dark) .sb-brand-sub,
 html:not(.dark) .sb-store-slug,
 html:not(.dark) .sb-profile-email,
 html:not(.dark) .sb-section-title,
 html:not(.dark) .sb-item-idle,
-html:not(.dark) .sb-item-label { color: #8b7aaa !important; }
+html:not(.dark) .sb-item-label { color: #6d4fa0 !important; }
 
 html:not(.dark) .sb-item-active {
-  background: rgba(131,58,180,.08) !important;
-  color: #1e0a3c !important;
+  background: rgba(124,58,237,.09) !important;
+  color: #12002e !important;
 }
-html:not(.dark) .sb-snapshot-inner { background: #f8f5ff !important; border-color: rgba(139,92,246,.13) !important; }
-html:not(.dark) .sb-footer { background: #f8f5ff !important; border-top-color: rgba(139,92,246,.13) !important; }
+html:not(.dark) .sb-snapshot-inner { background: #f5f0ff !important; border-color: rgba(124,58,237,.15) !important; }
+html:not(.dark) .sb-footer { background: #f5f0ff !important; border-top-color: rgba(124,58,237,.13) !important; }
 
 /* ── Navbar light mode overrides ───────────── */
 html:not(.dark) .nb-root {
   background: #ffffff !important;
-  border-bottom-color: rgba(139,92,246,.13) !important;
+  border-bottom-color: rgba(124,58,237,.15) !important;
 }
-html:not(.dark) .nb-section { color: #1e0a3c !important; }
-html:not(.dark) .nb-store-name { color: #8b7aaa !important; }
+html:not(.dark) .nb-section { color: #12002e !important; }
+html:not(.dark) .nb-store-name { color: #6d4fa0 !important; }
 html:not(.dark) .nb-menu-btn,
 html:not(.dark) .nb-icon-btn,
-html:not(.dark) .nb-logout-btn { color: #4b3a6b !important; background: #f8f5ff !important; border-color: rgba(139,92,246,.13) !important; }
+html:not(.dark) .nb-logout-btn { color: #3b2460 !important; background: #f5f0ff !important; border-color: rgba(124,58,237,.13) !important; }
 
 /* ── Mobile nav light mode ───────────────── */
 html:not(.dark) .mbn-root { background: #ffffff !important; border-top-color: rgba(139,92,246,.13) !important; }
