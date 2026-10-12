@@ -259,7 +259,7 @@ export const useAdminStore = defineStore('admin', () => {
     }
   }
 
-  async function deleteProduct(id: string) {
+  async deleteProduct(id: string) {
     isSaving.value = true;
     try {
       await productService.deleteProduct(id);
@@ -268,6 +268,21 @@ export const useAdminStore = defineStore('admin', () => {
       return true;
     } catch (e: any) {
       setFeedback('error', e.message || 'Error al eliminar producto');
+      return false;
+    } finally {
+      isSaving.value = false;
+    }
+  }
+
+  async function deleteOrder(orderId: string) {
+    isSaving.value = true;
+    try {
+      await productService.deleteOrder(orderId);
+      orders.value = orders.value.filter((o) => o.id !== orderId);
+      setFeedback('success', 'Pedido eliminado');
+      return true;
+    } catch (e: any) {
+      setFeedback('error', e.message || 'Error al eliminar el pedido');
       return false;
     } finally {
       isSaving.value = false;
@@ -296,5 +311,6 @@ export const useAdminStore = defineStore('admin', () => {
     saveProduct,
     toggleProductAvailability,
     deleteProduct,
+    deleteOrder,
   };
 });

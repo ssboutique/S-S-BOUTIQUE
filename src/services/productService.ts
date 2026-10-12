@@ -637,4 +637,17 @@ export const productService = {
     const orders = getStoredOrders();
     return orders.filter((o) => o.store_id === storeId);
   },
+
+  async deleteOrder(orderId: string): Promise<void> {
+    if (isSupabaseConfigured && supabase) {
+      // Delete order items first (FK constraint), then the order
+      await supabase.from('order_items').delete().eq('order_id', orderId);
+      const { error } = await supabase.from('orders').delete().eq('id', orderId);
+      if (error) throw new Error(error.message || 'No se pudo eliminar el pedido.');
+      return;
+    }
+
+    const orders = getStoredOrders().filter((o) => o.id !== orderId);
+    saveStoredOrders(orders);
+  },
 };
