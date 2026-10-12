@@ -59,7 +59,7 @@ watch(
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-brand-500 selection:text-white">
+  <div class="min-h-screen flex flex-col text-slate-900 selection:bg-fuchsia-500 selection:text-white" style="background: linear-gradient(160deg, #ede7ff 0%, #fce4f6 20%, #ffd6e8 40%, #ffe8d6 60%, #fff3e0 80%, #faf5ff 100%); background-attachment: fixed;">
     <!-- 3D Futuristic Boutique Preloader -->
     <StorePreloader
       v-if="showPreloader"
