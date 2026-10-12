@@ -41,7 +41,7 @@ function shareViaWhatsApp() {
 </script>
 
 <template>
-  <div class="bg-gradient-to-br from-slate-900 via-slate-850 to-slate-950 rounded-3xl p-5 sm:p-6 text-white border border-slate-800 shadow-xl space-y-4">
+  <div class="bg-white/5 border border-white/8 rounded-3xl p-5 sm:p-6 text-white space-y-4">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div class="space-y-1.5">
         <div class="flex items-center gap-2">
@@ -84,7 +84,7 @@ function shareViaWhatsApp() {
     </div>
 
     <!-- URL Bar & Action Copy -->
-    <div class="flex items-center bg-slate-950/90 rounded-2xl p-1.5 border border-slate-800">
+    <div class="flex items-center bg-white/5 rounded-2xl p-1.5 border border-white/8">
       <div class="px-3.5 py-2 text-xs font-mono text-slate-200 truncate select-all flex-1 flex items-center gap-2">
         <span class="text-emerald-400 font-semibold select-none">🌐</span>
         <span class="truncate">{{ publicUrl }}</span>
@@ -108,7 +108,7 @@ function shareViaWhatsApp() {
     </div>
 
     <!-- Domain Settings Shortcut / Notice -->
-    <div class="flex items-center justify-between pt-1 text-[11px] text-slate-400 border-t border-slate-800/60">
+    <div class="flex items-center justify-between pt-1 text-[11px] text-slate-500 border-t border-white/8">
       <div v-if="hasCustomDomain" class="flex items-center gap-1.5 text-emerald-400 font-medium">
         <span>Los clientes ingresan directamente mediante:</span>
         <strong class="font-mono text-white">{{ customDomainName }}</strong>

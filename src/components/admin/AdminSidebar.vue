@@ -249,17 +249,26 @@ const storeUrl = computed(() => adminStore.publicStoreUrl);
 /* ── Sidebar root ────────────────────────────────── */
 .sb-root {
   position: fixed;
-  inset-y: 0;
+  top: 0;
+  bottom: 0;
   left: 0;
   z-index: 50;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #0f0a1e 0%, #160529 50%, #0f0a1e 100%);
-  border-right: 1px solid rgba(255,255,255,.06);
+  height: 100vh;
+  background: linear-gradient(180deg, #100820 0%, #18062e 40%, #0f0a1e 100%);
+  border-right: 1px solid rgba(255,255,255,.07);
   transition: width .3s ease, transform .3s ease;
+  overflow: hidden;
 }
 @media (min-width: 1024px) {
-  .sb-root { position: static; }
+  .sb-root {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
 }
 
 /* Accent gradient line at top */
