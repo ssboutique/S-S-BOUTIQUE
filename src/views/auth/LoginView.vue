@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { Lock, Mail, ArrowRight } from 'lucide-vue-next';
@@ -12,6 +12,16 @@ const password = ref('');
 const errorMessage = ref('');
 const showPass = ref(false);
 const justLoggedIn = ref(false);
+
+// Page-load preloader: shows while auth initializes
+const pageReady = ref(false);
+
+onMounted(async () => {
+  // Give initAuth a chance to run (already called in main.ts via router guard)
+  // Small delay so the preloader is visible and the page feels intentional
+  await new Promise(r => setTimeout(r, 600));
+  pageReady.value = true;
+});
 
 async function handleLogin() {
   errorMessage.value = '';
@@ -40,6 +50,56 @@ async function handleLogin() {
       <div class="lv-grid"></div>
       <div class="lv-vignette"></div>
     </div>
+
+    <!-- ── Page-load preloader ── -->
+    <Transition name="lv-preloader">
+      <div v-if="!pageReady" class="lv-preloader" role="status" aria-label="Cargando">
+        <!-- Ring -->
+        <div class="lv-pre-ring">
+          <svg viewBox="0 0 100 100" class="lv-pre-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="preGr" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#f9ce34"/>
+                <stop offset="40%"  stop-color="#ee2a7b"/>
+                <stop offset="80%"  stop-color="#833ab4"/>
+                <stop offset="100%" stop-color="#405de6"/>
+              </linearGradient>
+            </defs>
+            <circle
+              cx="50" cy="50" r="40"
+              fill="none"
+              stroke="rgba(255,255,255,.08)"
+              stroke-width="5"
+            />
+            <circle
+              cx="50" cy="50" r="40"
+              fill="none"
+              stroke="url(#preGr)"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-dasharray="251"
+              stroke-dashoffset="180"
+              class="lv-pre-arc"
+            />
+          </svg>
+          <!-- Logo inside -->
+          <div class="lv-pre-inner">
+            <span class="lv-pre-monogram">S&amp;S</span>
+          </div>
+        </div>
+
+        <!-- Brand name -->
+        <p class="lv-pre-name">S&amp;S BOUTIQUE</p>
+        <p class="lv-pre-sub">Panel de Control</p>
+
+        <!-- Three dots -->
+        <div class="lv-pre-dots" aria-hidden="true">
+          <span class="lv-pre-dot" style="animation-delay:0s"></span>
+          <span class="lv-pre-dot" style="animation-delay:.18s"></span>
+          <span class="lv-pre-dot" style="animation-delay:.36s"></span>
+        </div>
+      </div>
+    </Transition>
 
     <!-- ── Welcome overlay (post-login) ── -->
     <Transition name="welcome">
@@ -192,6 +252,101 @@ async function handleLogin() {
 </template>
 
 <style scoped>
+/* ── Page-load preloader ─────────────────────────── */
+.lv-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  /* same bg as root so it blends */
+  background: linear-gradient(160deg, #0d0118 0%, #1a0435 35%, #2a0850 65%, #0d0118 100%);
+}
+
+.lv-pre-ring {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 4px;
+}
+.lv-pre-svg {
+  width: 100%;
+  height: 100%;
+  animation: preSpin 1.4s linear infinite;
+}
+@keyframes preSpin { to { transform: rotate(360deg); } }
+
+.lv-pre-arc {
+  transform-origin: 50px 50px;
+}
+
+.lv-pre-inner {
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #16052e, #2a0850);
+  border: 1.5px solid rgba(255,255,255,.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lv-pre-monogram {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: .04em;
+  background: linear-gradient(135deg, #f9ce34 0%, #ee2a7b 50%, #833ab4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lv-pre-name {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -.2px;
+  background: linear-gradient(90deg, #f9ce34 0%, #ee2a7b 50%, #833ab4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.lv-pre-sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.28);
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.lv-pre-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+.lv-pre-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ee2a7b, #833ab4);
+  animation: preDotsP 1s ease-in-out infinite;
+}
+@keyframes preDotsP {
+  0%,100% { opacity: .3; transform: scale(.8); }
+  50%      { opacity: 1;  transform: scale(1.2); }
+}
+
+/* Transition */
+.lv-preloader-leave-active { transition: opacity .5s ease, transform .5s ease; }
+.lv-preloader-leave-to     { opacity: 0; transform: scale(1.04); }
+.lv-preloader-enter-active { transition: opacity .3s ease; }
+.lv-preloader-enter-from   { opacity: 0; }
+
 /* ── Root ─────────────────────────────────────────── */
 .lv-root {
   min-height: 100vh;
