@@ -41,7 +41,7 @@ function shareViaWhatsApp() {
 </script>
 
 <template>
-  <div class="bg-white/5 border border-white/8 rounded-3xl p-5 sm:p-6 text-white space-y-4">
+  <div class="bg-white/5/5 border border-white/8 rounded-3xl p-5 sm:p-6 text-white space-y-4">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div class="space-y-1.5">
         <div class="flex items-center gap-2">
@@ -64,7 +64,7 @@ function shareViaWhatsApp() {
         <h3 class="text-base sm:text-lg font-extrabold text-white">
           Comparte tu tienda con tus clientes
         </h3>
-        <p class="text-xs text-slate-400 max-w-xl">
+        <p class="text-xs text-white/26 max-w-xl">
           Este es el enlace exclusivo para que tus clientes naveguen tu catálogo, vean precios y realicen pedidos por WhatsApp.
         </p>
       </div>
@@ -84,7 +84,7 @@ function shareViaWhatsApp() {
     </div>
 
     <!-- URL Bar & Action Copy -->
-    <div class="flex items-center bg-white/5 rounded-2xl p-1.5 border border-white/8">
+    <div class="flex items-center bg-white/5/5 rounded-2xl p-1.5 border border-white/8">
       <div class="px-3.5 py-2 text-xs font-mono text-slate-200 truncate select-all flex-1 flex items-center gap-2">
         <span class="text-emerald-400 font-semibold select-none">🌐</span>
         <span class="truncate">{{ publicUrl }}</span>
@@ -97,7 +97,7 @@ function shareViaWhatsApp() {
         :class="
           copied
             ? 'bg-emerald-600 text-white shadow-glow'
-            : 'bg-white hover:bg-slate-100 text-slate-950 shadow-sm'
+            : 'bg-white/5 hover:bg-white/8 text-slate-950 shadow-sm'
         "
         aria-label="Copiar enlace de la tienda"
       >
@@ -108,7 +108,7 @@ function shareViaWhatsApp() {
     </div>
 
     <!-- Domain Settings Shortcut / Notice -->
-    <div class="flex items-center justify-between pt-1 text-[11px] text-slate-500 border-t border-white/8">
+    <div class="flex items-center justify-between pt-1 text-[11px] text-white/35 border-t border-white/8">
       <div v-if="hasCustomDomain" class="flex items-center gap-1.5 text-emerald-400 font-medium">
         <span>Los clientes ingresan directamente mediante:</span>
         <strong class="font-mono text-white">{{ customDomainName }}</strong>
@@ -127,7 +127,7 @@ function shareViaWhatsApp() {
       <router-link
         v-if="hasCustomDomain"
         to="/admin/store-info#domain"
-        class="text-slate-400 hover:text-white font-medium hover:underline text-[11px]"
+        class="text-white/26 hover:text-white font-medium hover:underline text-[11px]"
       >
         Cambiar dominio
       </router-link>

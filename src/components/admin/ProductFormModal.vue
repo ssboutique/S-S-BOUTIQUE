@@ -261,18 +261,18 @@ async function handleSubmit() {
     aria-modal="true"
     @click.self="emit('close')"
   >
-    <div class="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 max-h-[92vh] flex flex-col">
+    <div class="relative w-full max-w-3xl max-h-[92vh] flex flex-col" style="background:linear-gradient(160deg,#130923 0%,#1a0a30 100%);border:1px solid rgba(255,255,255,.09);border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.7)">
       <!-- Modal Header -->
-      <div class="p-6 border-b border-slate-100 flex items-center justify-between shrink-0">
+      <div style="padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(238,42,123,.12);border:1px solid rgba(238,42,123,.2);display:flex;align-items:center;justify-content:center">
             <Package class="w-5 h-5" />
           </div>
           <div>
-            <h3 class="font-bold text-lg text-slate-900 leading-tight">
+            <h3 style="font-size:16px;font-weight:800;color:rgba(255,255,255,.9)">
               {{ form.id ? 'Editar Producto' : 'Crear Nuevo Producto' }}
             </h3>
-            <p class="text-xs text-slate-500">
+            <p style="font-size:11px;color:rgba(255,255,255,.32)">
               Configura los detalles, fotos, precios y opciones de tu artículo
             </p>
           </div>
@@ -281,7 +281,7 @@ async function handleSubmit() {
         <button
           type="button"
           @click="emit('close')"
-          class="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100"
+          class="modal-close-btn-prod"
         >
           <X class="w-5 h-5" />
         </button>
@@ -291,13 +291,13 @@ async function handleSubmit() {
       <form @submit.prevent="handleSubmit" class="p-6 overflow-y-auto space-y-6 flex-1">
         <!-- Basic Info Section -->
         <div class="space-y-4">
-          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <h4 class="modal-section-title">
             Información Básica
           </h4>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">
+              <label class="ad-label">
                 Nombre del producto <span class="text-rose-500">*</span>
               </label>
               <input
@@ -306,17 +306,17 @@ async function handleSubmit() {
                 type="text"
                 required
                 placeholder="Ej: Camiseta Básica Algodón"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 outline-none"
+                class="ad-input"
               />
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">
+              <label class="ad-label">
                 Categoría
               </label>
               <select
                 v-model="form.category_id"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 outline-none bg-white"
+                class="ad-input"
               >
                 <option value="">Sin Categoría</option>
                 <option v-for="cat in adminStore.categories" :key="cat.id" :value="cat.id">
@@ -327,24 +327,24 @@ async function handleSubmit() {
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">
+            <label class="ad-label">
               Descripción del producto
             </label>
             <textarea
               v-model="form.description"
               rows="3"
               placeholder="Detalla materiales, características, medidas o recomendaciones de uso..."
-              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 outline-none resize-none"
+              class="ad-input"
             ></textarea>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">
+              <label class="ad-label">
                 URL amigable (enlace único)
               </label>
               <div class="flex items-center">
-                <span class="px-3 py-2.5 bg-slate-100 text-xs text-slate-500 rounded-l-xl border border-r-0 border-slate-200 font-mono">
+                <span class="modal-slug-prefix">
                   /
                 </span>
                 <input
@@ -352,29 +352,29 @@ async function handleSubmit() {
                   type="text"
                   required
                   placeholder="nombre-del-producto"
-                  class="w-full px-3 py-2.5 rounded-r-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs font-mono text-slate-900 outline-none"
+                  class="ad-input" style="border-radius:0 12px 12px 0"
                 />
               </div>
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">
+              <label class="ad-label">
                 Código del producto / SKU (opcional)
               </label>
               <input
                 v-model="form.sku"
                 type="text"
                 placeholder="Ej: REF-001"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 outline-none"
+                class="ad-input"
               />
             </div>
           </div>
         </div>
 
         <!-- Pricing & Discount Section -->
-        <div class="space-y-4 pt-4 border-t border-slate-100">
+        <div class="space-y-4 pt-4 modal-section">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+            <h4 class="modal-section-title" style="display:flex;align-items:center;gap:6px">
               <Tag class="w-3.5 h-3.5 text-fuchsia-600" />
               Precios, Descuentos & Inventario
             </h4>
@@ -387,7 +387,7 @@ async function handleSubmit() {
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <!-- Base Price -->
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">
+              <label class="ad-label">
                 Precio Normal / Base <span class="text-rose-500">*</span>
               </label>
               <div class="relative">
@@ -399,15 +399,15 @@ async function handleSubmit() {
                   min="0"
                   required
                   placeholder="Ej: 85000"
-                  class="w-full pl-8 pr-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm font-bold text-slate-900 outline-none"
+                  class="ad-input"
                 />
               </div>
-              <p class="text-[11px] text-slate-400 mt-1">Precio habitual del artículo</p>
+              <p class="modal-help">Precio habitual del artículo</p>
             </div>
 
             <!-- Discount percentage selector -->
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">
+              <label class="ad-label">
                 Descuento personalizado (%)
               </label>
               <div class="relative">
@@ -418,16 +418,16 @@ async function handleSubmit() {
                   min="0"
                   max="99"
                   placeholder="0"
-                  class="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm font-bold text-slate-900 outline-none"
+                  class="ad-input"
                 />
                 <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
               </div>
-              <p class="text-[11px] text-slate-400 mt-1">Ingresa el % o usa los botones rápidos</p>
+              <p class="modal-help">Ingresa el % o usa los botones rápidos</p>
             </div>
 
             <!-- Final Sale Price -->
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">
+              <label class="ad-label">
                 Precio Final de Venta <span class="text-rose-500">*</span>
               </label>
               <div class="relative">
@@ -438,16 +438,16 @@ async function handleSubmit() {
                   type="number"
                   min="0"
                   required
-                  class="w-full pl-8 pr-3.5 py-2.5 rounded-xl border-2 border-brand-500/30 bg-brand-50/20 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm font-black text-slate-900 outline-none"
+                  class="ad-input"
                 />
               </div>
-              <p class="text-[11px] text-brand-700 font-medium mt-1">Valor a cobrar al cliente</p>
+              <p class="modal-help" style="color:rgba(238,42,123,.65)">Valor a cobrar al cliente</p>
             </div>
           </div>
 
           <!-- Quick Discount Presets Buttons -->
           <div>
-            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+            <label class="modal-presets-label">
               Aplicar Descuento Rápido:
             </label>
             <div class="flex flex-wrap gap-1.5">
@@ -475,23 +475,23 @@ async function handleSubmit() {
           <!-- Interactive Discount Summary Card -->
           <div
             v-if="discountPercent > 0 && form.original_price"
-            class="p-3.5 rounded-2xl bg-gradient-to-br from-fuchsia-50/80 via-purple-50/60 to-pink-50/80 border border-fuchsia-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm"
+            class="modal-discount-card"
           >
             <div class="flex items-center gap-2.5">
               <div class="w-8 h-8 rounded-xl bg-fuchsia-600 text-white flex items-center justify-center font-black text-xs shrink-0">
                 %
               </div>
               <div>
-                <p class="text-xs font-bold text-slate-900">
+                <p style="font-size:12px;font-weight:800;color:rgba(255,255,255,.85)">
                   Descuento del {{ discountPercent }}% aplicado
                 </p>
-                <p class="text-[11px] text-slate-600">
-                  El cliente verá <span class="line-through text-slate-400 font-semibold">${{ form.original_price.toLocaleString('es-CO') }}</span> y pagará <strong class="text-fuchsia-700">${{ form.price.toLocaleString('es-CO') }}</strong>
+                <p style="font-size:11px;color:rgba(255,255,255,.4)">
+                  El cliente verá <span class="line-through text-slate-400 font-semibold">${{ form.original_price.toLocaleString('es-CO') }}</span> y pagará <strong style="color:#ee2a7b">${{ form.price.toLocaleString('es-CO') }}</strong>
                 </p>
               </div>
             </div>
             <div class="text-right sm:self-center shrink-0">
-              <span class="inline-block text-xs font-black text-emerald-700 bg-emerald-100/90 px-2.5 py-1 rounded-lg border border-emerald-300">
+              <span style="font-size:11px;font-weight:900;color:#34d399;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);padding:3px 10px;border-radius:8px">
                 Ahorro: ${{ discountSavings.toLocaleString('es-CO') }}
               </span>
             </div>
@@ -499,7 +499,7 @@ async function handleSubmit() {
 
           <!-- Stock Input -->
           <div class="pt-2">
-            <label class="block text-xs font-semibold text-slate-700 mb-1">
+            <label class="ad-label">
               Stock / Unidades disponibles
             </label>
             <input
@@ -507,15 +507,15 @@ async function handleSubmit() {
               type="number"
               min="0"
               placeholder="Ilimitado si se deja vacío"
-              class="w-full sm:w-1/3 px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm text-slate-900 outline-none"
+              class="ad-input sm:w-1/3"
             />
           </div>
         </div>
 
         <!-- Images Section -->
-        <div class="space-y-4 pt-4 border-t border-slate-100">
+        <div class="space-y-4 pt-4 modal-section">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            <h4 class="modal-section-title">
               Imágenes del Producto ({{ imageUrls.length }})
             </h4>
             <span class="text-[11px] text-slate-400">
@@ -528,7 +528,7 @@ async function handleSubmit() {
             <div
               v-for="(url, idx) in imageUrls"
               :key="idx"
-              class="relative w-24 h-24 rounded-2xl overflow-hidden border-2 bg-slate-100 group shadow-sm"
+              style="position:relative;width:96px;height:96px;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.05);flex-shrink:0"
               :class="idx === 0 ? 'border-brand-500' : 'border-slate-200'"
             >
               <img :src="url" class="w-full h-full object-cover" />
@@ -564,7 +564,7 @@ async function handleSubmit() {
 
             <!-- Upload Button -->
             <label
-              class="w-24 h-24 rounded-2xl border-2 border-dashed border-slate-300 hover:border-brand-500 hover:bg-brand-50/30 flex flex-col items-center justify-center cursor-pointer transition-all text-slate-400 hover:text-brand-600"
+              class="modal-upload-btn"
             >
               <Upload v-if="!isUploadingImage" class="w-5 h-5 mb-1" />
               <div v-else class="w-5 h-5 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
@@ -584,9 +584,9 @@ async function handleSubmit() {
         </div>
 
         <!-- Optional Variants Section -->
-        <div class="space-y-4 pt-4 border-t border-slate-100">
+        <div class="space-y-4 pt-4 modal-section">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            <h4 class="modal-section-title">
               Variantes Opcionales (Tallas, Colores, Capacidad, etc.)
             </h4>
             <span class="text-[11px] text-slate-400">
@@ -599,11 +599,11 @@ async function handleSubmit() {
             <div
               v-for="(v, idx) in variants"
               :key="idx"
-              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-xs font-medium text-slate-800"
+              class="modal-variant-chip"
             >
-              <span class="font-bold text-brand-700">{{ v.variant_type }}:</span>
+              <span style="font-weight:800;color:#c084fc">{{ v.variant_type }}:</span>
               <span>{{ v.variant_value }}</span>
-              <span v-if="v.price_modifier > 0" class="text-emerald-600 font-semibold">
+              <span v-if="v.price_modifier > 0" style="color:#34d399;font-weight:600">
                 (+${{ v.price_modifier }})
               </span>
               <button
@@ -617,10 +617,10 @@ async function handleSubmit() {
           </div>
 
           <!-- Add Variant Inputs -->
-          <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex flex-wrap sm:flex-nowrap items-center gap-2">
+          <div class="modal-variant-row">
             <select
               v-model="newVariant.type"
-              class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-800 outline-none"
+              class="ad-input" style="width:auto;min-width:110px;padding:7px 11px;font-size:12px"
             >
               <option value="Talla">Talla</option>
               <option value="Color">Color</option>
@@ -634,14 +634,14 @@ async function handleSubmit() {
               v-model="newVariant.value"
               type="text"
               placeholder="Ej: M, L, XL / Negro, Azul / 128GB"
-              class="flex-1 px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 outline-none"
+              class="ad-input" style="padding:7px 11px;font-size:12px"
               @keydown.enter.prevent="addVariant"
             />
 
             <button
               type="button"
               @click="addVariant"
-              class="px-4 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shrink-0"
+              class="ad-btn-primary" style="padding:7px 14px;font-size:11px;flex-shrink:0"
             >
               + Agregar Variante
             </button>
@@ -649,11 +649,11 @@ async function handleSubmit() {
         </div>
 
         <!-- Visibility & 3D Slider Promotions Toggle -->
-        <div class="space-y-3 pt-4 border-t border-slate-100">
-          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+        <div class="space-y-3 pt-4 modal-section">
+          <div class="modal-toggle-row">
             <div>
-              <div class="text-xs font-bold text-slate-900">Disponible para la venta</div>
-              <div class="text-[11px] text-slate-500">Muestra u oculta este producto inmediatamente en tu tienda pública</div>
+              <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,.85)">Disponible para la venta</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.3)">Muestra u oculta este producto inmediatamente en tu tienda pública</div>
             </div>
             <input
               v-model="form.is_available"
@@ -665,24 +665,24 @@ async function handleSubmit() {
           <!-- Promotions Slider Selector Card -->
           <div
             class="flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer"
-            :class="form.is_featured ? 'bg-gradient-to-r from-fuchsia-50 via-pink-50 to-purple-50 border-fuchsia-300/80 shadow-sm' : 'bg-slate-50 border-slate-100 hover:bg-slate-100/70'"
+            :class="form.is_featured ? 'bg-fuchsia-500/8 border-fuchsia-500/25' : 'bg-white/4 border-white/7 hover:bg-white/6'"
             @click="form.is_featured = !form.is_featured"
           >
             <div class="flex items-center gap-3">
               <div
                 class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
-                :class="form.is_featured ? 'bg-gradient-to-br from-fuchsia-600 to-purple-600 text-white shadow-glow' : 'bg-slate-200 text-slate-500'"
+                :class="form.is_featured ? 'bg-gradient-to-br from-fuchsia-600 to-purple-600 text-white' : 'bg-white/8 text-white/28'"
               >
                 <Flame class="w-5 h-5" />
               </div>
               <div>
-                <div class="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                <div style="font-size:12px;font-weight:900;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:6px">
                   <span>Exhibir en el Slider Principal de Promociones</span>
                   <span v-if="form.is_featured" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-fuchsia-600 text-white">
                     DESTACADO EN SLIDER
                   </span>
                 </div>
-                <div class="text-[11px] text-slate-500">
+                <div style="font-size:10px;color:rgba(255,255,255,.3)">
                   Aparecerá en la pasarela destacada superior de la tienda para máxima atracción visual
                 </div>
               </div>
@@ -697,11 +697,11 @@ async function handleSubmit() {
         </div>
 
         <!-- Modal Footer Actions -->
-        <div class="pt-6 border-t border-slate-100 flex items-center justify-end gap-3 sticky bottom-0 bg-white">
+        <div class="modal-footer-sticky">
           <button
             type="button"
             @click="emit('close')"
-            class="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+            class="ad-btn-ghost"
           >
             Cancelar
           </button>
@@ -716,4 +716,24 @@ async function handleSubmit() {
       </form>
     </div>
   </div>
+
+<style scoped>
+.modal-close-btn-prod {
+  padding:7px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  color:rgba(255,255,255,.32);cursor:pointer;transition:background .18s,color .18s;
+}
+.modal-close-btn-prod:hover { background:rgba(255,255,255,.1);color:#fff; }
+.modal-section { border-top:1px solid rgba(255,255,255,.07); }
+.modal-section-title { font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.3); }
+.modal-slug-prefix { padding:9px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-right:none;border-radius:12px 0 0 12px;font-size:11px;font-family:monospace;color:rgba(255,255,255,.28);display:flex;align-items:center; }
+.modal-help { font-size:10px;color:rgba(255,255,255,.25);margin-top:3px; }
+.modal-presets-label { display:block;font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:6px; }
+.modal-discount-card { padding:14px 16px;border-radius:16px;background:rgba(238,42,123,.07);border:1px solid rgba(238,42,123,.18);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px; }
+.modal-upload-btn { width:96px;height:96px;border-radius:16px;border:2px dashed rgba(255,255,255,.14);background:rgba(255,255,255,.03);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.22);transition:border-color .2s,background .2s; }
+.modal-upload-btn:hover { border-color:rgba(238,42,123,.45);background:rgba(238,42,123,.05); }
+.modal-variant-chip { display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);font-size:11px;color:rgba(255,255,255,.65); }
+.modal-variant-row { padding:12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);display:flex;flex-wrap:wrap;align-items:center;gap:8px; }
+.modal-toggle-row { display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07); }
+.modal-footer-sticky { padding:16px 22px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:flex-end;gap:10px;background:linear-gradient(0deg,#1a0a30,#130923);position:sticky;bottom:0; }
+</style>
 </template>

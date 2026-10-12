@@ -44,7 +44,7 @@ const adminStore = useAdminStore();
       <button
         type="button"
         @click="adminStore.feedbackMessage = null"
-        class="text-slate-400 hover:text-white p-1 rounded-lg transition-colors"
+        class="text-white/26 hover:text-white p-1 rounded-lg transition-colors"
         aria-label="Cerrar notificación"
       >
         <X class="w-4 h-4" />
