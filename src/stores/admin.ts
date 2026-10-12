@@ -259,7 +259,7 @@ export const useAdminStore = defineStore('admin', () => {
     }
   }
 
-  async deleteProduct(id: string) {
+  async function deleteProduct(id: string) {
     isSaving.value = true;
     try {
       await productService.deleteProduct(id);
