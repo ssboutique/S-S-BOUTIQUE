@@ -129,7 +129,8 @@ async function handleLogin() {
     </Transition>
 
     <!-- ── Card ── -->
-    <div class="lv-card-wrap">
+    <Transition name="lv-card-fade">
+      <div v-if="pageReady" class="lv-card-wrap">
 
       <!-- Brand header -->
       <div class="lv-brand">
@@ -248,6 +249,7 @@ async function handleLogin() {
         </div>
       </div>
     </div>
+    </Transition>
   </div>
 </template>
 
@@ -346,6 +348,10 @@ async function handleLogin() {
 .lv-preloader-leave-to     { opacity: 0; transform: scale(1.04); }
 .lv-preloader-enter-active { transition: opacity .3s ease; }
 .lv-preloader-enter-from   { opacity: 0; }
+
+/* Transition del card */
+.lv-card-fade-enter-active { transition: opacity .45s ease, transform .45s ease; }
+.lv-card-fade-enter-from   { opacity: 0; transform: translateY(16px) scale(.97); }
 
 /* ── Root ─────────────────────────────────────────── */
 .lv-root {
