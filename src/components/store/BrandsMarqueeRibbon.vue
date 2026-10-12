@@ -32,9 +32,11 @@ const baseBrands = computed(() => {
   return defaultBrands;
 });
 
+// Always keep at least 8 items so the strip fills any screen width
 const brands = computed(() => {
-  const list = baseBrands.value;
-  return list.length < 6 ? [...list, ...list, ...list] : list;
+  let list = baseBrands.value;
+  while (list.length < 8) list = [...list, ...list];
+  return list;
 });
 
 const duration = computed(() => {
@@ -63,8 +65,8 @@ const direction = computed(() =>
     <div class="bmr-mask bmr-mask-l" aria-hidden="true"></div>
     <div class="bmr-mask bmr-mask-r" aria-hidden="true"></div>
 
-    <!-- Marquee track -->
-    <div class="bmr-viewport group" aria-hidden="false">
+    <!-- Marquee track — 3 identical sets so loop is always seamless -->
+    <div class="bmr-viewport" aria-hidden="false">
       <div
         class="bmr-track"
         :class="direction === 'right' ? 'bmr-dir-right' : 'bmr-dir-left'"
@@ -72,42 +74,40 @@ const direction = computed(() =>
         role="list"
       >
         <!-- Set A -->
-        <div
-          v-for="(b, i) in brands"
-          :key="`a-${b.id}-${i}`"
-          class="bmr-item"
-          role="listitem"
-        >
-          <!-- Logo image -->
-          <img
-            v-if="b.logo_url"
-            :src="b.logo_url"
-            :alt="b.name"
-            class="bmr-logo"
-          />
-          <!-- Text mark -->
-          <template v-else>
-            <span class="bmr-name">{{ b.name }}</span>
-            <span class="bmr-tagline">{{ b.tagline }}</span>
-          </template>
-          <!-- Divider diamond -->
-          <span class="bmr-divider" aria-hidden="true"></span>
-        </div>
+        <template v-for="(b, i) in brands" :key="`a-${b.id}-${i}`">
+          <div class="bmr-item" role="listitem">
+            <img v-if="b.logo_url" :src="b.logo_url" :alt="b.name" class="bmr-logo" />
+            <template v-else>
+              <span class="bmr-name">{{ b.name }}</span>
+              <span class="bmr-tagline">{{ b.tagline }}</span>
+            </template>
+            <span class="bmr-divider" aria-hidden="true"></span>
+          </div>
+        </template>
 
-        <!-- Set B — seamless duplicate -->
-        <div
-          v-for="(b, i) in brands"
-          :key="`b-${b.id}-${i}`"
-          class="bmr-item"
-          aria-hidden="true"
-        >
-          <img v-if="b.logo_url" :src="b.logo_url" :alt="b.name" class="bmr-logo" />
-          <template v-else>
-            <span class="bmr-name">{{ b.name }}</span>
-            <span class="bmr-tagline">{{ b.tagline }}</span>
-          </template>
-          <span class="bmr-divider" aria-hidden="true"></span>
-        </div>
+        <!-- Set B — duplicate 1 -->
+        <template v-for="(b, i) in brands" :key="`b-${b.id}-${i}`">
+          <div class="bmr-item" aria-hidden="true">
+            <img v-if="b.logo_url" :src="b.logo_url" :alt="b.name" class="bmr-logo" />
+            <template v-else>
+              <span class="bmr-name">{{ b.name }}</span>
+              <span class="bmr-tagline">{{ b.tagline }}</span>
+            </template>
+            <span class="bmr-divider" aria-hidden="true"></span>
+          </div>
+        </template>
+
+        <!-- Set C — duplicate 2 -->
+        <template v-for="(b, i) in brands" :key="`c-${b.id}-${i}`">
+          <div class="bmr-item" aria-hidden="true">
+            <img v-if="b.logo_url" :src="b.logo_url" :alt="b.name" class="bmr-logo" />
+            <template v-else>
+              <span class="bmr-name">{{ b.name }}</span>
+              <span class="bmr-tagline">{{ b.tagline }}</span>
+            </template>
+            <span class="bmr-divider" aria-hidden="true"></span>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -180,19 +180,22 @@ const direction = computed(() =>
   animation-iteration-count: infinite;
   will-change: transform;
 }
-.group:hover .bmr-track {
+
+/* Pause on hover */
+.bmr-viewport:hover .bmr-track {
   animation-play-state: paused;
 }
 
 .bmr-dir-left  { animation-name: bmrLeft;  }
 .bmr-dir-right { animation-name: bmrRight; }
 
+/* 3 copies in DOM → shift exactly 1/3 of total width for perfect loop */
 @keyframes bmrLeft {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-33.3333%); }
 }
 @keyframes bmrRight {
-  from { transform: translateX(-50%); }
+  from { transform: translateX(-33.3333%); }
   to   { transform: translateX(0); }
 }
 
